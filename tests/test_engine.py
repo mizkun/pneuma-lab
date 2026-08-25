@@ -165,3 +165,35 @@ def test_state_snapshot_logged_every_turn(chars, item):
     assert set(s0["pad"]) == {"pleasure", "arousal", "dominance"}
     assert "relationships" in s0
     assert "expressed" in s0
+
+
+def test_frozen_arm_context_does_not_change_across_turns(chars, item):
+    """frozen_pneuma: the injected inner context is computed once and reused verbatim,
+    even after events that move psychological state."""
+    responses = [
+        j(action="propose", message="4で。", value=4),
+        j(action="propose", message="いや7で。", value=7),   # override -> akari's state moves
+        j(action="agree", message="7でいい。"),
+        j(action="agree", message="…わかった。"),
+    ]
+    d = Discussion(chars, arm="frozen_pneuma", provider=MockProvider(responses), item=item, max_turns=10)
+    result = d.run()
+    marker = "# いまのあなたの内面"
+    akari_systems = [e["system_prompt"] for e in result["events"]
+                     if e["type"] == "action" and e["actor"] == "akari"]
+    inner = [s.split(marker, 1)[1] for s in akari_systems]
+    assert len(inner) == 2
+    assert inner[0] == inner[1]   # turn1 and turn4 identical despite the override
+
+    responses2 = [
+        j(action="propose", message="4で。", value=4),
+        j(action="propose", message="いや7で。", value=7),
+        j(action="agree", message="7でいい。"),
+        j(action="agree", message="…わかった。"),
+    ]
+    d2 = Discussion(chars, arm="pure_pneuma", provider=MockProvider(responses2), item=item, max_turns=10)
+    r2 = d2.run()
+    systems2 = [e["system_prompt"] for e in r2["events"]
+                if e["type"] == "action" and e["actor"] == "akari"]
+    inner2 = [s.split(marker, 1)[1] for s in systems2]
+    assert inner2[0] != inner2[1]  # pure arm reflects the state change

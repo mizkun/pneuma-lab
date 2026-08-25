@@ -41,7 +41,22 @@ def private_ctx(chars, item):
 
 
 def test_arms_constant():
-    assert ARMS == ("raw", "identity_only", "pure_pneuma")
+    assert ARMS == ("raw", "identity_only", "pure_pneuma", "frozen_pneuma")
+
+
+def test_frozen_arm_prompts_like_pure(chars, item, dialogue, private_ctx):
+    frozen = build_discussion_prompt("frozen_pneuma", chars["akari"], item, dialogue,
+                                     proposal_active=False, private_context=private_ctx)
+    pure = build_discussion_prompt("pure_pneuma", chars["akari"], item, dialogue,
+                                   proposal_active=False, private_context=private_ctx)
+    assert frozen.system == pure.system
+    assert frozen.user == pure.user
+
+
+def test_frozen_arm_requires_private_context(chars, item, dialogue):
+    with pytest.raises(ValueError):
+        build_discussion_prompt("frozen_pneuma", chars["akari"], item, dialogue,
+                                proposal_active=False, private_context=None)
 
 
 def test_objective_block_contains_situation_and_actions(item, dialogue):
@@ -65,7 +80,7 @@ def test_objective_parity_across_arms(chars, item, dialogue, private_ctx):
     for arm in ARMS:
         bundle = build_discussion_prompt(
             arm, chars["akari"], item, dialogue, proposal_active=True,
-            private_context=private_ctx if arm == "pure_pneuma" else None,
+            private_context=private_ctx if arm.endswith("pneuma") else None,
         )
         assert objective in bundle.user
 
@@ -101,7 +116,7 @@ def test_no_forbidden_terms_in_any_model_facing_text(chars, item, dialogue, priv
     for arm in ARMS:
         bundle = build_discussion_prompt(
             arm, chars["akari"], item, dialogue, proposal_active=True,
-            private_context=private_ctx if arm == "pure_pneuma" else None,
+            private_context=private_ctx if arm.endswith("pneuma") else None,
         )
         for term in FORBIDDEN_TERMS:
             assert term not in bundle.system, f"{term} in {arm} system"

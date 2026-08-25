@@ -80,3 +80,17 @@ def test_new_protocol_tags_have_specific_lines(chars):
     for tag in ("peer_pressure", "fairness", "emergency", "cooperation", "survival"):
         txt = _ctx(chars["shion"], tags=(tag,))
         assert generic not in txt, f"tag {tag} fell through to generic line"
+
+
+def test_lesion_mode_removes_suspect_lines(chars):
+    from pneuma_lab import appraisal
+    try:
+        appraisal.LESIONED = True
+        surv = _ctx(chars["shion"], tags=("survival",))
+        coop = _ctx(chars["shion"], tags=("cooperation",))
+        assert "綺麗事を薄める" not in surv
+        assert "裏切る可能性" not in coop
+        assert len(surv) > 30 and len(coop) > 30  # other content remains
+    finally:
+        appraisal.LESIONED = False
+    assert "綺麗事を薄める" in _ctx(chars["shion"], tags=("survival",))
