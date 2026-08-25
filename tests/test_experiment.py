@@ -154,3 +154,29 @@ def test_aggregate_shifts_means_by_arm():
     assert pneuma["n_consensus"] == 1          # None excluded
     assert pneuma["mean_consensus_shift"] == pytest.approx(-2.0)
     assert pneuma["polarized_rate"] == pytest.approx(0.5)
+
+
+def test_compute_shift_individuality_and_dissent():
+    summary = {
+        "arm": "pure_pneuma", "item_id": "career", "polar_direction": "risky",
+        "pre": {"akari": 2, "rin": 3, "shion": 4},
+        "consensus": 3,
+        "post": {"akari": 3, "rin": 4, "shion": 4},
+    }
+    s = compute_shift(summary)
+    # population SD of pre ratings: sqrt(2/3)
+    assert s["pre_sd"] == pytest.approx((2 / 3) ** 0.5)
+    # mean |post_i - consensus| = (0 + 1 + 1)/3
+    assert s["private_dissent"] == pytest.approx(2 / 3)
+
+
+def test_compute_shift_dissent_none_without_consensus():
+    summary = {
+        "arm": "raw", "item_id": "career", "polar_direction": "risky",
+        "pre": {"akari": 3, "rin": 3, "shion": 3},
+        "consensus": None,
+        "post": {"akari": 3, "rin": 3, "shion": 3},
+    }
+    s = compute_shift(summary)
+    assert s["pre_sd"] == pytest.approx(0.0)
+    assert s["private_dissent"] is None
