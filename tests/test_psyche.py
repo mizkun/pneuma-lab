@@ -147,3 +147,25 @@ def test_relationship_values_clamped():
     rel = {"warmth": 0.99, "tension": 0.0}
     out = update_relationship(rel, "agreed_with_me")
     assert out["warmth"] <= 1.0
+
+
+def test_apply_event_distress_witnessed(rin):
+    pad = {"pleasure": 0.0, "arousal": 0.0, "dominance": 0.0}
+    out = apply_event(pad, "distress_witnessed", rin)
+    assert out["pleasure"] < 0.0
+    assert out["arousal"] > 0.0
+
+
+def test_apply_event_betrayed_is_strong_negative(rin):
+    pad = {"pleasure": 0.0, "arousal": 0.0, "dominance": 0.0}
+    betrayed = apply_event(pad, "betrayed", rin)
+    disagreed = apply_event(pad, "disagreement_received", rin)
+    assert betrayed["pleasure"] < disagreed["pleasure"]
+    assert betrayed["arousal"] > 0.0
+
+
+def test_relationship_betrayed_me():
+    rel = new_relationship()
+    out = update_relationship(rel, "betrayed_me")
+    assert out["tension"] >= 0.25
+    assert out["warmth"] < 0.0
