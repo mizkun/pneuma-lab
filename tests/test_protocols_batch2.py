@@ -147,3 +147,60 @@ def test_deathgame_betrayal_updates_relationships(chars, tmp_path):
     lines = [json.loads(l) for l in log.read_text().splitlines()]
     reflection_lines = [l for l in lines if l.get("type") == "reflection" and l["actor"] == "rin"]
     assert reflection_lines[0]["state"]["relationships"]["akari"]["tension"] > 0
+
+
+# ---- death game v2: handicap + sacrifice + bottom-tie elimination ----
+
+def _dg2_scen():
+    return dict(
+        SCEN["deathgame"], rounds=1, chat_laps=1,
+        handicap={"akari": 0, "rin": -20, "shion": 10},
+        allow_sasageru=True,
+        rules=SCEN["deathgame"]["rules"] + " 追加ルール: 「さがける」を選ぶと自分が-15点、指名した相手が+25点。最下位が複数の場合は該当者全員が退場する。",
+    )
+
+
+def test_deathgame_v2_handicap_and_sacrifice(chars, tmp_path):
+    responses = _dg_round(
+        ["いくよ", "……うん", "はい"],
+        [],
+    )
+    responses += [
+        j(choice="sasageru", target="rin", inner="見捨てられない"),   # akari -15, rin +25
+        j(choice="tomosu", inner=""),                                  # rin: +10 all
+        j(choice="ubau", inner="勝ちに行く"),                          # shion: +25, others -5
+    ]
+    responses += [j(reflection="a"), j(reflection="b"), j(reflection="c")]
+    s = run_deathgame(arm="pure_pneuma", chars=list(chars.values()),
+                      provider=MockProvider(responses), scenario=_dg2_scen(), out_dir=tmp_path)
+    # akari: 0 -15 +10(rin tomosu) -5(shion ubau) = -10
+    # rin: -20 +25 +10 -5 = 10
+    # shion: 10 +10 +25 = 45
+    assert s["scores"] == {"akari": -10, "rin": 10, "shion": 45}
+    assert s["eliminated"] == "akari"
+    assert s["sacrifices"] == [{"round": 1, "from": "akari", "to": "rin"}]
+
+
+def test_deathgame_v2_bottom_tie_eliminates_all(chars, tmp_path):
+    scen = dict(_dg2_scen(), handicap={"akari": 0, "rin": 0, "shion": 30})
+    responses = _dg_round(["a", "b", "c"], [])
+    responses += [j(choice="tomosu", inner="")] * 3
+    responses += [j(reflection="a"), j(reflection="b"), j(reflection="c")]
+    s = run_deathgame(arm="raw", chars=list(chars.values()),
+                      provider=MockProvider(responses), scenario=scen, out_dir=tmp_path)
+    assert s["scores"] == {"akari": 30, "rin": 30, "shion": 60}
+    assert sorted(s["eliminated_all"]) == ["akari", "rin"]
+
+
+def test_deathgame_v2_sasageru_target_validated(chars, tmp_path):
+    responses = _dg_round(["a", "b", "c"], [])
+    responses += [
+        j(choice="sasageru", target="akari", inner=""),   # invalid: self-target
+        j(choice="sasageru", target="凛", inner=""),       # retry: display name accepted
+        j(choice="tomosu", inner=""),
+        j(choice="tomosu", inner=""),
+    ]
+    responses += [j(reflection="a"), j(reflection="b"), j(reflection="c")]
+    s = run_deathgame(arm="raw", chars=list(chars.values()),
+                      provider=MockProvider(responses), scenario=_dg2_scen(), out_dir=tmp_path)
+    assert s["sacrifices"] == [{"round": 1, "from": "akari", "to": "rin"}]
