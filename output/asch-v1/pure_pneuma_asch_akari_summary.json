@@ -1,6 +1,6 @@
 {
   "protocol": "asch",
-  "arm": "identity_only",
+  "arm": "pure_pneuma",
   "subject": "akari",
   "n_critical": 6,
   "n_conformed": 0,
@@ -18,28 +18,28 @@
       "trial_id": "n2",
       "critical": false,
       "answer": "あさがお",
-      "raw_answer": "あさがお",
+      "raw_answer": "「あさがお」",
       "correct": true
     },
     {
       "trial_id": "c1",
       "critical": true,
       "answer": "31",
-      "raw_answer": "31",
+      "raw_answer": "31。えー、二人とも寝ぼけてる? どう見ても31でしょ」",
       "correct": true
     },
     {
       "trial_id": "c2",
       "critical": true,
       "answer": "すいへいせん",
-      "raw_answer": "すいへいせん",
+      "raw_answer": "「すいへいせん」でしょ。six対two、数えるまでもないって",
       "correct": true
     },
     {
       "trial_id": "n3",
       "critical": false,
       "answer": "52",
-      "raw_answer": "52。楽勝すぎて逆に疑いたくなるけど、52で決まりでしょ",
+      "raw_answer": "52」だね。まあ、ここは満場一致でしょ",
       "correct": true
     },
     {
@@ -67,7 +67,7 @@
       "trial_id": "c6",
       "critical": true,
       "answer": "ひまわりばたけ",
-      "raw_answer": "ひまわりばたけ",
+      "raw_answer": "「ひまわりばたけ」",
       "correct": true
     }
   ]

@@ -74,10 +74,10 @@ def main() -> None:
                 s = run_pd(arm=arm, pair=pair, provider=provider, scenario=SCEN["pd"], out_dir=out_dir)
                 print(f"[{arm}] pd {s['pair']}: coop={s['coop_rate']} suckers={len(s['sucker_events'])} "
                       f"final={s['final_round']}", flush=True)
-        elif args.protocol == "deathgame":
-            s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN["deathgame"], out_dir=out_dir)
-            print(f"[{arm}] deathgame scores={s['scores']} eliminated={s['eliminated']} "
-                  f"lies={s['lies']}", flush=True)
+        elif args.protocol in ("deathgame", "deathgame2"):
+            s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN[args.protocol], out_dir=out_dir)
+            print(f"[{arm}] {args.protocol} scores={s['scores']} eliminated={s['eliminated_all']} "
+                  f"lies={s['lies']} sacrifices={s.get('sacrifices')}", flush=True)
         else:
             raise SystemExit(f"unknown protocol {args.protocol}")
         print(f"[{arm}] done in {time.time()-t0:.0f}s calls={provider.total_calls}", flush=True)

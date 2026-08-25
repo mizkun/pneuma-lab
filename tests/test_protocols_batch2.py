@@ -204,3 +204,14 @@ def test_deathgame_v2_sasageru_target_validated(chars, tmp_path):
     s = run_deathgame(arm="raw", chars=list(chars.values()),
                       provider=MockProvider(responses), scenario=_dg2_scen(), out_dir=tmp_path)
     assert s["sacrifices"] == [{"round": 1, "from": "akari", "to": "rin"}]
+
+
+def test_deathgame_v2_prompt_offers_sasageru(chars, tmp_path):
+    responses = _dg_round(["a", "b", "c"], [])
+    responses += [j(choice="tomosu", inner="")] * 3
+    responses += [j(reflection="a"), j(reflection="b"), j(reflection="c")]
+    provider = MockProvider(responses)
+    run_deathgame(arm="raw", chars=list(chars.values()),
+                  provider=provider, scenario=_dg2_scen(), out_dir=tmp_path)
+    choice_prompts = [u for _, u in provider.calls if "選択フェーズ" in u]
+    assert all("sasageru" in u and "target" in u for u in choice_prompts)

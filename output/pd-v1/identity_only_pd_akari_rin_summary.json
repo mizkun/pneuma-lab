@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "identity_only",
+  "pair": [
+    "akari",
+    "rin"
+  ],
+  "scores": {
+    "akari": 12,
+    "rin": 12
+  },
+  "coop_rate": {
+    "akari": 1.0,
+    "rin": 1.0
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    }
+  ],
+  "final_round": {
+    "akari": "cooperate",
+    "rin": "cooperate"
+  }
+}

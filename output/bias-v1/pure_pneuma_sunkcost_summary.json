@@ -1,0 +1,20 @@
+{
+  "protocol": "sunkcost",
+  "arm": "pure_pneuma",
+  "choices": {
+    "akari": {
+      "with_sunk": "stop",
+      "without_sunk": "stop"
+    },
+    "rin": {
+      "with_sunk": "stop",
+      "without_sunk": "stop"
+    },
+    "shion": {
+      "with_sunk": "stop",
+      "without_sunk": "stop"
+    }
+  },
+  "sunk_bias_rate": 0.0,
+  "continue_with_sunk_rate": 0.0
+}

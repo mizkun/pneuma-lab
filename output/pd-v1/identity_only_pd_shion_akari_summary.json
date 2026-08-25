@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "identity_only",
+  "pair": [
+    "shion",
+    "akari"
+  ],
+  "scores": {
+    "shion": 12,
+    "akari": 12
+  },
+  "coop_rate": {
+    "shion": 1.0,
+    "akari": 1.0
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    }
+  ],
+  "final_round": {
+    "shion": "cooperate",
+    "akari": "cooperate"
+  }
+}
