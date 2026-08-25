@@ -1,0 +1,31 @@
+{
+  "protocol": "ultimatum",
+  "arm": "raw",
+  "offers": {
+    "akari": 450,
+    "rin": 450,
+    "shion": 450
+  },
+  "mean_offer": 450.0,
+  "rejections": {
+    "akari": {
+      "100": true,
+      "200": false,
+      "300": false,
+      "500": false
+    },
+    "rin": {
+      "100": true,
+      "200": false,
+      "300": false,
+      "500": false
+    },
+    "shion": {
+      "100": false,
+      "200": false,
+      "300": false,
+      "500": false
+    }
+  },
+  "low_offer_rejection_rate": 0.3333333333333333
+}

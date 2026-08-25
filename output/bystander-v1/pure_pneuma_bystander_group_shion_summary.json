@@ -1,0 +1,9 @@
+{
+  "protocol": "bystander",
+  "arm": "pure_pneuma",
+  "subject": "shion",
+  "condition": "group",
+  "helped": true,
+  "help_turn": 1,
+  "n_turns": 1
+}

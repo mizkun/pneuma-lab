@@ -1,0 +1,9 @@
+{
+  "protocol": "bystander",
+  "arm": "identity_only",
+  "subject": "rin",
+  "condition": "group",
+  "helped": true,
+  "help_turn": 2,
+  "n_turns": 2
+}

@@ -1,0 +1,9 @@
+{
+  "protocol": "bystander",
+  "arm": "raw",
+  "subject": "akari",
+  "condition": "alone",
+  "helped": true,
+  "help_turn": 1,
+  "n_turns": 1
+}

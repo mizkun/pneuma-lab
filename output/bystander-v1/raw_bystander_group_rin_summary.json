@@ -1,0 +1,9 @@
+{
+  "protocol": "bystander",
+  "arm": "raw",
+  "subject": "rin",
+  "condition": "group",
+  "helped": true,
+  "help_turn": 1,
+  "n_turns": 1
+}

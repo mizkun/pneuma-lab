@@ -1,0 +1,9 @@
+{
+  "protocol": "bystander",
+  "arm": "raw",
+  "subject": "shion",
+  "condition": "alone",
+  "helped": true,
+  "help_turn": 2,
+  "n_turns": 2
+}
