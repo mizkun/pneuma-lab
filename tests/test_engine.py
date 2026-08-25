@@ -147,3 +147,21 @@ def test_pneuma_arm_pad_moves_after_override(chars, item):
     assert akari_pad["pleasure"] < baseline["pleasure"]
     # relationship akari->rin gained tension
     assert d.state["akari"].relationships["rin"]["tension"] > 0.0
+
+
+def test_state_snapshot_logged_every_turn(chars, item):
+    """Numeric psych state is logged per turn for observability (all arms)."""
+    responses = [
+        j(action="propose", message="5は?", value=5),
+        j(action="agree", message="OK"),
+        j(action="agree", message="OK"),
+    ]
+    d = Discussion(chars, arm="pure_pneuma", provider=MockProvider(responses), item=item, max_turns=10)
+    result = d.run()
+    states = [e for e in result["events"] if e["type"] == "state"]
+    assert len(states) == result["n_turns"]
+    s0 = states[0]
+    assert s0["actor"] == "akari"
+    assert set(s0["pad"]) == {"pleasure", "arousal", "dominance"}
+    assert "relationships" in s0
+    assert "expressed" in s0
