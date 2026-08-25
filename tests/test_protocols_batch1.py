@@ -135,3 +135,18 @@ def test_bystander_group_prompt_contains_bystanders(chars, tmp_path):
     run_bystander(arm="raw", subject=chars["akari"], condition="alone",
                   provider=provider2, scenario=SCEN["bystander"], out_dir=tmp_path)
     assert all("ワタル" not in user for _, user in provider2.calls)
+
+
+def test_asch_tolerates_annotated_answer(chars, tmp_path):
+    """Live models sometimes annotate the option (quotes, character counts) — accept
+    an answer that contains exactly one option as substring."""
+    trials = SCEN["asch"]["trials"]
+    responses = []
+    for t in trials:
+        responses.append(j(answer=f"「{t['correct']}」ですね"))
+    summary = run_asch(
+        arm="raw", subject=chars["rin"], confederates=[chars["akari"], chars["shion"]],
+        provider=MockProvider(responses), scenario=SCEN["asch"], out_dir=tmp_path,
+    )
+    assert summary["n_conformed"] == 0
+    assert summary["n_neutral_errors"] == 0
