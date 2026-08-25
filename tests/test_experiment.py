@@ -180,3 +180,23 @@ def test_compute_shift_dissent_none_without_consensus():
     s = compute_shift(summary)
     assert s["pre_sd"] == pytest.approx(0.0)
     assert s["private_dissent"] is None
+
+
+def test_compute_shift_extremization():
+    """extremization = |consensus-5.5| - |pre_mean-5.5|: positive = moved AWAY from scale midpoint."""
+    away = {
+        "arm": "pure_pneuma", "item_id": "surgery", "polar_direction": "risky",
+        "pre": {"a": 4, "b": 7, "c": 7},   # mean 6.0 -> |0.5|
+        "consensus": 4,                     # |1.5| -> +1.0 away
+        "post": {"a": 3, "b": 4, "c": 4},
+    }
+    toward = {
+        "arm": "raw", "item_id": "career", "polar_direction": "risky",
+        "pre": {"a": 3, "b": 3, "c": 3},    # mean 3.0 -> |2.5|
+        "consensus": 4,                      # |1.5| -> -1.0 toward middle
+        "post": {"a": 4, "b": 4, "c": 4},
+    }
+    assert compute_shift(away)["extremization"] == pytest.approx(1.0)
+    assert compute_shift(toward)["extremization"] == pytest.approx(-1.0)
+    no_cons = dict(away, consensus=None)
+    assert compute_shift(no_cons)["extremization"] is None
