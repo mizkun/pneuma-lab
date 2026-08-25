@@ -15,7 +15,7 @@ from pathlib import Path
 from .appraisal import render_private_context
 from .characters import Character
 from .prompts import build_discussion_prompt
-from .psyche import apply_event, decay_pad, new_relationship, update_relationship
+from .psyche import apply_event, decay_pad, expressed_traits, new_relationship, update_relationship
 
 
 class InvalidActionError(Exception):
@@ -139,6 +139,12 @@ class Discussion:
     def _turn(self, char: Character) -> None:
         st = self.state[char.character_id]
         st.pad = decay_pad(st.pad, char.affect_baseline, self.turn_seconds, char.affect_half_life_seconds)
+        self._log({
+            "type": "state", "actor": char.character_id,
+            "pad": {k: round(v, 4) for k, v in st.pad.items()},
+            "relationships": {t: {k: round(v, 4) for k, v in r.items()} for t, r in st.relationships.items()},
+            "expressed": {k: round(v, 4) for k, v in expressed_traits(char, st.pad, "social").items()},
+        })
         try:
             action, system, user, raw = self._call_model(char)
         except InvalidActionError as e:
