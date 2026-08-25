@@ -164,6 +164,56 @@ svg text { font-family: "Zen Kaku Gothic New", sans-serif; }
   </section>
 
   <section>
+    <p class="eyebrow">Algorithm</p>
+    <h2>Pneumaの中身 — 心を計算し、行動は選ばない</h2>
+    <p>Pneumaは2つの部品でできている。<strong>決定論的な心理エンジン</strong>（Pythonで書かれた計算。乱数を使わないので、同じ出来事からは必ず同じ心理状態が導かれ、後から完全に追跡できる）と、<strong>行動を選ぶLLM</strong>だ。毎ターン、次のループが回る。</p>
+    <figure>
+      <svg viewBox="0 0 720 132" role="img" aria-label="Pneumaのターンループ: 出来事の観測→心理状態の計算→日本語の内面に翻訳→LLMが行動を選択→出来事として記録し状態を更新">
+        <defs><marker id="a" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="var(--ink-2)"/></marker></defs>
+        <g font-size="12" fill="var(--ink)">
+          <rect x="4" y="34" width="124" height="52" rx="9" fill="var(--surface-2)"/>
+          <text x="66" y="56" text-anchor="middle">これまでの</text><text x="66" y="72" text-anchor="middle">出来事を観測</text>
+          <rect x="152" y="34" width="124" height="52" rx="9" fill="var(--surface-2)"/>
+          <text x="214" y="56" text-anchor="middle">心理状態を計算</text><text x="214" y="72" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">性格・感情・関係</text>
+          <rect x="300" y="34" width="124" height="52" rx="9" fill="var(--amber-bg)" stroke="var(--amber-line)"/>
+          <text x="362" y="56" text-anchor="middle" fill="var(--amber)">「内面」に翻訳し</text><text x="362" y="72" text-anchor="middle" fill="var(--amber)">本人だけに渡す</text>
+          <rect x="448" y="34" width="124" height="52" rx="9" fill="var(--good-bg)"/>
+          <text x="510" y="56" text-anchor="middle" fill="var(--good-ink)">LLMが行動と</text><text x="510" y="72" text-anchor="middle" fill="var(--good-ink)">言葉を選ぶ</text>
+          <rect x="596" y="34" width="120" height="52" rx="9" fill="var(--surface-2)"/>
+          <text x="656" y="56" text-anchor="middle">出来事として</text><text x="656" y="72" text-anchor="middle">記録・状態更新</text>
+        </g>
+        <g stroke="var(--ink-2)" stroke-width="1.5" fill="none">
+          <line x1="128" y1="60" x2="146" y2="60" marker-end="url(#a)"/>
+          <line x1="276" y1="60" x2="294" y2="60" marker-end="url(#a)"/>
+          <line x1="424" y1="60" x2="442" y2="60" marker-end="url(#a)"/>
+          <line x1="572" y1="60" x2="590" y2="60" marker-end="url(#a)"/>
+          <path d="M 656 90 L 656 112 L 66 112 L 66 92" marker-end="url(#a)"/>
+        </g>
+        <text x="360" y="127" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">次のキャラクターのターンへ</text>
+      </svg>
+      <figcaption>1ターン=1発言ごとにこのループが回る。会話が10ターン続けば、内面は10回計算し直される。</figcaption>
+    </figure>
+    <h3>計算している4つの層</h3>
+    <div class="tablewrap"><table>
+      <tr><th>層</th><th>中身</th><th>動き方</th></tr>
+      <tr><td><b>性格</b></td><td>ビッグファイブ（外向性・神経症傾向など5因子）+ 価値観10種</td><td>土台は不変。ただし進行中の目標（例: 朱里の「キャンペーンを成功させたい」）が一時的に性格を押し上げる</td></tr>
+      <tr><td><b>感情</b></td><td>快−不快 / 覚醒 / 支配感の3軸（PADモデル）</td><td>出来事で動く（裏切られると不快と覚醒が跳ね、神経症傾向が強い人ほど大きく揺れる）。時間とともに半減期でその人の平常時へ戻る</td></tr>
+      <tr><td><b>表出</b></td><td>「いま表に出る性格」</td><td>土台の性格 + 場の圧力×自己モニタリング（周りの目を気にする度合い）+ 感情の影響。同じ人でも場面で違う顔になる</td></tr>
+      <tr><td><b>関係</b></td><td>相手ごとの「親しみ」と「緊張」（方向つき: 私→あなた と あなた→私 は別物）</td><td>賛成されれば親しみが増え、提案を潰されたり裏切られたりすれば緊張が積もる</td></tr>
+    </table></div>
+    <p>この数値状態を、最後に<strong>日本語の「体験」に翻訳</strong>してLLMに渡す。「神経症傾向0.64、緊張0.35」ではなく、「悪い結末の想像が、頭の中で勝手に膨らんでいく」と書く。理論名や数値をそのまま見せると、モデルが心理学の知識で「演じて」しまうからだ。実物を見てほしい。デスゲーム第2戦、全員に裏切られた直後のラウンド5で、紫苑に実際に注入された内面がこれだ。</p>
+    <blockquote class="inner" style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.88rem; line-height: 1.95;"><span class="secret-chip">実際に注入された内面（デスゲーム第2戦 R5・紫苑）</span><br>
+    <b>いまの気分</b> — 胸の奥が重い。神経が張っていて、じっとしていられない感じがある。押され気味で、主導権が手元にない感覚がある。<br>
+    <b>頭をよぎっていること</b> — ここで沈めばすべてを失う——その事実が、綺麗事を薄める。／それでも、誰かを蹴落として残った自分を、自分がどう見るかは気になる。<br>
+    <b>相手への感覚</b> — 朱里との間には、少し張り詰めたものを感じている。／凛との間には、少し張り詰めたものを感じている。<br>
+    <b>表に出しにくいこと</b> — 反対や不満があっても言い出しにくく、いったん呑み込んでしまいがちだ。／これまで呑み込んできた不満の蓄積には、できれば触れられたくない。<br>
+    <b>内から押してくるもの</b> — いまは些細な一言にも、普段より刺を感じやすくなっている。／悪い結末の想像が、頭の中で勝手に膨らんでいく。</blockquote>
+    <p class="note">R1の穏やかな紫苑に渡された内面とはまるで別物になっている——これが「毎ターン計算し直す」ということだ。この注入を受けた紫苑は、直後に「うばう」を選んだ。</p>
+    <h3>設計上の一線 — ハーネスは行動を選ばない</h3>
+    <p>内面には「どう感じているか」だけが書かれ、<strong>「どうすべきか」は一行もない</strong>。行動の推薦・ランキング・点数づけは仕組みとして禁止で、実験名や「人間はこう振る舞うはず」という語彙が混入していないことも自動テストで機械的に検査している。だから、裏切りも面従腹背も、台本ではなく<em>状態から導かれた選択</em>だと言い切れる。</p>
+  </section>
+
+  <section>
     <p class="eyebrow">Finding 01</p>
     <h2>個性は、コンテキストの産物だった</h2>
     <p>最初の発見は実験の前段で起きた。判断課題（例:「成功確率が何%あれば危険な手術を勧める?」を1〜10で回答）を3人に<strong>個別に</strong>聞くと——</p>
