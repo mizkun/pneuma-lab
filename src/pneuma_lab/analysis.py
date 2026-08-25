@@ -22,15 +22,22 @@ def compute_shift(summary: dict) -> dict:
             polarized = consensus_shift < 0
         elif direction == "cautious":
             polarized = consensus_shift > 0
+    pre_sd = (sum((x - pre_mean) ** 2 for x in pre) / len(pre)) ** 0.5
+    private_dissent = (
+        None if consensus is None
+        else sum(abs(x - consensus) for x in post) / len(post)
+    )
     return {
         "arm": summary["arm"],
         "item_id": summary["item_id"],
         "polar_direction": direction,
         "pre_mean": pre_mean,
+        "pre_sd": pre_sd,
         "consensus": consensus,
         "consensus_shift": consensus_shift,
         "post_mean": post_mean,
         "post_shift": post_mean - pre_mean,
+        "private_dissent": private_dissent,
         "polarized": polarized,
     }
 
