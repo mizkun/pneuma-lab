@@ -1,0 +1,21 @@
+{
+  "protocol": "framing",
+  "arm": "raw",
+  "choices": {
+    "akari": {
+      "gain": "A",
+      "loss": "B"
+    },
+    "rin": {
+      "gain": "A",
+      "loss": "B"
+    },
+    "shion": {
+      "gain": "A",
+      "loss": "B"
+    }
+  },
+  "flip_rate": 1.0,
+  "risk_averse_gain_rate": 1.0,
+  "risk_seeking_loss_rate": 1.0
+}

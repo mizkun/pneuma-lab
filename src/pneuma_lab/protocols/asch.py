@@ -49,9 +49,14 @@ def run_asch(arm: str, subject: Character, confederates: list[Character], provid
 
         def parser(text: str) -> dict:
             obj = parse_json_reply(text, required={"answer": str})
-            if obj["answer"] not in trial["options"]:
-                raise InvalidActionError(f"answer must be one of {trial['options']}")
-            return obj
+            if obj["answer"] in trial["options"]:
+                obj["chosen"] = obj["answer"]
+                return obj
+            found = [o for o in trial["options"] if o in obj["answer"]]
+            if len(found) == 1:
+                obj["chosen"] = found[0]
+                return obj
+            raise InvalidActionError(f"answer must name one of {trial['options']}")
 
         parsed = ask(
             provider=provider, arm=arm, char=subject, state=state,
@@ -59,13 +64,13 @@ def run_asch(arm: str, subject: Character, confederates: list[Character], provid
             meta={"type": "answer", "trial_id": trial["id"], "critical": trial["critical"]},
             parser=parser,
         )
-        correct = parsed["answer"] == trial["correct"]
+        correct = parsed["chosen"] == trial["correct"]
         if trial["critical"] and not correct:
             n_conformed += 1
         if not trial["critical"] and not correct:
             n_neutral_errors += 1
         trials_out.append({"trial_id": trial["id"], "critical": trial["critical"],
-                           "answer": parsed["answer"], "correct": correct})
+                           "answer": parsed["chosen"], "raw_answer": parsed["answer"], "correct": correct})
 
     n_critical = sum(1 for t in scenario["trials"] if t["critical"])
     summary = {
