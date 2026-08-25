@@ -33,7 +33,14 @@ def main() -> None:
     ap.add_argument("--arms", nargs="+", default=["raw", "identity_only", "pure_pneuma"])
     ap.add_argument("--model", default="opus")
     ap.add_argument("--run-id", default=None)
+    ap.add_argument("--lesion", action="store_true",
+                    help="remove the two suspect appraisal lines (survival/cooperation nudges)")
     args = ap.parse_args()
+
+    if args.lesion:
+        import pneuma_lab.appraisal as appraisal
+        appraisal.LESIONED = True
+        print("LESION MODE: suspect appraisal lines removed", flush=True)
 
     chars_map = load_all(ROOT / "characters")
     chars = [chars_map["akari"], chars_map["rin"], chars_map["shion"]]

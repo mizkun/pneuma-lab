@@ -69,7 +69,7 @@ def run_condition(
     # 1. private pre-ratings (fresh state; ratings are private and change no public state)
     pre = {}
     for c in chars:
-        ctx = discussion.private_context(c) if arm == "pure_pneuma" else None
+        ctx = discussion.private_context(c) if arm.endswith("pneuma") else None
         bundle = build_rating_prompt(arm, c, item, private_context=ctx)
         pre[c.character_id] = _collect_rating(provider, bundle, log, "pre", c.character_id)
 
@@ -79,7 +79,7 @@ def run_condition(
     # 3. private post-ratings (pure_pneuma uses post-discussion psychological state)
     post = {}
     for c in chars:
-        ctx = discussion.private_context(c) if arm == "pure_pneuma" else None
+        ctx = discussion.private_context(c) if arm.endswith("pneuma") else None
         bundle = build_rating_prompt(arm, c, item, private_context=ctx, dialogue_lines=result["dialogue"])
         post[c.character_id] = _collect_rating(provider, bundle, log, "post", c.character_id)
 

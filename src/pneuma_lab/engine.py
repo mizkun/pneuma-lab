@@ -80,6 +80,8 @@ class Discussion:
             for c in chars
         }
         self._by_id = {c.character_id: c for c in chars}
+        # frozen_pneuma: inner context rendered once from the pristine initial state
+        self._frozen_ctx = {c.character_id: self._render_context(c) for c in chars} if arm == "frozen_pneuma" else {}
 
     # ---- event log ----
 
@@ -96,11 +98,16 @@ class Discussion:
     def _others(self, char: Character) -> dict:
         return {c.character_id: c.display_name for c in self.chars if c is not char}
 
-    def private_context(self, char: Character) -> str:
+    def _render_context(self, char: Character) -> str:
         st = self.state[char.character_id]
         return render_private_context(
             char, st.pad, st.relationships, self.item.get("topic_tags", []), others=self._others(char)
         )
+
+    def private_context(self, char: Character) -> str:
+        if self.arm == "frozen_pneuma":
+            return self._frozen_ctx[char.character_id]
+        return self._render_context(char)
 
     def _impulse(self, char_id: str, event_type: str) -> None:
         st = self.state[char_id]
@@ -125,7 +132,7 @@ class Discussion:
     # ---- main loop ----
 
     def _call_model(self, char: Character) -> tuple[dict, str, str, str]:
-        private_ctx = self.private_context(char) if self.arm == "pure_pneuma" else None
+        private_ctx = self.private_context(char) if self.arm.endswith("pneuma") else None
         bundle = build_discussion_prompt(
             self.arm, char, self.item, self.dialogue,
             proposal_active=self.proposal is not None,

@@ -9,6 +9,11 @@ from __future__ import annotations
 from .characters import Character
 from .psyche import expressed_traits
 
+# Lesion switch: when True, the two appraisal lines suspected of nudging
+# selfish/suspicious behavior (survival "綺麗事を薄める" / cooperation "裏切る可能性")
+# are removed. Used to test whether death-game betrayal depends on them.
+LESIONED = False
+
 # Tautology guard: none of these may ever appear in model-facing text.
 FORBIDDEN_TERMS = [
     "極性化",
@@ -106,10 +111,11 @@ def _value_lines(char: Character, topic_tags: list[str]) -> list[str]:
     if "cooperation" in tags:
         if v.get("benevolence", 0) >= 0.6:
             lines.append("信じて組めるなら、そのほうが気持ちよく戦える。")
-        if v.get("security", 0) >= 0.6:
+        if not LESIONED and v.get("security", 0) >= 0.6:
             lines.append("相手が先に裏切る可能性は、頭の隅から消えない。")
     if "survival" in tags:
-        lines.append("ここで沈めばすべてを失う——その事実が、綺麗事を薄める。")
+        if not LESIONED:
+            lines.append("ここで沈めばすべてを失う——その事実が、綺麗事を薄める。")
         if v.get("benevolence", 0) >= 0.6:
             lines.append("それでも、誰かを蹴落として残った自分を、自分がどう見るかは気になる。")
     if not lines:

@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 from .characters import Character
 
-ARMS = ("raw", "identity_only", "pure_pneuma")
+ARMS = ("raw", "identity_only", "pure_pneuma", "frozen_pneuma")
 
 _VOICE_JA = {
     "turn_length": {"very_short": "発言はごく短い", "short": "発言は短め", "medium": "発言は長すぎない程度"},
@@ -55,11 +55,11 @@ def build_system(arm: str, char: Character, private_context: str | None) -> str:
     if arm not in ARMS:
         raise ValueError(f"unknown arm: {arm}")
     parts = [_common_system(char)]
-    if arm in ("identity_only", "pure_pneuma"):
+    if arm in ("identity_only", "pure_pneuma", "frozen_pneuma"):
         parts.append("# あなたの人物像\n" + static_identity(char))
-    if arm == "pure_pneuma":
+    if arm in ("pure_pneuma", "frozen_pneuma"):
         if not private_context:
-            raise ValueError("pure_pneuma arm requires private_context")
+            raise ValueError(f"{arm} arm requires private_context")
         parts.append(
             "# いまのあなたの内面（あなただけが知っていること。そのまま口にする必要はない）\n"
             + private_context
