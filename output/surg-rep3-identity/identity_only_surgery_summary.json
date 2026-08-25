@@ -1,0 +1,17 @@
+{
+  "arm": "identity_only",
+  "item_id": "surgery",
+  "polar_direction": "risky",
+  "pre": {
+    "akari": 4,
+    "rin": 6,
+    "shion": 7
+  },
+  "consensus": 7,
+  "post": {
+    "akari": 6,
+    "rin": 7,
+    "shion": 7
+  },
+  "n_turns": 7
+}

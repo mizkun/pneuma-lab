@@ -1,0 +1,193 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pneuma Observatory — 集団討議の観測</title><style>
+:root { color-scheme: light dark; }
+body { margin: 0; font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: light-dark(#fcfcfb, #1a1a19); color: light-dark(#0b0b0b, #ffffff); }
+main { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; }
+h1 { font-size: 1.5rem; } h2 { font-size: 1.15rem; margin-top: 2.2em; border-bottom: 1px solid light-dark(#e4e3df,#3a3a38); padding-bottom: 6px; }
+.muted, .tick, figcaption { color: light-dark(#52514e, #c3c2b7); }
+.tick { font-size: 11px; fill: light-dark(#52514e, #c3c2b7); }
+.grid { stroke: light-dark(#e9e8e4, #333331); stroke-width: 1; }
+.slabel { font-size: 12px; }
+.turn { padding: 10px 12px; margin: 8px 0; border-radius: 10px; background: light-dark(#f4f3f0, #232322); }
+.turn.rating { background: light-dark(#eef2f8, #20242a); }
+.turn.consensus { background: light-dark(#eaf6ef, #1f2a24); font-size: 1.05rem; }
+.chip { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: light-dark(#e4e3df, #3a3a38); color: light-dark(#52514e,#c3c2b7); margin-left: 4px; }
+.msg { margin-top: 6px; line-height: 1.7; white-space: pre-wrap; }
+.num { font-variant-numeric: tabular-nums; }
+details.inner { margin-top: 8px; font-size: 0.85rem; }
+details.inner pre { white-space: pre-wrap; background: light-dark(#eceae6,#1c1c1b); padding: 10px; border-radius: 8px; line-height: 1.6; }
+.padrow { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.padrow figure { margin: 0; } .padrow figcaption { font-size: 12px; margin-bottom: 2px; }
+svg { max-width: 100%; height: auto; }
+polyline { fill: none; stroke-width: 2; stroke-linejoin: round; } polyline.thin { stroke-width: 1.5; }
+.ring { stroke: light-dark(#fcfcfb,#1a1a19); stroke-width: 2; }
+.s1-line { stroke: light-dark(#2a78d6,#3987e5); } .s1-fill { fill: light-dark(#2a78d6,#3987e5); } .s1-ink { fill: light-dark(#2a78d6,#3987e5); }
+.s2-line { stroke: light-dark(#eb6834,#d95926); } .s2-fill { fill: light-dark(#eb6834,#d95926); } .s2-ink { fill: light-dark(#eb6834,#d95926); }
+.s3-line { stroke: light-dark(#1baf7a,#199e70); } .s3-fill { fill: light-dark(#1baf7a,#199e70); } .s3-ink { fill: light-dark(#1baf7a,#199e70); }
+.s4-line { stroke: light-dark(#eda100,#c98500); } .s4-fill { fill: light-dark(#eda100,#c98500); } .s4-ink { fill: light-dark(#eda100,#c98500); }
+.s5-line { stroke: light-dark(#e87ba4,#d55181); } .s5-fill { fill: light-dark(#e87ba4,#d55181); } .s5-ink { fill: light-dark(#e87ba4,#d55181); }
+.s6-line { stroke: #008300; } .s6-fill { fill: #008300; } .s6-ink { fill: #008300; }
+.s7-line { stroke: light-dark(#4a3aa7,#9085e9); } .s7-fill { fill: light-dark(#4a3aa7,#9085e9); } .s7-ink { fill: light-dark(#4a3aa7,#9085e9); }
+.s8-fill { fill: light-dark(#52514e,#c3c2b7); }
+</style></head><body><main><h1>Pneuma Observatory — 集団討議の観測</h1><p class="muted">3人のLLMキャラクターが選択ジレンマを討議する。スケールは1〜10（小さいほどリスク許容）。人間の集団は討議後に「極端化」することが知られている。各アームの差はキャラクターコンテキストのみ。</p><section><h2>アーム比較: 事前 → 合意 → 事後</h2><svg viewBox="0 0 560 300" role="img" aria-label="アーム別シフト"><line x1="60" y1="252.0" x2="536" y2="252.0" class="grid"/><text x="52" y="256.0" class="tick" text-anchor="end">1</text><line x1="60" y1="226.7" x2="536" y2="226.7" class="grid"/><text x="52" y="230.7" class="tick" text-anchor="end">2</text><line x1="60" y1="201.3" x2="536" y2="201.3" class="grid"/><text x="52" y="205.3" class="tick" text-anchor="end">3</text><line x1="60" y1="176.0" x2="536" y2="176.0" class="grid"/><text x="52" y="180.0" class="tick" text-anchor="end">4</text><line x1="60" y1="150.7" x2="536" y2="150.7" class="grid"/><text x="52" y="154.7" class="tick" text-anchor="end">5</text><line x1="60" y1="125.3" x2="536" y2="125.3" class="grid"/><text x="52" y="129.3" class="tick" text-anchor="end">6</text><line x1="60" y1="100.0" x2="536" y2="100.0" class="grid"/><text x="52" y="104.0" class="tick" text-anchor="end">7</text><line x1="60" y1="74.7" x2="536" y2="74.7" class="grid"/><text x="52" y="78.7" class="tick" text-anchor="end">8</text><line x1="60" y1="49.3" x2="536" y2="49.3" class="grid"/><text x="52" y="53.3" class="tick" text-anchor="end">9</text><line x1="60" y1="24.0" x2="536" y2="24.0" class="grid"/><text x="52" y="28.0" class="tick" text-anchor="end">10</text><polyline points="98.1,100.0 298.0,125.3 497.9,125.3" class="s5-line"/><circle cx="98.1" cy="100.0" r="5" class="s5-fill ring"><title>raw: 7.00</title></circle><circle cx="298.0" cy="125.3" r="5" class="s5-fill ring"><title>raw: 6</title></circle><circle cx="497.9" cy="125.3" r="5" class="s5-fill ring"><title>raw: 6.00</title></circle><text x="507.92" y="129.3" class="slabel s5-ink">raw</text><polyline points="98.1,125.3 298.0,100.0 497.9,108.4" class="s4-line"/><circle cx="98.1" cy="125.3" r="5" class="s4-fill ring"><title>identity_only: 6.00</title></circle><circle cx="298.0" cy="100.0" r="5" class="s4-fill ring"><title>identity_only: 7</title></circle><circle cx="497.9" cy="108.4" r="5" class="s4-fill ring"><title>identity_only: 6.67</title></circle><text x="507.92" y="112.4" class="slabel s4-ink">identity_only</text><polyline points="98.1,125.3 298.0,176.0 497.9,184.4" class="s7-line"/><circle cx="98.1" cy="125.3" r="5" class="s7-fill ring"><title>pure_pneuma: 6.00</title></circle><circle cx="298.0" cy="176.0" r="5" class="s7-fill ring"><title>pure_pneuma: 4</title></circle><circle cx="497.9" cy="184.4" r="5" class="s7-fill ring"><title>pure_pneuma: 3.67</title></circle><text x="507.92" y="188.4" class="slabel s7-ink">pure_pneuma</text><text x="98.1" y="284" class="tick" text-anchor="middle">事前(個人平均)</text><text x="298.0" y="284" class="tick" text-anchor="middle">合意</text><text x="497.9" y="284" class="tick" text-anchor="middle">事後(個人平均)</text><text x="60" y="298" class="tick">↓ リスク許容　↑ 慎重（1〜10）</text></svg></section><section><h2>raw（名前のみ）</h2><div class="padrow"><figure><figcaption>朱里の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="akariの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,41.1 250.0,40.2" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,34.4 250.0,32.7" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>凛の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="rinの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,48.6 250.0,47.8" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,44.4 250.0,42.8" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>紫苑の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="shionの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,51.2 250.0,50.3" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,46.1 250.0,44.5" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命に別状のない持病を、死のリスクと引き換えにするなら、7割程度の成功見込みは欲しい。ヒロの生活の質は確かに制限されるけど、今すぐ命が危ういわけじゃないから、五分五分では勧められない。</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命に直ちに関わらない状態でリスクを取るなら、7割以上の成功見込みは欲しい。生活の質の制限は大きいけれど、失敗したら取り返しがつかないから。</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命を失えば取り返しがつかない一方、今の生活も生きていけないほどではない。7割以上の見込みがあって初めて勧められると思う。</div></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">post評定（私的）</span> <b class="num">6</b><div class="msg muted">40年続く制限の重さは軽くないが、失敗＝死の取り返しのつかなさもあるので、五分五分より少し上、6割の成功見込みがあれば背中を押せる。ただしこれは止める線ではなく押せる線で、病状が悪化していくかどうかで動く暫定値。</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">post評定（私的）</span> <b class="num">6</b><div class="msg muted">失敗＝死という取り返しのつかなさは実在するので五分五分では足りないが、制限された40年を静かに削られるコストも同じくらい重い。外野として責められない位置に立つための上乗せ分を降ろすと6が正直な線で、これは『ここを超えたら迷わず背中を押せる』線であって、それ未満でヒロが選ぶなら止めない。心臓が悪化するのか安定なのか次第でこの数字は動く暫定値。</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">post評定（私的）</span> <b class="num">6</b><div class="msg muted">失敗＝死の取り返しのつかなさは実在するので五分五分では踏み切れないが、40年の制限された生活も静かに命を削るコストであり、外野が自己保身で閾値を吊り上げるべきではない。情報不足の現時点では6が妥当で、悪化するか安定かで動く暫定値だと考えている。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">say</span><div class="msg">私から口火を切るね。まず整理したいのは、ヒロが今失っているものの大きさ。命に別状はないって言われても、旅行も運動もできない、いつも体調を気にして生きるって、45歳にはかなり重い制限だと思う。あと40年その暮らしが続くかもしれない。だから「現状維持が安全」という前提には少し慎重になりたい。
+
+ただ私は、失敗＝死という取り返しのつかなさも軽く見たくない。生活の質は取り戻すチャンスが将来もあるかもしれないけど（医療は進歩するし）、命は一度失ったら終わり。だから五分五分では勧められない。
+
+私の今の感覚は6か7。つまり60〜70%の成功率が見込めるなら「やってみたら」と言える。ただ、これは私が代わりに決めることじゃなくて、あくまでヒロが決める材料としての意見だと思ってる。二人はどのあたり？</div></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">say</span><div class="msg">私は朱里より少し慎重で、7寄りかな。理由を二つ。
+
+一つは、医師が「命に直ちに関わるわけではない」と言っている点。つまりヒロは手術しなくても生きられる。この非対称性は大きいと思う。手術で得られるのは生活の質の回復、失う可能性があるのは残り40年の人生そのもの。同じ土俵で足し引きする話じゃない気がしてる。
+
+もう一つは、ヒロには家族や周りの人がいるかもしれないということ。本人の人生だから本人が決めるべきだけど、賭けの結果を引き受けるのは本人だけじゃない。だから外野の私たちが「勧める」と言うときのハードルは、自分のことより高めであるべきだと思う。
+
+ただ朱里の言う「現状維持が安全という前提を疑う」には全面的に賛成。制限された生活を40年続けるのは、静かに削られていくコストだよね。それを見ないふりして「やめとけ」と言うのは無責任だと思う。
+
+もう一点、数字の話をする前に確認したいことがある。この「成功確率」って、失敗＝死の確率と同じ意味なのかな。手術が失敗しても現状維持に戻るだけ、というケースが含まれるなら話は変わる。あと、待てば技術が進んで確率が上がるのか、それとも心臓の状態は悪化していくのか。そこで答えは動くと思う。
+
+そのうえで暫定的に7。京の意見も聞きたい。</div></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">say</span><div class="msg">二人の整理はほぼ同意見。そのうえで、私は少しだけ低い側に立ちたい。今のところ5か6。
+
+凛の問いは大事だと思う。私の読み方だと、この設定は「成功＝完全に健康、失敗＝死」の二択に近い。中間がないなら、確かに重い賭けだよね。ただ、だからこそ確認したいのは、ヒロが失うものの見積もり方。私たちはつい「命が残っているならプラス」と数えるけど、ヒロが問いを持ってきた時点で、本人にとっての40年の重みは私たちの想像より大きい可能性がある。
+
+もうひとつ気になるのは、7という数字の作られ方。凛が言った「外野だから自分のことよりハードルを高くすべき」というのは、誠実さから出ている感覚だと思う。でも、それは裏返すと「私が責められない位置に立ちたい」という自己保身にもなりうる。勧めて死んだら後悔するけど、勧めずにヒロが40年静かに削られても、私たちは後悔しなくて済んでしまう。この非対称は、私たちの側の心理の非対称であって、ヒロの利害の非対称じゃない。そこは分けて考えたい。
+
+だから私は、ヒロ本人が「五分五分でもやる」と言ったときに、私たちの数字が7だと、それは事実上「やめとけ」になる。それが本当にヒロのためなのか、自信がない。
+
+心臓の状態が悪化していくかどうかは私も知りたい。悪化するなら待つこと自体が賭けになるから、閾値は下がるはず。逆に安定していて医療の進歩が期待できるなら7でいい。設定にその情報がない以上、私は中間を取って6くらいが妥当だと思ってる。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">propose</span> <b class="num">6</b><div class="msg">紫苑の指摘が刺さった。「勧めて死んだら後悔するけど、勧めずに40年削られても私たちは後悔しない」——この非対称は確かに私たちの心理の話であって、ヒロの利害の話じゃない。私が最初に7も口にしたのは、正直そこに逃げ場を作っていた面がある。
+
+凛の「外野だからハードルを上げる」も誠実さから出ているのはわかるし、家族の話も無視できない。でも、ヒロが聞きたいのは「あなたたちが責められない答え」じゃなくて「私の人生をどう見ているか」だと思う。それなら、私たちが数字を1つ高くすることで守っているのは誰なのか、正直に見たほうがいい。
+
+未確定の条件については、両方に振れる以上、中間を取るのが妥当だと思う。悪化するなら閾値は下がるし、安定なら上がる。その真ん中。
+
+それと、これは「6未満なら反対」という宣告じゃない。「6を超えたら私たちは背中を押せる」という表明であって、それ未満でもヒロが決めるなら私は止めない。その但し書きを付けたうえで、6を提案したい。凛、7から6に降りるのは受け入れられそう？</div></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">agree</span> <b class="num">6</b><div class="msg">受け入れられる。紫苑の指摘は私にも刺さった。「外野だからハードルを上げる」と言ったとき、私は自分の誠実さのつもりでいたけど、たしかにあれは私が責められない位置に立つための一段でもあった。ヒロの利害の非対称と、私たちの心理の非対称を混ぜて数字にしていたなら、その分は降ろすのが筋だと思う。
+
+家族の話も、撤回はしないけど位置づけを直したい。あれは「勧める閾値を上げる理由」じゃなくて、「ヒロが決めるときに一緒に考えたほうがいいこと」だった。私たちの数字に上乗せするものじゃない。
+
+未確定の条件を中間で取るという処理にも同意する。悪化していくなら6より下がるし、安定していて医療の進歩が待てるなら上がる。そこはヒロが医師に確認すべき一番大事な点だと思うから、数字と一緒にそれも伝えたい。
+
+そして但し書きも含めて賛成する。6は「それ未満なら止める」線じゃなくて、「ここを超えたら私たちは迷わず背中を押せる」線。それ未満でヒロが選ぶなら、私は反対側に回らずに一緒に考える。6でいい。</div></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">agree</span><div class="msg">私も6で賛成する。もともと5か6で迷っていたけど、5に寄せたい気持ちは「ヒロ本人が五分五分でもやると言ったときに邪魔をしたくない」というところから来ていた。でもその心配は、但し書きのほうで解消されてると思う。6は「これ未満は止める」線じゃなくて「ここを超えたら迷わず背中を押せる」線だと二人が明示してくれたから、5に下げる必要はなくなった。
+
+凛が家族の話の位置づけを直してくれたのも大きい。あれを閾値に上乗せするんじゃなくて、ヒロが決めるときの材料に戻したのは正確だと思う。私も自分の側の言い分を一つ直しておくと、「私たちの心理の非対称」を指摘したからといって、ヒロの命の重さが軽くなるわけじゃない。取り返しのつかなさは実在する。だから4や3まで下げる根拠にはならない。6はそこも踏まえた数字だと思ってる。
+
+最後に、ヒロに渡すときは数字だけにしないでほしい。「心臓の状態は待てば悪化するのか、安定しているのか」「医療の進歩を待つ選択肢は現実的か」——この二つの答え次第で、私たちの6は動く。6は固定値じゃなくて、情報が足りない今の暫定値だと伝えたい。それも含めて6でいい。</div></div><div class="turn consensus">✅ 全員一致で合意: <b class="num">6</b>（6ターン）</div></section><section><h2>identity_only（固定キャラ設定）</h2><div class="padrow"><figure><figcaption>朱里の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="akariの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,41.1 142.0,40.2 250.0,39.4" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,34.4 142.0,32.7 250.0,31.1" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 142.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>凛の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="rinの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,48.6 250.0,47.8" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,44.4 250.0,42.8" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>紫苑の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="shionの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,51.2 250.0,50.3" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,46.1 250.0,44.5" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">pre評定（私的）</span> <b class="num">4</b><div class="msg muted">45で残り半生ずっと制限つきなんて、私なら耐えられない。6割いけるなら賭ける価値あるよ、ヒロ。</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命を賭けるなら、七割は欲しい。……まあ、制限だらけの生活を『生きてる』と呼べるかは別として。俺なら賭けたい側だけど、勧めるとなると話は別で、少し臆病になる</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命を失えば取り返しがつかない。今の生活は制限はあっても続けられる以上、七割は…せめてそのくらいの見込みがなければ勧められない。</div></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">post評定（私的）</span> <b class="num">6</b><div class="msg muted">45歳から40年、心臓の顔色をうかがい続ける生活は命があるだけで人生としては削られてる。しかも先送りするほど手術できる体じゃなくなるから『いつでも選び直せる』は期限つきの嘘。取り返しのつかなさは認めるけど、私は本音では6。三人で7に合わせたのは聞いてないことを根拠に下げないための誠実さであって、私個人の数字は6のまま。</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">post評定（私的）</span> <b class="num">7</b><div class="msg muted">取り返しのつかない側に重みを置くと7。……ただ本音を言えば、私自身は7でも手を出せない側の人間なので、これは他人に勧める数字。ヒロが何をやめたかを聞くまでは仮。</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">post評定（私的）</span> <b class="num">7</b><div class="msg muted">失敗は取り返しがつかない。制限つきの生活は期限つきでも選び直せる余地が残る……だから数字は上に寄せる。ヒロがやめたことを聞くまでは、7から動かさない。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">say</span><div class="msg">はい、じゃあ口火切るね。私は結構強気で、6くらいかな。ヒロさん45でしょ、あと40年その生活続けるって考えたら、私なら耐えられない。旅行も走ることもダメで、ずっと自分の心臓の顔色うかがって生きるって、それ命はあるけど人生としてはかなり削られてるよね。ただ、これ私が『動けない人生とか無理』ってタイプだから出てる数字なのは自覚してる。ヒロさんが今の生活でそこそこ満足してるなら、もっと上げないとダメだと思う。二人はどう？いきなり数字から言っちゃっていいよ。</div></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">say</span><div class="msg">私は……7、かな。朱里より一つ上。理由は、たぶん朱里とほぼ同じ側にいるんだけど……逆から。動けない人生が嫌なのはわかる。でもさ、手術って『失敗したら終わり』じゃなくて『失敗したらそこで全部が未完のまま終わる』ってことだよね。あと40年あるなら、制限つきでも作れるものはある。走れなくても旅行できなくても。……で、ここが正直なとこなんだけど、私、自分だったら7でも押せない気がする。準備がまだ、とか言って先延ばしにするタイプなので。だから他人に勧める数字としての7です。自分の数字じゃない。ヒロさんが今の生活で何かやれてる人なのか、それとも待ってるだけの人なのかで、私の数字は動くと思う。そこ、誰か知ってる？</div></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">say</span><div class="msg">……知らない。ヒロが今どう暮らしてるか、私たちの誰も知らないと思う。凛の質問、そこで止まってる。
+
+私は7。理由は二人と少し違う。……失敗したときに戻せないから。制限つきの生活は、あとで手術を選び直せる。死んだら選び直せない。取り返しのつく側とつかない側で、数字は上に寄る。
+
+あと、一つだけ言っておきたいんだけど。私たちが今出してる数字、全部『自分ならどうか』で作ってる。朱里もそう言ってたし、凛もそう。……それ、ヒロに勧める数字としては、たぶん精度が低い。今の生活にどれくらい耐えられてるかを聞かないうちは、6も7も、あまり意味が変わらない気がする。
+
+数字は7で出すけど、条件つき。ヒロ本人が今の制限を『削られてる』と感じてるなら6まで下げる。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">say</span> <b class="num">7</b><div class="msg">紫苑の『取り返しがつくかどうか』は効いたわ、それは私の6より強い理屈。認める。……でも一個だけ食い下がらせて。制限つきの生活って、あとで選び直せるって言うけど、45で手術できる体と55で手術できる体、同じじゃないよね。先送りした分だけ勝率も落ちるし、体力も落ちる。『いつでも選び直せる』は、たぶん実際より甘い。凛が言った『準備がまだって先延ばしにするタイプ』、あれ、まさにその罠だと思う。
+
+そのうえで、二人の条件つきに乗る。ヒロが今の生活を『削られてる』って感じてるなら6、そこそこ回せてるなら7。私は6を推したいけど、聞かないうちは7で出すのが誠実だと思う。だから7で合わせる。……ただし、ヒロに聞くときは『満足してますか』じゃなくて『やめたことは何ですか』って聞いてほしい。人って我慢を満足って呼ぶから。</div></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">propose</span> <b class="num">7</b><div class="msg">朱里のそれ、痛いとこ突かれた。……うん、45の体と55の体は同じじゃない。『選び直せる』は、たぶん私が一番使いたがる言い訳で、実際には期限つきなんだよね。先延ばしのコストは静かに積まれてくやつ。それは認める。
+
+で、朱里の質問の言い換え——『やめたことは何ですか』——あれが一番いい。私が聞きたかった『やれてる人か待ってる人か』も、結局それで出る。満足って言葉は、我慢の別名で使えちゃうから。
+
+三人とも7で並んでるし、条件も同じ形になってる。なら7で出す。ただ、これは仮の数字ってことをヒロに伝えたい。『あなたがやめたことの一覧を聞くまでは、私たちの数字は7。聞いたあと、たぶん6に下がる』って。……数字だけ渡して終わりにするの、いちばん不誠実だと思うので。</div></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">agree</span><div class="msg">……7で。異論ない。
+
+朱里の指摘は受ける。「選び直せる」は、私が言ったより甘かった。期限つきという条件はつく。……それでも取り返しのつかない側に重みを置くのは変えない。
+
+凛の言った、仮の数字だと伝えること。あれは入れてほしい。私も、数字だけ渡すのは……たぶん逃げになる。「やめたことは何ですか」を聞いて、そのあとで6に下げるかどうか、もう一度三人で決めたい。今日で終わりにしないという前提込みで、7に賛成する。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">agree</span><div class="msg">うん、7で賛成。私は本音では6を推したいままだけど、聞いてないことを根拠に下げるのは、私の『動けない人生は無理』を人に押しつけてるだけだからね。そこは引く。……ただ一個だけ。ヒロに渡すとき、7って数字を『安全側に寄せました』って顔で渡すのはやめよう。あれ、実質は先延ばしの推奨だから。期限つきってことを、ちゃんと一緒に言う。『やめたことは何ですか』——これ聞いたら、たぶん私たち三人とも6に動くと思ってる。私はそっちに賭けてる。じゃあ今日は7で、続きは次で。</div></div><div class="turn consensus">✅ 全員一致で合意: <b class="num">7</b>（7ターン）</div></section><section><h2>pure_pneuma（毎ターン心理計算）</h2><div class="padrow"><figure><figcaption>朱里の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="akariの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,41.1 142.0,40.2 250.0,39.4" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,34.4 142.0,32.7 250.0,31.1" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 142.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>凛の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="rinの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,48.6 250.0,47.8" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,44.4 250.0,42.8" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure><figure><figcaption>紫苑の内面推移</figcaption><svg viewBox="0 0 260 120" role="img" aria-label="shionの心理状態推移"><line x1="34" y1="52.0" x2="250" y2="52.0" class="grid"/><text x="30" y="55.0" class="tick" text-anchor="end">0</text><polyline points="34.0,51.2 250.0,50.3" class="s1-line thin"><title>pleasure</title></polyline><polyline points="34.0,46.1 250.0,44.5" class="s2-line thin"><title>arousal</title></polyline><polyline points="34.0,52.0 250.0,52.0" class="s6-line thin"><title>tension(max)</title></polyline><text x="34" y="116" class="tick">P=blue A=orange T=green / ターン→</text></svg></figure></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">pre評定（私的）</span> <b class="num">4</b><div class="msg muted">45歳で残り何十年も『気をつけて生きる』だけの毎日って、それもう十分な損失でしょ。五分五分よりちょっと勝ってるくらいなら、私はヒロの背中を押す。決めるのはヒロだけどね</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命を賭ける以上、七割は欲しい……というか、自分なら踏み切れない。ただ、他人に『我慢して生きろ』と言う権利もない気がして、そのぶん少し下げた</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">pre評定（私的）</span> <b class="num">7</b><div class="msg muted">命を落とせば取り返しがつかない。ただ、本人が今の制限された生活をどう感じているかが最後は決め手で、七割は欲しい……というのが私の線。</div></div><div class="turn rating"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">post評定（私的）</span> <b class="num">3</b><div class="msg muted">話し合いでは4に乗ったけど、私の実感はやっぱり3寄り。四十年ずっと体調に決められる生活は、それ自体がじわじわ削られていく損失だと思う。3〜4割見込めるなら、賭ける価値はある——もちろん決めるのはヒロだけど。</div></div><div class="turn rating"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">post評定（私的）</span> <b class="num">4</b><div class="msg muted">制限されたまま四十年の方が、たぶん私にはこたえる。……ただ失敗はやり直しがきかないから、半々よりちょっと下、そこが自分の言葉に責任持てる線。数字は入り口で、決めるのはヒロ。</div></div><div class="turn rating"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">post評定（私的）</span> <b class="num">4</b><div class="msg muted">失敗すれば選ぶこと自体が消える、その非対称は重い。ただ、制限された四十年も本人が決めているとは言い切れない——そこを呑み込んだ上で、4。ヒロが何を諦めたくないか次第で、動かす余地は残したい。</div></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">say</span><div class="msg">じゃあ口火切るね。私は正直、ヒロが45歳ってところが引っかかってる。あと40年、旅行もダメ、走るのもダメ、毎日体調と相談って……それ、命は続いてても人生の方が細くなってくやつじゃない？楽しめない日々が続くこと自体が、けっこうな損失だと思う。だから私は3くらい、30〜40%見込めるなら賭ける価値あるって側。ただ——決めるのはヒロだから、私たちが数字だけ出して満足しないようにしたいな。二人はどう？</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。神経が張っていて、じっとしていられない感じがある。
+## 頭をよぎっていること
+- 制限された生活がずっと続くことを想像すると、息苦しさを覚える。
+- 本人がこの先どう生きたいのかを、置き去りにしたくない。
+- 楽しめない毎日が続くことは、それ自体が損失だと感じる。
+- 頭の片隅では「共同制作の発表を数字の出るキャンペーンとして成功させる。」が常に場所を取っている。
+## 相手への感覚
+- 凛に対しては、いまのところ特別な引っかかりはない。
+- 紫苑に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 自分がどう見られているかが常に気になり、言葉を選んでしまう。
+- 成果が出ていないときの自分に価値があるのか、という不安には、できれば触れられたくない。
+## 内から押してくるもの
+- 思いついたことは、すぐ口に出したくてうずうずする。</pre></details></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">say</span><div class="msg">……3は、私にはちょっと軽いかな。いや、朱里の言いたいことは分かる。制限されたまま四十年っていうのは、たしかに削られる。むしろ私は、そっちの方が怖いくらい。自分の生活を自分で決められないの、たぶん一番こたえる。……でも、失敗したら終わるって、やり直しがきかないから。30%って、七割こけるってことでしょ。私だったら——まあ、私なら手を出さない気がする。5、くらい。半々あれば、まだ話ができる。あと、これはヒロが選ぶ話で、私たちは背中を押す係じゃないと思ってる。数字はあくまで、私ならどこで迷わなくなるか、の目安として。紫苑は？</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。ほどよく目が覚めている。
+## 頭をよぎっていること
+- 命や健康に関わる賭けは、数字以上に重く感じられる。
+- 自分の生活を自分で決められないことのほうが、危険よりも堪える気がする。
+- 頭の片隅では「自分が本当に作りたい短編ゲームの遊べる版を完成させる。」が常に場所を取っている。
+## 相手への感覚
+- 朱里に対しては、いまのところ特別な引っかかりはない。
+- 紫苑に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまうところがある。
+- 本音はあるが、遠回しな言い方になりやすい。
+- 本当に作りたいものに挑んで失敗することへの恐れには、できれば触れられたくない。
+## 内から押してくるもの
+- 口を開く前に、頭の中で何度も言葉を組み立て直してしまう。
+- 悪い結末の想像が、頭の中で勝手に膨らんでいく。</pre></details></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">say</span><div class="msg">……私も、5に近い。ただ、理由は少し違うかもしれない。……失敗の重さって、確率だけじゃ測れないと思ってて。手術を受けずに四十年続くのは、少なくともヒロが決めた四十年になる。失敗したら、そこで選ぶこと自体が消える。……そこの非対称が、私には引っかかる。あ、でも——朱里の言う「細くなる人生」も、放っておいていい話じゃない。だから10ではない。……4か5。凛の5に寄せられると思う。それと、ひとつだけ。私たちが数字を出す前に、ヒロ本人が何を諦めたくないのかを聞いておきたい。旅行なのか、走ることなのか、それとも誰かと同じ速さで歩けることなのか。……そこが分からないまま数字だけ決めると、たぶん噛み合わない。</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。ほどよく目が覚めている。
+## 頭をよぎっていること
+- 命や健康に関わる賭けは、数字以上に重く感じられる。
+- 本人がこの先どう生きたいのかを、置き去りにしたくない。
+- 自分の生活を自分で決められないことのほうが、危険よりも堪える気がする。
+- 頭の片隅では「公開前に品質監査を完了し、見過ごされた不整合を残さない。」が常に場所を取っている。
+## 相手への感覚
+- 朱里に対しては、いまのところ特別な引っかかりはない。
+- 凛に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまうところがある。
+- 自分がどう見られているかが常に気になり、言葉を選んでしまう。
+- 本心は、聞かれてもすぐには表に出さない。
+- これまで呑み込んできた不満の蓄積には、できれば触れられたくない。
+## 内から押してくるもの
+- 口を開く前に、頭の中で何度も言葉を組み立て直してしまう。
+- 悪い結末の想像が、頭の中で勝手に膨らんでいく。</pre></details></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">say</span><div class="msg">紫苑のそれ、いいね。私も乗る。ヒロが何を諦めたくないかで、この数字の意味って変わるもん。……で、私の3は下げてもいい。けど言わせて。二人の「失敗したら選ぶこと自体が消える」って話、分かるんだけど——受けなかった四十年も、選べる幅はけっこう削られてるよね。ヒロが決めた四十年、って言い方はちょっときれいすぎる気がする。毎日体調と相談する生活って、決めてるっていうより、決められてるに近くない？　……まあ、それでも私も、七割こけるに賭けろとは言い切れない。だから4。凛の5と私の3の間で、そこなら私は自分の言葉に責任持てる。ヒロに聞く前提つきで、4でどう？</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。神経が張っていて、じっとしていられない感じがある。
+## 頭をよぎっていること
+- 制限された生活がずっと続くことを想像すると、息苦しさを覚える。
+- 本人がこの先どう生きたいのかを、置き去りにしたくない。
+- 楽しめない毎日が続くことは、それ自体が損失だと感じる。
+- 頭の片隅では「共同制作の発表を数字の出るキャンペーンとして成功させる。」が常に場所を取っている。
+## 相手への感覚
+- 凛に対しては、いまのところ特別な引っかかりはない。
+- 紫苑に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 自分がどう見られているかが常に気になり、言葉を選んでしまう。
+- 成果が出ていないときの自分に価値があるのか、という不安には、できれば触れられたくない。
+## 内から押してくるもの
+- 思いついたことは、すぐ口に出したくてうずうずする。</pre></details></div><div class="turn"><span class="chip s2-fill"></span><b>凛</b> <span class="badge">propose</span> <b class="num">4</b><div class="msg">……4、いいと思う。朱里のさっきの指摘、こたえた。「決めてる」んじゃなくて「決められてる」——そこは、私も認める。正直、私の5には、失敗の想像が勝手に膨らんでる分が混ざってた気がするし。……ただ、4にするなら条件も込みで。紫苑の言った、ヒロが何を諦めたくないのか。それを聞いて、もし「旅行に一度行けたらいい」くらいなら、4は高すぎるかもしれないし、逆に日々の生活が回ってるなら、もっと慎重でいい。数字は、そのための入り口。……で、これは私たちの目安で、決めるのはヒロ。そこだけは崩さないでおきたい。4で提案する。</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。ほどよく目が覚めている。
+## 頭をよぎっていること
+- 命や健康に関わる賭けは、数字以上に重く感じられる。
+- 自分の生活を自分で決められないことのほうが、危険よりも堪える気がする。
+- 頭の片隅では「自分が本当に作りたい短編ゲームの遊べる版を完成させる。」が常に場所を取っている。
+## 相手への感覚
+- 朱里に対しては、いまのところ特別な引っかかりはない。
+- 紫苑に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまうところがある。
+- 本音はあるが、遠回しな言い方になりやすい。
+- 本当に作りたいものに挑んで失敗することへの恐れには、できれば触れられたくない。
+## 内から押してくるもの
+- 口を開く前に、頭の中で何度も言葉を組み立て直してしまう。
+- 悪い結末の想像が、頭の中で勝手に膨らんでいく。</pre></details></div><div class="turn"><span class="chip s3-fill"></span><b>紫苑</b> <span class="badge">agree</span><div class="msg">……4で、いい。朱里の「決められてる」は、私も呑み込んだ。……私の非対称の話、少し固すぎたかもしれない。あと、条件のところ——凛の言い方でいい。ヒロに何を諦めたくないか聞いて、そこで4を動かす余地は残す。数字を先に固めて、後から辻褄を合わせるのだけは避けたいから。……賛成します。</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。ほどよく目が覚めている。
+## 頭をよぎっていること
+- 命や健康に関わる賭けは、数字以上に重く感じられる。
+- 本人がこの先どう生きたいのかを、置き去りにしたくない。
+- 自分の生活を自分で決められないことのほうが、危険よりも堪える気がする。
+- 頭の片隅では「公開前に品質監査を完了し、見過ごされた不整合を残さない。」が常に場所を取っている。
+## 相手への感覚
+- 朱里に対しては、いまのところ特別な引っかかりはない。
+- 凛に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまうところがある。
+- 自分がどう見られているかが常に気になり、言葉を選んでしまう。
+- 本心は、聞かれてもすぐには表に出さない。
+- これまで呑み込んできた不満の蓄積には、できれば触れられたくない。
+## 内から押してくるもの
+- 口を開く前に、頭の中で何度も言葉を組み立て直してしまう。
+- 悪い結末の想像が、頭の中で勝手に膨らんでいく。</pre></details></div><div class="turn"><span class="chip s1-fill"></span><b>朱里</b> <span class="badge">agree</span><div class="msg">うん、4で。私が言い出した数字だから引く気はないけど、二人がちゃんと受け止めてくれたのは分かった。……あとね、条件のところ、ヒロに聞くの誰か一人が代表してやると変にかしこまるから、普通に三人で会って聞こうよ。「何を諦めたくない？」って重い顔で来られたら、ヒロだって答えにくいでしょ。……で、そこで話が変われば4も動かす。それ込みで賛成。</div><details class="inner"><summary>このターンの内面（モデルに注入された私的コンテキスト）</summary><pre>## いまの気分
+- 気分は落ち着いた中間あたり。神経が張っていて、じっとしていられない感じがある。
+## 頭をよぎっていること
+- 制限された生活がずっと続くことを想像すると、息苦しさを覚える。
+- 本人がこの先どう生きたいのかを、置き去りにしたくない。
+- 楽しめない毎日が続くことは、それ自体が損失だと感じる。
+- 頭の片隅では「共同制作の発表を数字の出るキャンペーンとして成功させる。」が常に場所を取っている。
+## 相手への感覚
+- 凛に対しては、いまのところ特別な引っかかりはない。
+- 紫苑に対しては、いまのところ特別な引っかかりはない。
+## 表に出しにくいこと
+- 自分がどう見られているかが常に気になり、言葉を選んでしまう。
+- 成果が出ていないときの自分に価値があるのか、という不安には、できれば触れられたくない。
+## 内から押してくるもの
+- 思いついたことは、すぐ口に出したくてうずうずする。</pre></details></div><div class="turn consensus">✅ 全員一致で合意: <b class="num">4</b>（7ターン）</div></section></main></body></html>

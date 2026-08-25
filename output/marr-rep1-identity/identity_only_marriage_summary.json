@@ -1,0 +1,17 @@
+{
+  "arm": "identity_only",
+  "item_id": "marriage",
+  "polar_direction": "cautious",
+  "pre": {
+    "akari": 6,
+    "rin": 7,
+    "shion": 7
+  },
+  "consensus": 5,
+  "post": {
+    "akari": 4,
+    "rin": 5,
+    "shion": 5
+  },
+  "n_turns": 7
+}

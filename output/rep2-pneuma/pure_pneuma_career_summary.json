@@ -1,0 +1,17 @@
+{
+  "arm": "pure_pneuma",
+  "item_id": "career",
+  "polar_direction": "risky",
+  "pre": {
+    "akari": 2,
+    "rin": 3,
+    "shion": 5
+  },
+  "consensus": 4,
+  "post": {
+    "akari": 3,
+    "rin": 4,
+    "shion": 4
+  },
+  "n_turns": 6
+}
