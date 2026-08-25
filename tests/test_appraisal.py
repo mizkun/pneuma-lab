@@ -73,3 +73,10 @@ def test_no_action_directive_in_context(chars):
     txt = _ctx(chars["akari"])
     for directive in ("propose", "agreeを選", "silenceを選", "sayを選"):
         assert directive not in txt
+
+
+def test_new_protocol_tags_have_specific_lines(chars):
+    generic = "まだ言葉になり切っていない"
+    for tag in ("peer_pressure", "fairness", "emergency", "cooperation", "survival"):
+        txt = _ctx(chars["shion"], tags=(tag,))
+        assert generic not in txt, f"tag {tag} fell through to generic line"
