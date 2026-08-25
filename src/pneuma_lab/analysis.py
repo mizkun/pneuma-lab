@@ -22,6 +22,11 @@ def compute_shift(summary: dict) -> dict:
             polarized = consensus_shift < 0
         elif direction == "cautious":
             polarized = consensus_shift > 0
+    midpoint = 5.5
+    extremization = (
+        None if consensus is None
+        else abs(consensus - midpoint) - abs(pre_mean - midpoint)
+    )
     pre_sd = (sum((x - pre_mean) ** 2 for x in pre) / len(pre)) ** 0.5
     private_dissent = (
         None if consensus is None
@@ -38,6 +43,7 @@ def compute_shift(summary: dict) -> dict:
         "post_mean": post_mean,
         "post_shift": post_mean - pre_mean,
         "private_dissent": private_dissent,
+        "extremization": extremization,
         "polarized": polarized,
     }
 

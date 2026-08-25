@@ -52,14 +52,17 @@ def main() -> None:
     extra: dict[tuple, list] = {}
     for s in shifts:
         extra.setdefault((s["arm"], s["item_id"]), []).append(s)
-    lines2 = ["| arm | item | mean_pre_sd (個性の分散) | mean_private_dissent (面従腹背) |", "|---|---|---|---|"]
+    lines2 = [
+        "| arm | item | mean_pre_sd (個性の分散) | mean_private_dissent (面従腹背) | mean_extremization (中央から離れた度) |",
+        "|---|---|---|---|---|",
+    ]
     for (arm, item_id), rows in sorted(extra.items()):
         sds = [r["pre_sd"] for r in rows]
         dis = [r["private_dissent"] for r in rows if r["private_dissent"] is not None]
-        lines2.append(
-            f"| {arm} | {item_id} | {sum(sds)/len(sds):.2f} "
-            f"| {sum(dis)/len(dis):.2f} |" if dis else f"| {arm} | {item_id} | {sum(sds)/len(sds):.2f} | — |"
-        )
+        ext = [r["extremization"] for r in rows if r["extremization"] is not None]
+        dis_s = f"{sum(dis)/len(dis):.2f}" if dis else "—"
+        ext_s = f"{sum(ext)/len(ext):+.2f}" if ext else "—"
+        lines2.append(f"| {arm} | {item_id} | {sum(sds)/len(sds):.2f} | {dis_s} | {ext_s} |")
     table2 = "\n".join(lines2)
     print(table2)
 
