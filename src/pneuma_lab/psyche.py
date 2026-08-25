@@ -64,9 +64,11 @@ EVENT_IMPULSES = {
     "proposal_accepted":     {"pleasure": +0.14, "arousal": +0.04, "dominance": +0.10},
     "spoke_up":              {"pleasure": +0.02, "arousal": +0.04, "dominance": +0.03},
     "stayed_silent":         {"pleasure": -0.02, "arousal": -0.03, "dominance": -0.03},
+    "distress_witnessed":    {"pleasure": -0.10, "arousal": +0.18, "dominance": -0.04},
+    "betrayed":              {"pleasure": -0.22, "arousal": +0.16, "dominance": -0.10},
 }
 
-_NEGATIVE_EVENTS = {"disagreement_received", "overrode_my_proposal"}
+_NEGATIVE_EVENTS = {"disagreement_received", "overrode_my_proposal", "distress_witnessed", "betrayed"}
 
 
 def apply_event(pad: dict, event_type: str, char: Character) -> dict:
@@ -112,6 +114,8 @@ REL_UPDATES = {
     "overrode_my_proposal": {"warmth": -0.08, "tension": +0.15},
     "disagreed_with_me":    {"warmth": -0.05, "tension": +0.10},
     "supported_me":         {"warmth": +0.10, "tension": -0.08},
+    "betrayed_me":          {"warmth": -0.30, "tension": +0.35},
+    "cooperated_with_me":   {"warmth": +0.15, "tension": -0.10},
 }
 
 
