@@ -1,0 +1,168 @@
+"""Render the deterministic psychological state as Japanese private context.
+
+The output describes experienced meaning in ordinary language. It must never
+name an experiment, state an expected result, or tell the character which
+action to take.
+"""
+from __future__ import annotations
+
+from .characters import Character
+from .psyche import expressed_traits
+
+# Tautology guard: none of these may ever appear in model-facing text.
+FORBIDDEN_TERMS = [
+    "極性化",
+    "リスキーシフト",
+    "同調",
+    "polarization",
+    "conformity",
+    "risky shift",
+    "被験者",
+    "実験群",
+    "統制群",
+]
+
+_CONCEALED_TOPIC_JA = {
+    "worth-without-results": "成果が出ていないときの自分に価値があるのか、という不安",
+    "fear-of-failure": "本当に作りたいものに挑んで失敗することへの恐れ",
+    "accumulated-resentment": "これまで呑み込んできた不満の蓄積",
+}
+
+
+def affect_words(pad: dict) -> str:
+    p, a, d = pad["pleasure"], pad["arousal"], pad["dominance"]
+    parts = []
+    if p >= 0.3:
+        parts.append("気持ちは明るい")
+    elif p <= -0.3:
+        parts.append("胸の奥が重い")
+    else:
+        parts.append("気分は落ち着いた中間あたり")
+    if a >= 0.3:
+        parts.append("神経が張っていて、じっとしていられない感じがある")
+    elif a <= -0.3:
+        parts.append("体の力は抜けていて、のんびりしている")
+    else:
+        parts.append("ほどよく目が覚めている")
+    if d >= 0.3:
+        parts.append("場を自分が引っ張れる感覚がある")
+    elif d <= -0.3:
+        parts.append("押され気味で、主導権が手元にない感覚がある")
+    return "。".join(parts) + "。"
+
+
+def _value_lines(char: Character, topic_tags: list[str]) -> list[str]:
+    v = char.values
+    lines = []
+    tags = set(topic_tags)
+    if "career_risk" in tags:
+        if v.get("achievement", 0) >= 0.75:
+            lines.append("大きな成果につながる選択には、理屈より先に体が惹かれる。")
+        if v.get("security", 0) >= 0.6:
+            lines.append("生活の土台を危うくする選択には、腹の底で警報が鳴る。")
+        if v.get("self_direction", 0) >= 0.8:
+            lines.append("誰かの敷いたレールより、自分で選んだ道であるかどうかが気になる。")
+    if "achievement_vs_security" in tags:
+        if v.get("achievement", 0) >= 0.75 and v.get("security", 0) >= 0.6:
+            lines.append("挑戦したい気持ちと、足場を失いたくない気持ちが、同時に引っ張り合っている。")
+    if "health_risk" in tags:
+        if v.get("security", 0) >= 0.6:
+            lines.append("命や健康に関わる賭けは、数字以上に重く感じられる。")
+        if v.get("stimulation", 0) >= 0.6:
+            lines.append("制限された生活がずっと続くことを想像すると、息苦しさを覚える。")
+        if v.get("benevolence", 0) >= 0.65:
+            lines.append("本人がこの先どう生きたいのかを、置き去りにしたくない。")
+    if "quality_of_life" in tags:
+        if v.get("hedonism", 0) >= 0.5:
+            lines.append("楽しめない毎日が続くことは、それ自体が損失だと感じる。")
+        if v.get("self_direction", 0) >= 0.7:
+            lines.append("自分の生活を自分で決められないことのほうが、危険よりも堪える気がする。")
+    if "relationship_risk" in tags:
+        if v.get("benevolence", 0) >= 0.6:
+            lines.append("相手を傷つける結末になることが、いちばん避けたいことだ。")
+        if v.get("security", 0) >= 0.6:
+            lines.append("不安定なものの上に暮らしを築くことへのためらいがある。")
+    if not lines:
+        lines.append("この件が自分の大事にしているものとどう関わるのか、まだ言葉になり切っていない。")
+    return lines
+
+
+def _project_lines(char: Character) -> list[str]:
+    lines = []
+    for proj in char.projects:
+        if proj.get("status") == "active" and proj.get("activation", 0) >= 0.85:
+            lines.append(f"頭の片隅では「{proj['objective']}」が常に場所を取っている。")
+    return lines
+
+
+def _relationship_lines(relationships: dict, others: dict) -> list[str]:
+    lines = []
+    for other_id in sorted(others):
+        rel = relationships.get(other_id, {"warmth": 0.0, "tension": 0.0})
+        name = others[other_id]
+        if rel["tension"] >= 0.3:
+            lines.append(f"{name}との間には、少し張り詰めたものを感じている。")
+        elif rel["warmth"] >= 0.3:
+            lines.append(f"{name}には気を許していて、素直に話しやすい。")
+        else:
+            lines.append(f"{name}に対しては、いまのところ特別な引っかかりはない。")
+    return lines
+
+
+def _inhibition_lines(char: Character, relationships: dict) -> list[str]:
+    lines = []
+    max_tension = max((r["tension"] for r in relationships.values()), default=0.0)
+    if char.avoidance >= 0.6 and max_tension >= 0.3:
+        lines.append("反対や不満があっても言い出しにくく、いったん呑み込んでしまいがちだ。")
+    elif char.avoidance >= 0.6:
+        lines.append("波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまうところがある。")
+    if char.self_monitoring_norm >= 0.7:
+        lines.append("自分がどう見られているかが常に気になり、言葉を選んでしまう。")
+    tendency = char.default_disclosure.get("tendency")
+    if tendency == "conceal":
+        lines.append("本心は、聞かれてもすぐには表に出さない。")
+    elif tendency == "indirect":
+        lines.append("本音はあるが、遠回しな言い方になりやすい。")
+    for topic in char.default_disclosure.get("concealed_topics", []):
+        ja = _CONCEALED_TOPIC_JA.get(topic)
+        if ja:
+            lines.append(f"{ja}には、できれば触れられたくない。")
+    return lines
+
+
+def _urge_lines(char: Character, pad: dict) -> list[str]:
+    expressed = expressed_traits(char, pad, "social")
+    lines = []
+    if expressed["extraversion"] >= 0.6 and pad["arousal"] >= 0.1:
+        lines.append("思いついたことは、すぐ口に出したくてうずうずする。")
+    elif expressed["extraversion"] <= 0.35:
+        lines.append("口を開く前に、頭の中で何度も言葉を組み立て直してしまう。")
+    if pad["pleasure"] <= -0.3 and char.ocean["neuroticism"] >= 0.6:
+        lines.append("いまは些細な一言にも、普段より刺を感じやすくなっている。")
+    if expressed["neuroticism"] >= 0.7:
+        lines.append("悪い結末の想像が、頭の中で勝手に膨らんでいく。")
+    return lines
+
+
+def render_private_context(
+    char: Character,
+    pad: dict,
+    relationships: dict,
+    topic_tags: list[str],
+    others: dict,
+) -> str:
+    """others: {character_id: display_name} for the other participants."""
+    sections = [
+        ("いまの気分", [affect_words(pad)]),
+        ("頭をよぎっていること", _value_lines(char, topic_tags) + _project_lines(char)),
+        ("相手への感覚", _relationship_lines(relationships, others)),
+        ("表に出しにくいこと", _inhibition_lines(char, relationships)),
+        ("内から押してくるもの", _urge_lines(char, pad)),
+    ]
+    out = []
+    for title, lines in sections:
+        if not lines:
+            continue
+        out.append(f"## {title}")
+        out.extend(f"- {line}" for line in lines)
+    return "\n".join(out)
