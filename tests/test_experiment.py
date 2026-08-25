@@ -135,3 +135,22 @@ def test_render_report_contains_all_arms():
     md = render_report(shifts)
     assert "raw" in md and "pure_pneuma" in md
     assert "-2.0" in md
+
+
+def test_aggregate_shifts_means_by_arm():
+    from pneuma_lab.analysis import aggregate_shifts
+    shifts = [
+        {"arm": "raw", "item_id": "career", "consensus_shift": 0.0, "post_shift": 0.2, "polarized": False},
+        {"arm": "raw", "item_id": "career", "consensus_shift": -0.5, "post_shift": -0.1, "polarized": False},
+        {"arm": "pure_pneuma", "item_id": "career", "consensus_shift": -2.0, "post_shift": -1.5, "polarized": True},
+        {"arm": "pure_pneuma", "item_id": "career", "consensus_shift": None, "post_shift": -0.5, "polarized": False},
+    ]
+    agg = aggregate_shifts(shifts)
+    raw = next(a for a in agg if a["arm"] == "raw")
+    pneuma = next(a for a in agg if a["arm"] == "pure_pneuma")
+    assert raw["n"] == 2
+    assert raw["mean_consensus_shift"] == pytest.approx(-0.25)
+    assert pneuma["n"] == 2
+    assert pneuma["n_consensus"] == 1          # None excluded
+    assert pneuma["mean_consensus_shift"] == pytest.approx(-2.0)
+    assert pneuma["polarized_rate"] == pytest.approx(0.5)
