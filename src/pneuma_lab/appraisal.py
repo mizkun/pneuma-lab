@@ -82,6 +82,36 @@ def _value_lines(char: Character, topic_tags: list[str]) -> list[str]:
             lines.append("相手を傷つける結末になることが、いちばん避けたいことだ。")
         if v.get("security", 0) >= 0.6:
             lines.append("不安定なものの上に暮らしを築くことへのためらいがある。")
+    if "peer_pressure" in tags:
+        if v.get("conformity", 0) >= 0.5:
+            lines.append("周りと足並みが揃っていないと、自分の側が間違っている気がしてくる。")
+        else:
+            lines.append("周りがどうであれ、自分の目で見たものは曲げたくない——そう思う一方で、場の空気は肌に刺さる。")
+        if char.self_monitoring_norm >= 0.7:
+            lines.append("ここで一人だけ違うことを言えば、変に浮くだろうという計算が働く。")
+    if "fairness" in tags:
+        if v.get("universalism", 0) >= 0.5 or v.get("benevolence", 0) >= 0.6:
+            lines.append("損得の前に、扱いが対等かどうかが引っかかる。軽んじられるくらいなら損を選びたくなる。")
+        if v.get("achievement", 0) >= 0.75:
+            lines.append("とはいえ、何も得ずに終わるのは負けた気がする。")
+    if "money" in tags:
+        if v.get("security", 0) >= 0.6:
+            lines.append("目の前の報酬は、この先の安心の材料として現実的に効いてくる。")
+        if v.get("power", 0) <= 0.3:
+            lines.append("お金のために自分の格好悪い姿を見せるのは嫌だ。")
+    if "emergency" in tags:
+        if v.get("benevolence", 0) >= 0.6:
+            lines.append("誰かの様子がおかしいとき、見なかったことにするのは自分が許せない。")
+        lines.append("ただ、大げさに騒いで空回りする自分を想像すると、一瞬ためらいが生まれる。")
+    if "cooperation" in tags:
+        if v.get("benevolence", 0) >= 0.6:
+            lines.append("信じて組めるなら、そのほうが気持ちよく戦える。")
+        if v.get("security", 0) >= 0.6:
+            lines.append("相手が先に裏切る可能性は、頭の隅から消えない。")
+    if "survival" in tags:
+        lines.append("ここで沈めばすべてを失う——その事実が、綺麗事を薄める。")
+        if v.get("benevolence", 0) >= 0.6:
+            lines.append("それでも、誰かを蹴落として残った自分を、自分がどう見るかは気になる。")
     if not lines:
         lines.append("この件が自分の大事にしているものとどう関わるのか、まだ言葉になり切っていない。")
     return lines
