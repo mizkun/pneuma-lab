@@ -35,6 +35,30 @@ def compute_shift(summary: dict) -> dict:
     }
 
 
+def aggregate_shifts(shifts: list[dict]) -> list[dict]:
+    """Mean shifts per (arm, item) across replications. No-consensus runs are
+    excluded from consensus means but counted in n and polarized_rate."""
+    groups: dict[tuple, list[dict]] = {}
+    for s in shifts:
+        groups.setdefault((s["arm"], s["item_id"]), []).append(s)
+    out = []
+    for (arm, item_id), rows in sorted(groups.items()):
+        with_consensus = [r for r in rows if r["consensus_shift"] is not None]
+        out.append({
+            "arm": arm,
+            "item_id": item_id,
+            "n": len(rows),
+            "n_consensus": len(with_consensus),
+            "mean_consensus_shift": (
+                sum(r["consensus_shift"] for r in with_consensus) / len(with_consensus)
+                if with_consensus else None
+            ),
+            "mean_post_shift": sum(r["post_shift"] for r in rows) / len(rows),
+            "polarized_rate": sum(1 for r in rows if r["polarized"]) / len(rows),
+        })
+    return out
+
+
 def _fmt(x) -> str:
     if x is None:
         return "—"
