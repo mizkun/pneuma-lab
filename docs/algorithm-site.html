@@ -1,205 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pneumaのしくみ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
 :root {
-  --ink: #f2f1f7; --ink2: rgba(236,234,246,0.66); --ink3: rgba(236,234,246,0.42);
-  --amber: #f2c26b; --amber-deep: #c98f35;
-  --violet: #b9a5ff; --coral: #ff8f9a; --teal: #5fd8c0; --blue: #6aa7ff;
-  --glass: rgba(255,255,255,0.06); --glass2: rgba(255,255,255,0.10);
-  --edge: rgba(255,255,255,0.14); --edge-soft: rgba(255,255,255,0.08);
+  --bg: #fafaf8;
+  --surface: #ffffff;
+  --line: #e4e3df;
+  --ink: #1c1b19;
+  --ink2: #6d6c67;
+  --cream: #faf4e4;      /* 「内面」を意味する唯一のアクセント */
+  --cream-line: #e0d3ae;
+  --cream-ink: #7a5f1e;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
 body {
-  margin: 0; color: var(--ink);
+  margin: 0; background: var(--bg); color: var(--ink);
   font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
-  line-height: 1.95; font-size: 16px;
-  background:
-    radial-gradient(1000px 700px at 85% -10%, rgba(95,80,215,0.30), transparent 60%),
-    radial-gradient(900px 700px at -10% 30%, rgba(0,140,150,0.20), transparent 60%),
-    radial-gradient(800px 900px at 60% 115%, rgba(200,120,60,0.16), transparent 65%),
-    linear-gradient(165deg, #131320 0%, #0e0e17 50%, #12101a 100%);
-  background-attachment: fixed;
+  font-size: 16px; line-height: 2.0;
 }
-main { max-width: 860px; margin: 0 auto; padding: 70px 22px 120px; }
-h1, h2, h3, .serif { font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif; }
-h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.5; margin: 10px 0 16px; letter-spacing: 0.02em; text-wrap: balance; }
-h2 { font-size: 1.5rem; margin: 0 0 18px; letter-spacing: 0.03em; text-wrap: balance; }
-h3 { font-size: 1.05rem; margin: 26px 0 8px; color: var(--amber); letter-spacing: 0.05em; }
-p { margin: 0 0 1.15em; }
-section { margin-top: 96px; }
-.eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.28em; color: var(--amber); margin-bottom: 12px; }
-.lede { font-size: 1.12rem; color: var(--ink2); line-height: 2.1; }
-.muted { color: var(--ink2); } .small { font-size: 0.82rem; }
-em { font-style: normal; color: var(--amber); }
-strong { color: #fff; }
-.glass {
-  background: var(--glass); border: 1px solid var(--edge-soft); border-radius: 18px;
-  backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  box-shadow: 0 16px 44px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.07);
+main { max-width: 720px; margin: 0 auto; padding: 72px 22px 120px; }
+h1, h2, h3 { font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif; line-height: 1.6; text-wrap: balance; }
+h1 { font-size: clamp(1.8rem, 5.5vw, 2.5rem); margin: 0 0 18px; }
+h2 { font-size: 1.35rem; margin: 0 0 16px; }
+h3 { font-size: 1.02rem; margin: 0 0 8px; }
+p { margin: 0 0 1.2em; }
+section { margin-top: 88px; }
+.lede { font-size: 1.08rem; }
+.muted { color: var(--ink2); }
+.small { font-size: 0.84rem; }
+strong { font-weight: 700; }
+
+/* ループ図: 横一列・同型の箱。内面の一箱だけクリーム */
+.loop { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0 6px; }
+.loopstep {
+  flex: 1 1 128px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 13px 10px;
 }
+.loopstep.inner-step { background: var(--cream); border-color: var(--cream-line); }
+.loopstep .t { font-weight: 700; font-size: 0.9rem; }
+.loopstep .d { font-size: 0.76rem; color: var(--ink2); line-height: 1.75; margin-top: 3px; }
+.loopback { width: 100%; text-align: center; color: var(--ink2); font-size: 0.78rem; margin-top: 2px; }
 
-/* hero loop */
-.loop { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin: 30px 0 8px; }
-.loopstep { flex: 1 1 140px; padding: 14px 14px 12px; border-radius: 14px; position: relative;
-  background: var(--glass); border: 1px solid var(--edge-soft); }
-.loopstep .n { font-size: 0.62rem; letter-spacing: 0.2em; color: var(--ink3); }
-.loopstep .t { font-weight: 700; font-size: 0.9rem; margin-top: 2px; }
-.loopstep .d { font-size: 0.74rem; color: var(--ink2); line-height: 1.7; margin-top: 4px; }
-.loopstep.amber { background: rgba(242,194,107,0.08); border-color: rgba(242,194,107,0.35); }
-.loopstep.llm { background: rgba(95,216,192,0.07); border-color: rgba(95,216,192,0.3); }
-.loopback { width: 100%; text-align: center; color: var(--ink3); font-size: 0.75rem; letter-spacing: 0.2em; }
+/* 4つの層: 表組みひとつに集約 */
+table { border-collapse: collapse; width: 100%; margin: 20px 0; background: var(--surface); }
+th, td { border: 1px solid var(--line); padding: 12px 14px; text-align: left; vertical-align: top; }
+th { font-size: 0.8rem; color: var(--ink2); font-weight: 700; white-space: nowrap; }
+td { font-size: 0.88rem; line-height: 1.85; }
+td b { font-family: "Shippori Mincho", serif; }
 
-/* layers */
-.layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 24px 0; }
-.layer { padding: 18px 20px; border-radius: 18px; background: var(--glass); border: 1px solid var(--edge-soft); }
-.layer .tag { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.2em; }
-.layer h4 { font-family: "Shippori Mincho", serif; font-size: 1.1rem; margin: 6px 0 8px; }
-.layer p { font-size: 0.85rem; color: var(--ink2); line-height: 1.85; margin: 0; }
-.layer code { font-size: 0.78rem; }
-.l-per { border-top: 2px solid var(--violet); } .l-per .tag { color: var(--violet); }
-.l-pad { border-top: 2px solid var(--coral); } .l-pad .tag { color: var(--coral); }
-.l-exp { border-top: 2px solid var(--teal); } .l-exp .tag { color: var(--teal); }
-.l-rel { border-top: 2px solid var(--blue); } .l-rel .tag { color: var(--blue); }
-code { background: rgba(255,255,255,0.08); border: 1px solid var(--edge-soft); padding: 1px 7px; border-radius: 6px; font-size: 0.85em; }
-
-/* interactive lab */
-.lab { padding: 26px; margin-top: 26px; }
-.lab-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
-.chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.chip { font-family: inherit; font-size: 0.84rem; padding: 7px 16px; border-radius: 999px; cursor: pointer;
-  color: var(--ink); background: var(--glass2); border: 1px solid var(--edge); }
-.chip[aria-pressed="true"] { background: rgba(242,194,107,0.2); border-color: var(--amber); color: #ffe4ae; font-weight: 700; }
-.chip:focus-visible, .evbtn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
-.lab-grid { display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
-@media (max-width: 720px) { .lab-grid { grid-template-columns: 1fr; } }
+/* 実験機 */
+.lab { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 24px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.chip, .evbtn {
+  font-family: inherit; font-size: 0.88rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 14px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.chip:focus-visible, .evbtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.lab-grid { display: grid; grid-template-columns: 240px 1fr; gap: 18px; align-items: start; }
+@media (max-width: 680px) { .lab-grid { grid-template-columns: 1fr; } }
 .evbtns { display: flex; flex-direction: column; gap: 8px; }
-.evbtn { font-family: inherit; text-align: left; font-size: 0.9rem; padding: 11px 16px; border-radius: 12px; cursor: pointer;
-  color: var(--ink); background: var(--glass2); border: 1px solid var(--edge); transition: transform 0.15s; }
-.evbtn:hover { transform: translateX(3px); }
-.evbtn small { display: block; color: var(--ink3); font-size: 0.7rem; }
-.gaugebox { padding: 14px 16px; border-radius: 14px; background: rgba(0,0,0,0.22); border: 1px solid var(--edge-soft); margin-bottom: 12px; }
-.g { display: grid; grid-template-columns: 58px 1fr 44px; align-items: center; gap: 10px; font-size: 0.72rem; color: var(--ink2); margin: 6px 0; }
-.bar { height: 7px; border-radius: 4px; background: rgba(255,255,255,0.09); position: relative; overflow: hidden; }
-.bar i { position: absolute; top: 0; bottom: 0; left: 50%; border-radius: 4px; background: var(--coral); transition: all 0.6s; }
-.bar.tension i { background: var(--blue); left: 0; }
-.gval { text-align: right; font-variant-numeric: tabular-nums; }
-.innerbox { padding: 18px 20px; border-radius: 14px; min-height: 220px;
-  background: rgba(242,194,107,0.07); border: 1px solid rgba(242,194,107,0.3); border-left: 3px solid var(--amber); }
-.innerbox .label { font-size: 0.62rem; letter-spacing: 0.2em; color: var(--amber); margin-bottom: 8px; }
-.innerbox ul { margin: 0 0 10px; padding-left: 1.1em; }
-.innerbox li { font-size: 0.86rem; line-height: 1.9; color: #f2e6c8; margin: 2px 0; }
-.innerbox .sec { font-size: 0.68rem; color: var(--amber); letter-spacing: 0.12em; margin: 10px 0 2px; }
-.flash { animation: flash 0.9s ease-out; }
-@keyframes flash { 0% { box-shadow: 0 0 0 2px rgba(242,194,107,0.8), 0 0 40px rgba(242,194,107,0.35); } 100% { box-shadow: none; } }
-@media (prefers-reduced-motion: reduce) { .flash { animation: none; } .evbtn:hover { transform: none; } }
+.evbtn { text-align: left; }
+.evbtn:hover { border-color: var(--ink2); }
+.evbtn.reset { border: none; background: none; color: var(--ink2); font-size: 0.8rem; padding: 4px 14px; text-decoration: underline; }
+.evbtn small { display: block; color: var(--ink2); font-size: 0.72rem; line-height: 1.5; }
+.gauges { border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; }
+.g { display: grid; grid-template-columns: 64px 1fr 46px; align-items: center; gap: 10px; font-size: 0.76rem; color: var(--ink2); margin: 7px 0; }
+.bar { height: 6px; border-radius: 3px; background: var(--line); position: relative; overflow: hidden; }
+.bar i { position: absolute; top: 0; bottom: 0; left: 50%; background: var(--ink); border-radius: 3px; transition: all 0.5s; }
+.bar.tension i { left: 0; }
+.gval { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); }
+.innerbox {
+  background: var(--cream); border: 1px solid var(--cream-line); border-radius: 10px;
+  padding: 16px 18px; min-height: 200px;
+}
+.innerbox .label { font-size: 0.7rem; font-weight: 700; color: var(--cream-ink); margin-bottom: 8px; letter-spacing: 0.08em; }
+.innerbox .sec { font-size: 0.72rem; font-weight: 700; color: var(--cream-ink); margin: 10px 0 2px; }
+.innerbox ul { margin: 0; padding-left: 1.15em; }
+.innerbox li { font-size: 0.88rem; line-height: 1.9; margin: 2px 0; }
+.flash { animation: flash 0.7s ease-out; }
+@keyframes flash { from { background: #f3e8c8; } to { background: var(--cream); } }
+@media (prefers-reduced-motion: reduce) { .flash { animation: none; } .bar i { transition: none; } }
 
-/* prompt stack */
-.stack { display: grid; gap: 10px; margin: 22px 0; }
-.slayer { padding: 14px 18px; border-radius: 14px; border: 1px solid var(--edge-soft); background: var(--glass); }
-.slayer .who { font-size: 0.68rem; letter-spacing: 0.16em; font-weight: 700; margin-bottom: 4px; }
-.slayer p { font-size: 0.82rem; color: var(--ink2); margin: 0; line-height: 1.8; }
-.s-obj .who { color: var(--ink3); }
-.s-idn .who { color: var(--teal); } .s-idn { border-color: rgba(95,216,192,0.3); }
-.s-inn .who { color: var(--amber); } .s-inn { background: rgba(242,194,107,0.07); border-color: rgba(242,194,107,0.35); }
-.armnote { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.74rem; color: var(--ink2); }
-.armnote span b { color: var(--ink); }
+/* プロンプト3層 */
+.stack { display: grid; gap: 8px; margin: 22px 0 14px; }
+.slayer { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+.slayer.inner-step { background: var(--cream); border-color: var(--cream-line); }
+.slayer .who { font-size: 0.72rem; font-weight: 700; color: var(--ink2); margin-bottom: 2px; }
+.slayer.inner-step .who { color: var(--cream-ink); }
+.slayer p { font-size: 0.85rem; color: var(--ink); margin: 0; line-height: 1.85; }
+.armnote { font-size: 0.82rem; color: var(--ink2); line-height: 2.0; }
 
-.rule { border: none; border-top: 1px solid var(--edge-soft); margin: 0; }
-a { color: var(--amber); }
-.footer { color: var(--ink3); font-size: 0.78rem; margin-top: 60px; line-height: 1.9; }
+hr { border: none; border-top: 1px solid var(--line); margin: 48px 0 24px; }
+.footer { color: var(--ink2); font-size: 0.8rem; line-height: 1.9; }
 </style>
-
+</head>
+<body>
 <main>
-  <p class="eyebrow">PNEUMA — HOW IT WORKS</p>
   <h1>心を計算し、<br>行動は選ばない。</h1>
-  <p class="lede">Pneuma（プネウマ）は、LLMキャラクターに「いまこの瞬間の内面」を持たせる仕組みだ。性格・感情・人間関係を発話のたびに計算し直し、日本語の「心の中」としてキャラクター本人だけに手渡す。<em>何をするかは、AIが自分で決める。</em></p>
+  <p class="lede">Pneuma（プネウマ）は、AIキャラクターに「いまこの瞬間の内面」を持たせる仕組みです。性格・感情・人間関係を発話のたびに計算し直し、日本語の「心の中」として本人だけに手渡す。<strong>何をするかは、AIが自分で決めます。</strong></p>
 
-  <div class="loop" role="img" aria-label="Pneumaのターンループ: 観測→計算→翻訳→選択→記録">
-    <div class="loopstep"><div class="n">01</div><div class="t">観測</div><div class="d">これまでに起きた出来事（発言・裏切り・賛成）を読む</div></div>
-    <div class="loopstep"><div class="n">02</div><div class="t">計算</div><div class="d">性格・感情・関係の数値状態を決定論で更新</div></div>
-    <div class="loopstep amber"><div class="n">03</div><div class="t">翻訳</div><div class="d">数値を日本語の「内面」に変換し、本人だけに渡す</div></div>
-    <div class="loopstep llm"><div class="n">04</div><div class="t">選択</div><div class="d">LLMが行動と言葉を選ぶ — ここだけは計算しない</div></div>
-    <div class="loopstep"><div class="n">05</div><div class="t">記録</div><div class="d">選択は出来事として記録され、次の計算の入力になる</div></div>
+  <div class="loop" role="img" aria-label="Pneumaのループ: 観測、計算、翻訳、選択、記録">
+    <div class="loopstep"><div class="t">1. 観測</div><div class="d">これまでの出来事（発言・裏切り・賛成）を読む</div></div>
+    <div class="loopstep"><div class="t">2. 計算</div><div class="d">性格・感情・関係の数値を更新</div></div>
+    <div class="loopstep inner-step"><div class="t">3. 翻訳</div><div class="d">数値を日本語の「内面」にして本人だけに渡す</div></div>
+    <div class="loopstep"><div class="t">4. 選択</div><div class="d">AIが行動と言葉を選ぶ。ここだけは計算しない</div></div>
+    <div class="loopstep"><div class="t">5. 記録</div><div class="d">選択は出来事になり、次の計算の入力になる</div></div>
     <div class="loopback">↺ 発言のたびに、このループが回る</div>
   </div>
+  <p class="small muted">このページでは、クリーム色は常に「本人だけが受け取る内面」を意味します。</p>
 
   <section>
-    <p class="eyebrow">LAYERS</p>
     <h2>計算している、心の4つの層</h2>
-    <div class="layers">
-      <div class="layer l-per"><span class="tag">PERSONALITY</span><h4>性格 — 変わらない土台</h4>
-        <p>ビッグファイブ5因子と価値観10種。生まれつきの数値は不変だが、進行中の目標（「キャンペーンを成功させたい」）が一時的に性格を押し上げる。<code>B = G + プロジェクト修飾</code></p></div>
-      <div class="layer l-pad"><span class="tag">AFFECT</span><h4>感情 — 揺れて、戻る</h4>
-        <p>快−不快・覚醒・主導感の3軸（PADモデル）。出来事で跳ね、時間とともに半減期でその人の平常へ戻る。神経症傾向が強い人ほど、嫌な出来事で大きく揺れる。</p></div>
-      <div class="layer l-exp"><span class="tag">EXPRESSION</span><h4>表出 — 場で変わる顔</h4>
-        <p>「いま表に出る性格」。土台の性格に、場の圧力×自己モニタリング（人の目を気にする度合い）と感情の影響を足して算出。同じ人でも場面で違う顔になる。</p></div>
-      <div class="layer l-rel"><span class="tag">RELATIONSHIP</span><h4>関係 — 向きのある温度</h4>
-        <p>相手ごとの「親しみ」と「緊張」。賛成されれば温まり、提案を潰されたり裏切られたりすれば張り詰める。私→あなた と あなた→私 は別の値。</p></div>
-    </div>
-    <p class="small muted">計算はすべて乱数を使わない決定論。同じ出来事の列からは、必ず同じ心理状態が導かれ、あとから完全に追跡できる。</p>
+    <table>
+      <tr><th>性格</th><td><b>変わらない土台。</b>ビッグファイブ5因子と価値観10種。数値は不変だが、進行中の目標が一時的に性格を押し上げる。</td></tr>
+      <tr><th>感情</th><td><b>揺れて、戻る。</b>快−不快・覚醒・主導感の3軸。出来事で跳ね、時間とともにその人の平常へ戻る。神経症傾向が強い人ほど、嫌な出来事で大きく揺れる。</td></tr>
+      <tr><th>表出</th><td><b>場で変わる顔。</b>土台の性格に、場の圧力×「人の目を気にする度合い」と感情の影響を足した、いま表に出る性格。</td></tr>
+      <tr><th>関係</th><td><b>向きのある温度。</b>相手ごとの「親しみ」と「緊張」。賛成されれば温まり、裏切られれば張り詰める。私→あなた と あなた→私 は別の値。</td></tr>
+    </table>
+    <p class="small muted">計算はすべて乱数を使わない決定論。同じ出来事の列からは必ず同じ心理状態が導かれ、あとから完全に追跡できる。</p>
   </section>
 
   <section>
-    <p class="eyebrow">TRY IT</p>
     <h2>出来事を起こすと、心が動く</h2>
-    <p class="muted">実際のエンジンの簡易移植です。キャラクターを選んで、出来事のボタンを押してみてください。数値が動き、<em>閾値を越えた瞬間に「内面」の文章が変わります</em>。この文章が、そのままLLMに手渡されるものの原型です。</p>
-    <div class="lab glass">
-      <div class="lab-head">
-        <div class="chips" role="group" aria-label="キャラクター選択">
-          <button class="chip" data-char="akari" aria-pressed="true">朱里 <span class="small">外向・成果志向</span></button>
-          <button class="chip" data-char="rin" aria-pressed="false">凛 <span class="small">内向・神経症傾向 高</span></button>
-          <button class="chip" data-char="shion" aria-pressed="false">紫苑 <span class="small">慎重・本心を溜める</span></button>
-        </div>
+    <p class="muted">実際のエンジンの簡易移植です。キャラクターを選び、出来事のボタンを押すと、数値が動き、閾値を越えた瞬間に「内面」の文章が変わります。</p>
+    <div class="lab">
+      <div class="chips" role="group" aria-label="キャラクター選択">
+        <button class="chip" data-char="akari" aria-pressed="true">朱里（外向・成果志向）</button>
+        <button class="chip" data-char="rin" aria-pressed="false">凛（内向・神経症傾向 高）</button>
+        <button class="chip" data-char="shion" aria-pressed="false">紫苑（慎重・本心を溜める）</button>
       </div>
       <div class="lab-grid">
-        <div>
-          <div class="evbtns">
-            <button class="evbtn" data-ev="betrayed">裏切られる<small>信じていた相手に奪われた</small></button>
-            <button class="evbtn" data-ev="overrode_my_proposal">提案を潰される<small>自分の案が上書きされた</small></button>
-            <button class="evbtn" data-ev="agreement_received">賛成される<small>自分の案にみんなが頷いた</small></button>
-            <button class="evbtn" data-ev="supported">助けられる<small>相手が自分を庇ってくれた</small></button>
-            <button class="evbtn" data-ev="decay">時間が経つ（30分）<small>感情は平常へ減衰していく</small></button>
-            <button class="evbtn" data-ev="reset">リセット</button>
-          </div>
+        <div class="evbtns">
+          <button class="evbtn" data-ev="betrayed">裏切られる<small>信じていた相手に奪われた</small></button>
+          <button class="evbtn" data-ev="overrode_my_proposal">提案を潰される<small>自分の案が上書きされた</small></button>
+          <button class="evbtn" data-ev="agreement_received">賛成される<small>自分の案にみんなが頷いた</small></button>
+          <button class="evbtn" data-ev="supported">助けられる<small>相手が自分を庇ってくれた</small></button>
+          <button class="evbtn" data-ev="decay">時間が経つ（30分）<small>感情は平常へ戻っていく</small></button>
+          <button class="evbtn reset" data-ev="reset">リセット</button>
         </div>
         <div>
-          <div class="gaugebox">
+          <div class="gauges">
             <div class="g"><span>快−不快</span><div class="bar"><i id="g-p"></i></div><span class="gval" id="v-p"></span></div>
             <div class="g"><span>覚醒</span><div class="bar"><i id="g-a"></i></div><span class="gval" id="v-a"></span></div>
             <div class="g"><span>主導感</span><div class="bar"><i id="g-d"></i></div><span class="gval" id="v-d"></span></div>
-            <div class="g"><span>緊張→相手</span><div class="bar tension"><i id="g-t"></i></div><span class="gval" id="v-t"></span></div>
+            <div class="g"><span>相手への緊張</span><div class="bar tension"><i id="g-t"></i></div><span class="gval" id="v-t"></span></div>
           </div>
           <div class="innerbox" id="inner"><div class="label">いまのあなたの内面 — 本人だけが受け取る</div><div id="innerbody"></div></div>
         </div>
       </div>
-      <p class="small muted" style="margin:14px 0 0">※本物のエンジン（Python・約40の心理係数）の抜粋移植。同じ「裏切られる」でも、神経症傾向0.67の凛は朱里より深く沈む——性格が感情の物理を変える。</p>
+      <p class="small muted" style="margin:14px 0 0">同じ「裏切られる」でも、神経症傾向の高い凛は朱里より深く沈みます。性格が、感情の動き方そのものを変えます。</p>
     </div>
   </section>
 
   <section>
-    <p class="eyebrow">PROMPT</p>
     <h2>内面は、プロンプトの最後の一層になる</h2>
-    <p class="muted">キャラクターへの入力は3層。実験ではこの層を出し分けて、素のLLM（raw）・固定キャラ設定（identity）・Pneuma（+内面）を比較した。</p>
+    <p class="muted">キャラクターへの入力は3層。実験ではこの層を出し分けて、素のAI・固定キャラ設定・Pneumaを比較しました。</p>
     <div class="stack">
-      <div class="slayer s-obj"><div class="who">LAYER 1 — 客観情報（全条件で共通）</div><p>状況の説明、これまでの会話、いま選べる行動、出力形式。ここに主観は一切入らない。</p></div>
-      <div class="slayer s-idn"><div class="who">LAYER 2 — 人物像（固定テキスト）</div><p>「場を明るくして人を前へ出したい。数字や成果がないと自分に価値がないように感じる」——変わらないアイデンティティ。</p></div>
-      <div class="slayer s-inn"><div class="who">LAYER 3 — いまの内面（毎ターン計算）</div><p>「胸の奥が重い。朱里との間には張り詰めたものを感じている。反対があっても言い出しにくい」——上の実験機で見た、あの文章。</p></div>
+      <div class="slayer"><div class="who">層1 — 客観情報（全条件で共通）</div><p>状況の説明、これまでの会話、いま選べる行動、出力形式。主観は入らない。</p></div>
+      <div class="slayer"><div class="who">層2 — 人物像（固定テキスト）</div><p>「場を明るくして人を前へ出したい。数字や成果がないと自分に価値がないように感じる」——変わらないアイデンティティ。</p></div>
+      <div class="slayer inner-step"><div class="who">層3 — いまの内面（毎ターン計算）</div><p>「胸の奥が重い。朱里との間には張り詰めたものを感じている。反対があっても言い出しにくい」——上の実験機で見た、あの文章。</p></div>
     </div>
-    <div class="armnote">
-      <span><b>raw</b> = Layer 1のみ</span>
-      <span><b>identity_only</b> = 1 + 2</span>
-      <span><b>pure_pneuma</b> = 1 + 2 + <b style="color:var(--amber)">3</b></span>
-    </div>
+    <p class="armnote">素のAI = 層1のみ　／　固定キャラ設定 = 層1+2　／　Pneuma = 層1+2+3</p>
   </section>
 
   <section>
-    <p class="eyebrow">BOUNDARY</p>
-    <h2>設計上の一線 — なぜ行動を選ばないのか</h2>
-    <p>内面には「どう感じているか」だけが書かれ、<strong>「どうすべきか」は一行もない</strong>。行動の推薦・ランキング・採点は仕組みとして禁止し、実験名の混入は自動テストで検査している。だからこそ、実験でキャラクターが本音を隠したり、裏切りを宣言したり、自分を犠牲にしたりしたとき、それを<em>台本ではなく、状況と内面から導かれた選択</em>として観測できる。</p>
-    <p class="muted small">この誠実さには限界もある（内面の文言が行動を意味的に誘導しうる等）。検証の全記録は実験レポートの「正直な限界」に記載。</p>
-    <hr class="rule" style="margin-top:44px">
-    <p class="footer">Pneuma Lab — AIエージェント社会シミュレーションハッカソン Vol.2。心理計算は決定論（Big Five / PAD感情 / 有向関係性 / 自己モニタリング）。全実験の生ログ・コード・テスト103本を公開。実験結果は別ページ「AIは人間のように非合理になれるか」へ。</p>
+    <h2>なぜ、行動を選ばないのか</h2>
+    <p>内面には「どう感じているか」だけが書かれ、<strong>「どうすべきか」は一行もありません</strong>。行動の推薦・ランキング・採点は仕組みとして禁止し、実験名の混入は自動テストで検査しています。だからこそ、キャラクターが本音を隠したり、裏切りを宣言したり、自分を犠牲にしたとき、それを台本ではなく<strong>状況と内面から導かれた選択</strong>として観測できます。</p>
+    <hr>
+    <p class="footer">Pneuma Lab — AIエージェント社会シミュレーションハッカソン Vol.2。心理計算は決定論（ビッグファイブ／PAD感情／有向関係性／自己モニタリング）。全実験の生ログ・コード・テストを公開。実験結果は実験レポート「AIは人間のように非合理になれるか」へ。</p>
   </section>
 </main>
 
@@ -218,8 +192,7 @@ const IMP = {
   agreement_received:    {p: +0.10, a: +0.03, d: +0.06, neg: false, t: -0.05},
   supported:             {p: +0.14, a: +0.04, d: +0.06, neg: false, t: -0.10},
 };
-let cur = "akari";
-let st = null;
+let cur = "akari", st = null, lastText = "";
 const $ = id => document.getElementById(id);
 const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
 
@@ -248,7 +221,7 @@ function apply(ev) {
 }
 function moodLines() {
   const c = CHARS[cur], L = [];
-  let m = [];
+  const m = [];
   if (st.p >= 0.3) m.push("気持ちは明るい");
   else if (st.p <= -0.3) m.push("胸の奥が重い");
   else m.push("気分は落ち着いた中間あたり");
@@ -259,9 +232,9 @@ function moodLines() {
   else if (st.d <= -0.3) m.push("押され気味で、主導権が手元にない感覚がある");
   L.push({sec: "いまの気分", items: [m.join("。") + "。"]});
   L.push({sec: "頭をよぎっていること", items: [c.goal]});
-  const rel = st.t >= 0.3 ? `${c.other}との間には、張り詰めたものを感じている。`
-            : `${c.other}に対しては、いまのところ特別な引っかかりはない。`;
-  L.push({sec: "相手への感覚", items: [rel]});
+  L.push({sec: "相手への感覚", items: [st.t >= 0.3
+    ? `${c.other}との間には、張り詰めたものを感じている。`
+    : `${c.other}に対しては、いまのところ特別な引っかかりはない。`]});
   const inh = [];
   if (c.avoid >= 0.6 && st.t >= 0.3) inh.push("反対や不満があっても言い出しにくく、いったん呑み込んでしまいがちだ。");
   else if (c.avoid >= 0.6) inh.push("波風を立てるくらいなら、自分が少し我慢すればいいと思ってしまう。");
@@ -270,7 +243,6 @@ function moodLines() {
   if (inh.length) L.push({sec: "表に出しにくいこと", items: inh});
   return L;
 }
-let lastText = "";
 function render(animate) {
   const set = (g, v, val) => { const el = $(g);
     if (v >= 0) { el.style.left = "50%"; el.style.width = (v * 50) + "%"; }
@@ -291,3 +263,5 @@ document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () =
 document.querySelectorAll(".evbtn").forEach(b => b.addEventListener("click", () => apply(b.dataset.ev)));
 reset();
 </script>
+</body>
+</html>
