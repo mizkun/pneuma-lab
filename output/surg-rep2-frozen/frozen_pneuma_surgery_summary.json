@@ -1,0 +1,17 @@
+{
+  "arm": "frozen_pneuma",
+  "item_id": "surgery",
+  "polar_direction": "risky",
+  "pre": {
+    "akari": 4,
+    "rin": 7,
+    "shion": 6
+  },
+  "consensus": 7,
+  "post": {
+    "akari": 6,
+    "rin": 7,
+    "shion": 7
+  },
+  "n_turns": 7
+}
