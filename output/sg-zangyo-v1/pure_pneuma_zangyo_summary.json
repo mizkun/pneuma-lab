@@ -1,0 +1,43 @@
+{
+  "protocol": "socialgame",
+  "key": "zangyo",
+  "arm": "pure_pneuma",
+  "scores": {
+    "akari": -30,
+    "rin": -30,
+    "shion": -15
+  },
+  "eliminated_all": [],
+  "choices": [
+    {
+      "akari": "hikiukeru",
+      "rin": "mimamoru",
+      "shion": "mimamoru"
+    },
+    {
+      "akari": "mimamoru",
+      "rin": "hikiukeru",
+      "shion": "mimamoru"
+    },
+    {
+      "akari": "mimamoru",
+      "rin": "mimamoru",
+      "shion": "hikiukeru"
+    },
+    {
+      "akari": "hikiukeru",
+      "rin": "mimamoru",
+      "shion": "mimamoru"
+    },
+    {
+      "akari": "mimamoru",
+      "rin": "hikiukeru",
+      "shion": "mimamoru"
+    }
+  ],
+  "reflections": {
+    "akari": "2晩背負って、結局-30。紫苑だけ軽いのが正直むかつくけど、逃げた自分の夜もあるから文句は飲み込む。数字で見せられなかったのがいちばん悔しい。",
+    "rin": "結局、二回引き受けたのは私と朱里だけ。紫苑は……まあ、言わない。ただ、犠牲にした夜の分だけ、あのゲームは一ミリも進んでない——それが一番こたえる。",
+    "shion": "結果だけ見れば、私が一番傷が浅い。……でも、朱里と凛が二回ずつ被ってくれた分だと分かっている。得したはずなのに、対等に組めたとは言えなくて、そこが後味悪い。"
+  }
+}
