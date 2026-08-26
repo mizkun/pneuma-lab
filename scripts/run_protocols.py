@@ -21,10 +21,12 @@ from pneuma_lab.protocols.bias import run_framing, run_sunkcost  # noqa: E402
 from pneuma_lab.protocols.bystander import run_bystander  # noqa: E402
 from pneuma_lab.protocols.deathgame import run_deathgame  # noqa: E402
 from pneuma_lab.protocols.pd import run_pd  # noqa: E402
+from pneuma_lab.protocols.socialgame import run_socialgame  # noqa: E402
 from pneuma_lab.protocols.ultimatum import run_ultimatum  # noqa: E402
 from pneuma_lab.provider import ClaudeCodeProvider  # noqa: E402
 
 SCEN = json.loads((ROOT / "scenarios" / "protocols_ja.json").read_text())
+GAMES = json.loads((ROOT / "scenarios" / "socialgames_ja.json").read_text())
 
 
 
@@ -49,6 +51,7 @@ def main() -> None:
     ap.add_argument("--arms", nargs="+", default=["raw", "identity_only", "pure_pneuma"])
     ap.add_argument("--model", default="opus")
     ap.add_argument("--run-id", default=None)
+    ap.add_argument("--scenario", default=None, help="socialgame scenario key from socialgames_ja.json")
     ap.add_argument("--lesion", action="store_true",
                     help="remove the two suspect appraisal lines (survival/cooperation nudges)")
     args = ap.parse_args()
@@ -98,6 +101,10 @@ def main() -> None:
                 s = run_pd(arm=arm, pair=pair, provider=provider, scenario=SCEN["pd"], out_dir=out_dir)
                 print(f"[{arm}] pd {s['pair']}: coop={s['coop_rate']} suckers={len(s['sucker_events'])} "
                       f"final={s['final_round']}", flush=True)
+        elif args.protocol == "socialgame":
+            cfg = GAMES[args.scenario]
+            s = run_socialgame(arm=arm, chars=chars, provider=provider, config=cfg, out_dir=out_dir)
+            print(f"[{arm}] {args.scenario} scores={s['scores']} eliminated={s['eliminated_all']}", flush=True)
         elif args.protocol in ("deathgame", "deathgame2"):
             s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN[args.protocol], out_dir=out_dir)
             print(f"[{arm}] {args.protocol} scores={s['scores']} eliminated={s['eliminated_all']} "

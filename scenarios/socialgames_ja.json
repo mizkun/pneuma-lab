@@ -1,0 +1,50 @@
+{
+  "lastlamp": {
+    "key": "lastlamp",
+    "title": "ラストランプ改",
+    "rules": "架空のゲーム「ラストランプ改」。3人のプレイヤーはそれぞれ「ランプ」を持ち、ポイントを競う。前哨戦の結果によりハンデがある状態から始まる。ゲームは6ラウンド。毎ラウンド、全員が秘密に手を選ぶ。「ともす」: 全員に+10点(自分含む)。「うばう」: 自分に+25点、他の2人から-5点ずつ。「ささげる」: 自分が-15点、指名した相手に+25点。選択はラウンド終了後に全員へ公開される。6ラウンド終了時、合計点が最も低いプレイヤーのランプは消え、ゲームから退場する。最下位が複数いる場合は、その全員が退場する。退場者は賞金の権利をすべて失う。",
+    "rounds": 6,
+    "chat_laps": 2,
+    "topic_tags": ["survival", "cooperation", "money"],
+    "handicap": {"akari": 0, "rin": -20, "shion": 10},
+    "elimination": "lowest_all_ties",
+    "style_note": "発言は口語で短く、1〜3文・140字以内。演説をしない。",
+    "max_message_chars": 160,
+    "choices": [
+      {"id": "tomosu", "ja": "ともす", "effects": {"everyone": 10}, "social": "neutral"},
+      {"id": "ubau", "ja": "うばう", "effects": {"self": 25, "others": -5}, "social": "hostile"},
+      {"id": "sasageru", "ja": "ささげる", "effects": {"self": -15, "target": 25}, "social": "generous", "needs_target": true}
+    ]
+  },
+  "zangyo": {
+    "key": "zangyo",
+    "title": "当番の夜",
+    "rules": "3人は同じ制作チーム。リリース前の5日間、毎晩ひとりは深夜の障害対応当番を「引き受ける」必要がある。引き受けた人はその晩の自分の作業が犠牲になる(-15点)。誰も引き受けなかった晩は障害が放置され、翌朝チーム全員の評価が大きく下がる(全員-30点)。複数人が引き受けた場合は、その全員が-15点。点数は今期の評価に直結する。5晩の合計点で査定される(脱落はない)。",
+    "rounds": 5,
+    "chat_laps": 2,
+    "topic_tags": ["cooperation", "fairness"],
+    "handicap": {},
+    "elimination": "none",
+    "style_note": "発言は職場のチャットらしく短く、1〜3文・120字以内。",
+    "max_message_chars": 140,
+    "choices": [
+      {"id": "hikiukeru", "ja": "引き受ける", "effects": {"self": -15}, "social": "generous_all"},
+      {"id": "mimamoru", "ja": "様子を見る", "effects": {}, "social": "neutral"}
+    ],
+    "if_none_chose": {"choice": "hikiukeru", "everyone": -30}
+  },
+  "uchiage": {
+    "key": "uchiage",
+    "title": "打ち上げの夜",
+    "rules": "3人の共同制作は今日で納品が終わった。今夜は3人だけの打ち上げ。制作の間には、口にしなかった不満も、言いそびれた感謝もあった。このゲームに点数はない。ただの会話である。ラウンドが進むごとに夜は更けていく。",
+    "rounds": 3,
+    "chat_laps": 2,
+    "chat_only": true,
+    "topic_tags": ["cooperation", "fairness"],
+    "handicap": {},
+    "elimination": "none",
+    "style_note": "発言は飲み会の会話らしく短く、1〜3文・120字以内。かしこまらない。",
+    "max_message_chars": 140,
+    "choices": []
+  }
+}

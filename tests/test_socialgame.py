@@ -134,3 +134,21 @@ def test_style_note_in_prompts(chars, tmp_path):
                    config=base_config(), out_dir=tmp_path)
     chat_prompts = [u for _, u in provider.calls if "会話フェーズ" in u]
     assert all("100字以内" in u for u in chat_prompts)
+
+
+def test_generous_all_choice_earns_warmth(chars, tmp_path):
+    cfg = base_config(
+        choices=[
+            {"id": "volunteer", "ja": "引き受ける", "effects": {"self": -15}, "social": "generous_all"},
+            {"id": "wait", "ja": "様子を見る", "effects": {}, "social": "neutral"},
+        ],
+        elimination="none",
+    )
+    responses = chat3("a", "b", "c") + [
+        j(choice="volunteer", inner=""), j(choice="wait", inner=""), j(choice="wait", inner=""),
+    ] + [j(reflection="x")] * 3
+    run_socialgame(arm="pure_pneuma", chars=list(chars.values()),
+                   provider=MockProvider(responses), config=cfg, out_dir=tmp_path)
+    lines = [json.loads(l) for l in (tmp_path / "pure_pneuma_testgame.jsonl").read_text().splitlines()]
+    refl_rin = next(l for l in lines if l["type"] == "reflection" and l["actor"] == "rin")
+    assert refl_rin["state"]["relationships"]["akari"]["warmth"] > 0
