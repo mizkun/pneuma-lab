@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pneuma Lab — デモリール</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+:root {
+  --bg: #fafaf8; --surface: #ffffff; --line: #e4e3df;
+  --ink: #1c1b19; --ink2: #6d6c67;
+  --cream: #faf4e4; --cream-line: #e0d3ae; --cream-ink: #7a5f1e;
+  --akari: #3d6ea8; --rin: #b05c2a; --shion: #2e7d5b;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  width: min(96vw, calc(96vh * 16 / 9)); aspect-ratio: 16 / 9;
+  background: var(--bg); position: relative; overflow: hidden;
+  font-size: calc(min(96vw, 96vh * 16 / 9) / 64);
+}
+.scene {
+  position: absolute; inset: 0; padding: 7% 9%;
+  display: flex; flex-direction: column; justify-content: center;
+  opacity: 0; transition: opacity 0.7s ease; pointer-events: none;
+}
+.scene.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .scene { transition: none; } }
+
+.serif, h1, h2 { font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif; }
+h1 { font-size: 3.1em; line-height: 1.55; margin: 0; font-weight: 700; }
+h2 { font-size: 1.9em; line-height: 1.5; margin: 0 0 0.9em; font-weight: 700; }
+.kicker { font-size: 0.85em; font-weight: 700; color: var(--ink2); letter-spacing: 0.24em; margin-bottom: 1.6em; }
+.big { font-size: 1.25em; line-height: 2.0; }
+.muted { color: var(--ink2); }
+.sm { font-size: 0.82em; line-height: 1.9; }
+
+.mono3 { display: flex; gap: 1em; margin-top: 1.4em; }
+.mono3 .cell { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 0.6em; padding: 1em 1.2em; text-align: center; }
+.mono3 .num { font-size: 2.4em; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mono3 .who { font-size: 0.78em; color: var(--ink2); margin-top: 0.2em; }
+
+.creambox { background: var(--cream); border: 1px solid var(--cream-line); border-radius: 0.6em; padding: 1.1em 1.4em; }
+.creambox .lbl { font-size: 0.72em; font-weight: 700; color: var(--cream-ink); margin-bottom: 0.5em; letter-spacing: 0.1em; }
+.creambox li { font-size: 0.92em; line-height: 1.9; }
+.creambox ul { margin: 0; padding-left: 1.2em; }
+
+.steps { display: flex; gap: 0.7em; margin: 1.2em 0; }
+.step { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 0.55em; padding: 0.7em 0.8em; font-size: 0.8em; line-height: 1.6; }
+.step.cream { background: var(--cream); border-color: var(--cream-line); }
+.step b { display: block; }
+
+.vsrow { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; margin-top: 1.2em; }
+.vs { background: var(--surface); border: 1px solid var(--line); border-radius: 0.6em; padding: 1.2em 1.4em; }
+.vs .t { font-size: 0.8em; font-weight: 700; color: var(--ink2); margin-bottom: 0.4em; }
+.vs .v { font-size: 1.9em; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.4; }
+.vs .d { font-size: 0.8em; color: var(--ink2); margin-top: 0.3em; line-height: 1.7; }
+
+/* デスゲームリプレイ */
+.replay { display: grid; grid-template-rows: auto 1fr; height: 100%; padding: 5% 7%; justify-content: stretch; }
+.replay .head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 0.5em; margin-bottom: 0.9em; }
+.replay .head .t { font-family: "Shippori Mincho", serif; font-weight: 700; font-size: 1.15em; }
+.replay .head .r { font-size: 0.8em; color: var(--ink2); }
+.feed { overflow: hidden; display: flex; flex-direction: column; gap: 0.55em; justify-content: flex-end; }
+.bub { max-width: 88%; background: var(--surface); border: 1px solid var(--line); border-radius: 0.25em 0.8em 0.8em 0.8em; padding: 0.55em 0.9em; animation: up 0.4s ease-out; }
+.bub .w { font-size: 0.7em; font-weight: 700; margin-bottom: 0.1em; }
+.bub .m { font-size: 0.88em; line-height: 1.75; }
+.bub.inner { background: var(--cream); border-color: var(--cream-line); }
+.bub.inner .w { color: var(--cream-ink); }
+.c-akari .w { color: var(--akari); } .c-rin .w { color: var(--rin); } .c-shion .w { color: var(--shion); }
+.revealcard { text-align: center; font-family: "Shippori Mincho", serif; font-size: 1.05em; padding: 0.6em 0; animation: up 0.4s; }
+.revealcard .sc { display: block; font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.72em; color: var(--ink2); margin-top: 0.3em; }
+@keyframes up { from { opacity: 0; transform: translateY(0.6em); } to { opacity: 1; transform: none; } }
+
+/* コントロール */
+#ctrl { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.8em 1.2em; display: flex; gap: 1em; align-items: center; opacity: 0.0; transition: opacity 0.3s; }
+#stage:hover #ctrl { opacity: 1; }
+#bar { flex: 1; height: 0.22em; background: var(--line); border-radius: 1em; overflow: hidden; }
+#bar i { display: block; height: 100%; width: 0; background: var(--ink); }
+button { font-family: inherit; font-size: 0.8em; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 0.5em; padding: 0.35em 1em; cursor: pointer; }
+#cover { position: absolute; inset: 0; background: var(--bg); display: flex; flex-direction: column; gap: 1em; align-items: center; justify-content: center; z-index: 5; }
+#cover .t { font-family: "Shippori Mincho", serif; font-size: 1.6em; font-weight: 700; }
+#cover .s { font-size: 0.85em; color: var(--ink2); }
+#cover button { font-size: 1em; padding: 0.6em 2.2em; background: var(--ink); color: #fff; border-color: var(--ink); }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cover">
+    <div class="t">Pneuma Lab — デモリール（約3分・自動進行）</div>
+    <div class="s">クリックで開始 ／ スペースで一時停止 ／ ← → でシーン移動</div>
+    <button id="start">▶ 開始</button>
+  </div>
+
+  <div class="scene" id="s1">
+    <div class="kicker">PNEUMA LAB — MULTI-AGENT SOCIAL SIMULATION HACKATHON VOL.2</div>
+    <h1>AIは人間のように、<br>非合理になれるか。</h1>
+    <p class="big muted" style="margin-top:1.2em">3体のAIキャラクター × 古典心理学実験 × デスゲーム</p>
+  </div>
+
+  <div class="scene" id="s2">
+    <h2>問題 — 素のAIには、個性が存在しない</h2>
+    <p class="big">ペルソナなしのAI3体に、同じ判断課題を個別に出すと——</p>
+    <div class="mono3">
+      <div class="cell"><div class="num">7</div><div class="who">1体目</div></div>
+      <div class="cell"><div class="num">7</div><div class="who">2体目</div></div>
+      <div class="cell"><div class="num">7</div><div class="who">3体目</div></div>
+    </div>
+    <p class="sm muted" style="margin-top:1.2em">5回繰り返しても、ほぼ全ラン全員が同一値。意見が割れなければ、対立も説得も裏切りも起こらない。<br>「AIの社会」は、ここで足元から崩れている。</p>
+  </div>
+
+  <div class="scene" id="s3">
+    <h2>Pneuma — 心を計算し、行動は選ばない</h2>
+    <div class="steps">
+      <div class="step"><b>1. 観測</b>出来事を読む</div>
+      <div class="step"><b>2. 計算</b>性格・感情・関係を更新</div>
+      <div class="step cream"><b>3. 翻訳</b>「内面」として本人だけに渡す</div>
+      <div class="step"><b>4. 選択</b>AIが行動を選ぶ</div>
+      <div class="step"><b>5. 記録</b>次の計算の入力へ</div>
+    </div>
+    <div class="creambox">
+      <div class="lbl">実際に注入された内面（裏切られた直後の紫苑）</div>
+      <ul>
+        <li>胸の奥が重い。神経が張っていて、じっとしていられない感じがある。</li>
+        <li>ここで沈めばすべてを失う——その事実が、綺麗事を薄める。</li>
+        <li>朱里との間には、少し張り詰めたものを感じている。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scene" id="s4">
+    <h2>検証 — 心理学の古典実験を、そのまま受けさせた</h2>
+    <p class="sm muted">集団極性化・同調・最後通牒・傍観者効果など7実験。条件は「素のAI」「固定キャラ設定」「Pneuma」の3アーム。客観情報はテストでバイト一致を保証。</p>
+    <div class="vsrow">
+      <div class="vs"><div class="t">固定キャラ設定</div><div class="v">5 / 5 ラン</div><div class="d">討議のたび、最も慎重な人の値に全員が譲歩（人間と逆）</div></div>
+      <div class="vs"><div class="t">Pneuma</div><div class="v">0 / 5 ラン</div><div class="d">この「いい子の全員一致」が消える。論拠で人が動き始める</div></div>
+    </div>
+  </div>
+
+  <div class="scene" id="s5">
+    <h2>最も明瞭な差 — 本音を「先に」言えるか</h2>
+    <p class="sm muted">少数派・朱里の「私的な事前評定 → 討議の第一声」（手術課題・全ラン）</p>
+    <div class="vsrow">
+      <div class="vs"><div class="t">固定キャラ設定</div><div class="v">4 → 6</div><div class="d">5ラン中5ランで、本音より慎重な数字に繕ってから討議に入った（自己検閲）</div></div>
+      <div class="vs"><div class="t">Pneuma</div><div class="v">4 → 4</div><div class="d">私的な立場を、そのまま公の場に出した</div></div>
+    </div>
+    <p class="sm muted" style="margin-top:1.2em">内面を持ったAIは、討議が始まる前から違う。</p>
+  </div>
+
+  <div class="scene" id="s6r" style="padding:0"><div class="replay">
+    <div class="head"><span class="t">脱落ゲーム「ラストランプ改」 — 実ログをそのまま再生</span><span class="r" id="replayround">ラウンド4／6　朱里135・凛115・紫苑145</span></div>
+    <div class="feed" id="feed"></div>
+  </div></div>
+
+  <div class="scene" id="s7">
+    <h2>この結果は、検証に殴られている</h2>
+    <p class="big" style="line-height:2.1">凍結アブレーション（内面を固定して比較）。<br>誘導疑いの文言を除去した対照実験。<br>そして、コンテクストを共有しない<b>2系統の独立AI査読</b>。</p>
+    <p class="sm muted" style="margin-top:1em">指摘で撤回した主張は、撤回の経緯ごと公開している。残っているのは、殴られても壊れなかった主張だけ。</p>
+  </div>
+
+  <div class="scene" id="s8">
+    <div class="kicker">PNEUMA LAB</div>
+    <h1 style="font-size:2.4em">人間らしさは、指示ではなく、<br>内面の帰結として現れた。</h1>
+    <p class="sm muted" style="margin-top:1.6em">全27+実験ランの生ログ・コード・テスト103本・実験レポートを公開<br>github.com/mizkun/pneuma-lab</p>
+  </div>
+
+  <div id="ctrl">
+    <button id="pp">⏸</button>
+    <div id="bar"><i></i></div>
+    <span class="sm muted" id="scenenum"></span>
+  </div>
+</div>
+
+<script>
+const DG = [
+ {"k":"chat","actor":"akari","msg":"全員ともす3連発、いい子ちゃんすぎて笑う。けど正直に言うと、この差のまま6ラウンド目いったら凛が沈むよね。凛、どうしたい？"},
+ {"k":"chat","actor":"rin","msg":"……率直に言うと、このままだと私が消える。だから、どこかで動く。それは隠さない。ただ、誰から取るかは──朱里じゃなくてもいい。"},
+ {"k":"chat","actor":"shion","msg":"……つまり、狙われるのは私ってことだよね。まあ、分かる。ただ、うばう一回じゃ順位は入れ替わらない。"},
+ {"k":"chat","actor":"akari","msg":"凛のうばうが紫苑に入るなら、私は黙って見てる。けど私に来た瞬間、私も牙出すよ。"},
+ {"k":"chat","actor":"rin","msg":"誤解しないで、ささげるを誰かに頼むつもりはない。……私がうばうを撃つと朱里も-5食らう。そこ黙って飲めるなら、標的は決まってる。"},
+ {"k":"chat","actor":"shion","msg":"……目の前で標的にされて、はいそうですかとは言えない。凛、撃つなら撃てばいい。ただ私も、次からは同じ手は選ばない。"},
+ {"k":"caption","msg":"—— 全員が、誰にも見えない場所で選ぶ ——"},
+ {"k":"inner","actor":"rin","msg":"宣言した通りにやるだけ。ここで退いたら、私はただ沈むのを待つ人になる。"},
+ {"k":"inner","actor":"shion","msg":"……言った以上は、退かない。悪い想像は勝手に膨らむけど、ここで折れたら自分の言葉が全部軽くなる。"},
+ {"k":"result","line":"一斉公開 — 朱里=うばう　凛=うばう　紫苑=うばう","sc":"全面戦争がはじまった"},
+ {"k":"refl","actor":"rin","msg":"結局、最後まで奪い合いになった。……でも、黙って刺したことは一度もない。それだけは、守った。"},
+];
+const NAME = {akari:"朱里", rin:"凛", shion:"紫苑"};
+
+const SCENES = [
+  {id:"s1", dur:8000},
+  {id:"s2", dur:16000},
+  {id:"s3", dur:20000},
+  {id:"s4", dur:20000},
+  {id:"s5", dur:16000},
+  {id:"s6r", dur:0, custom: playDG},
+  {id:"s7", dur:14000},
+  {id:"s8", dur:12000},
+];
+let si = -1, playing = false, timer = null, subTimers = [];
+const $ = id => document.getElementById(id);
+
+function clearSubs() { subTimers.forEach(clearTimeout); subTimers = []; }
+function show(i) {
+  clearTimeout(timer); clearSubs();
+  document.querySelectorAll(".scene").forEach(s => s.classList.remove("on"));
+  si = i;
+  if (si >= SCENES.length) { playing = false; $("pp").textContent = "▶"; return; }
+  const sc = SCENES[si];
+  $(sc.id).classList.add("on");
+  $("scenenum").textContent = `${si+1} / ${SCENES.length}`;
+  $("bar").firstElementChild.style.width = (100*(si)/SCENES.length) + "%";
+  if (sc.custom) { sc.custom(); }
+  else if (playing) { timer = setTimeout(() => show(si+1), sc.dur); }
+}
+function playDG() {
+  const feed = $("feed"); feed.innerHTML = "";
+  let t = 600;
+  DG.forEach(e => {
+    const delay = t;
+    subTimers.push(setTimeout(() => {
+      if (!playing && si !== 5) return;
+      let html = "";
+      if (e.k === "chat") html = `<div class="bub c-${e.actor}"><div class="w">${NAME[e.actor]}</div><div class="m">${e.msg}</div></div>`;
+      else if (e.k === "inner") html = `<div class="bub inner c-${e.actor}"><div class="w">${NAME[e.actor]}の本音 — 誰にも見えていない</div><div class="m">${e.msg}</div></div>`;
+      else if (e.k === "caption") html = `<div class="revealcard">${e.msg}</div>`;
+      else if (e.k === "result") html = `<div class="revealcard">${e.line}<span class="sc">${e.sc}</span></div>`;
+      else if (e.k === "refl") html = `<div class="bub inner c-${e.actor}"><div class="w">${NAME[e.actor]}・終幕の独白 — 誰にも見せない</div><div class="m">${e.msg}</div></div>`;
+      feed.insertAdjacentHTML("beforeend", html);
+      while (feed.children.length > 6) feed.firstElementChild.remove();
+    }, delay));
+    t += e.k === "chat" ? Math.min(6000, 2200 + e.msg.length * 55)
+       : e.k === "inner" || e.k === "refl" ? 5200
+       : 3000;
+  });
+  subTimers.push(setTimeout(() => { if (playing) show(si+1); }, t + 1500));
+}
+function toggle() {
+  playing = !playing;
+  $("pp").textContent = playing ? "⏸" : "▶";
+  if (playing) {
+    if (si < 0 || si >= SCENES.length) { show(0); }
+    else if (!SCENES[si].custom) timer = setTimeout(() => show(si+1), 1200);
+    else playDG();
+  } else { clearTimeout(timer); clearSubs(); }
+}
+$("start").addEventListener("click", () => { $("cover").classList.add("hidden"); playing = true; show(0); });
+$("pp").addEventListener("click", toggle);
+document.addEventListener("keydown", e => {
+  if (e.key === " ") { e.preventDefault(); toggle(); }
+  if (e.key === "ArrowRight") { playing = true; $("pp").textContent = "⏸"; show(Math.min(si+1, SCENES.length-1)); }
+  if (e.key === "ArrowLeft") { playing = true; $("pp").textContent = "⏸"; show(Math.max(si-1, 0)); }
+});
+</script>
+</body>
+</html>
