@@ -104,8 +104,10 @@ def ask(
     try:
         parsed, raw = attempt(objective)
     except InvalidActionError as e:
-        log.write({"type": "retry", "actor": char.character_id, "error": str(e), **{k: v for k, v in meta.items() if k != "type"}})
-        parsed, raw = attempt(objective + "\n\n必ず指定されたJSONのみで答えること。")
+        retry_user = objective + "\n\n必ず指定されたJSONのみで答えること。"
+        log.write({"type": "retry", "actor": char.character_id, "error": str(e),
+                   "retry_user_prompt": retry_user, **{k: v for k, v in meta.items() if k != "type"}})
+        parsed, raw = attempt(retry_user)
     log.write({
         **meta, "actor": char.character_id, "arm": arm,
         "parsed": parsed, "state": state.snapshot(),

@@ -21,6 +21,22 @@ from pneuma_lab.experiment import run_condition  # noqa: E402
 from pneuma_lab.provider import ClaudeCodeProvider  # noqa: E402
 
 
+
+
+def write_manifest(out_dir, model, extra=None):
+    import subprocess
+    try:
+        cli = subprocess.run(["claude", "--version"], capture_output=True, text=True, timeout=15).stdout.strip()
+    except Exception:
+        cli = "unknown"
+    try:
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
+    except Exception:
+        commit = "unknown"
+    manifest = {"model_alias": model, "claude_cli_version": cli, "git_commit": commit,
+                "started_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"), **(extra or {})}
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2))
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--item", default="career")
@@ -39,6 +55,7 @@ def main() -> None:
     out_dir = ROOT / "output" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"run_id={run_id} item={args.item} arms={args.arms} model={args.model}", flush=True)
+    write_manifest(out_dir, args.model, {"item": args.item, "arms": args.arms, "max_turns": args.max_turns})
 
     shifts = []
     for arm in args.arms:

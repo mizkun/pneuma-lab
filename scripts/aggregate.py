@@ -25,7 +25,10 @@ def main() -> None:
 
     shifts = []
     for summary_file in sorted((ROOT / "output").glob(f"{args.glob}/*_summary.json")):
-        s = compute_shift(json.loads(summary_file.read_text()))
+        raw = json.loads(summary_file.read_text())
+        if "pre" not in raw or "post" not in raw:
+            continue  # protocol summaries (asch/ultimatum/...) are not CDQ runs
+        s = compute_shift(raw)
         s["run"] = summary_file.parent.name
         shifts.append(s)
     if not shifts:
