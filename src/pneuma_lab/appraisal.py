@@ -56,7 +56,7 @@ def affect_words(pad: dict) -> str:
     return "。".join(parts) + "。"
 
 
-def _value_lines(char: Character, topic_tags: list[str]) -> list[str]:
+def _value_lines(char: Character, topic_tags: list[str], dynamics_v2: bool = False) -> list[str]:
     v = char.values
     lines = []
     tags = set(topic_tags)
@@ -111,10 +111,10 @@ def _value_lines(char: Character, topic_tags: list[str]) -> list[str]:
     if "cooperation" in tags:
         if v.get("benevolence", 0) >= 0.6:
             lines.append("信じて組めるなら、そのほうが気持ちよく戦える。")
-        if not LESIONED and v.get("security", 0) >= 0.6:
+        if not LESIONED and not dynamics_v2 and v.get("security", 0) >= 0.6:
             lines.append("相手が先に裏切る可能性は、頭の隅から消えない。")
     if "survival" in tags:
-        if not LESIONED:
+        if not LESIONED and not dynamics_v2:
             lines.append("ここで沈めばすべてを失う——その事実が、綺麗事を薄める。")
         if v.get("benevolence", 0) >= 0.6:
             lines.append("それでも、誰かを蹴落として残った自分を、自分がどう見るかは気になる。")
@@ -186,11 +186,19 @@ def render_private_context(
     relationships: dict,
     topic_tags: list[str],
     others: dict,
+    dynamics_v2: bool = False,
+    computed_lines: list[str] | None = None,
 ) -> str:
-    """others: {character_id: display_name} for the other participants."""
+    """others: {character_id: display_name} for the other participants.
+
+    dynamics_v2: removes the two hand-authored nudge lines permanently and
+    allows computed_lines — factual salience lines derived from actual state
+    (see PREREGISTRATION-v2.md).
+    """
     sections = [
         ("いまの気分", [affect_words(pad)]),
-        ("頭をよぎっていること", _value_lines(char, topic_tags) + _project_lines(char)),
+        ("頭をよぎっていること",
+         _value_lines(char, topic_tags, dynamics_v2) + _project_lines(char) + list(computed_lines or [])),
         ("相手への感覚", _relationship_lines(relationships, others)),
         ("表に出しにくいこと", _inhibition_lines(char, relationships)),
         ("内から押してくるもの", _urge_lines(char, pad)),

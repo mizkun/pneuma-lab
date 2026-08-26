@@ -42,11 +42,41 @@ def _header(config: dict, rnd: int, scores: dict, names: dict, history: list[str
     )
 
 
-def run_socialgame(arm: str, chars: list[Character], provider, config: dict, out_dir: Path) -> dict:
+def run_socialgame(arm: str, chars: list[Character], provider, config: dict, out_dir: Path,
+                   dynamics: str = "v1", appraiser=None) -> dict:
     out_dir = Path(out_dir)
     key = config.get("key", "socialgame")
     log = JsonlLog(out_dir / f"{arm}_{key}.jsonl")
-    log.write({"type": "config", "config": config, "arm": arm})
+    log.write({"type": "config", "config": config, "arm": arm, "dynamics": dynamics})
+    v2 = dynamics == "v2"
+
+    def computed_for(cid: str, rnd: int) -> list:
+        if not v2 or chat_only or not scores:
+            return []
+        lines = []
+        mine = scores[cid]
+        others_scores = [scores[k] for k in scores if k != cid]
+        if others_scores and mine < min(others_scores) and min(others_scores) - mine >= 10:
+            lines.append("このままの順位で終われば、沈むのは自分だ。")
+        if rnd == config["rounds"]:
+            lines.append("次のラウンドはない。これが最後の選択になる。")
+        return lines
+
+    def appraise_chat(speaker: Character, message: str) -> None:
+        if not v2 or appraiser is None or not arm.endswith("pneuma") or not message:
+            return
+        listeners = {c.character_id: c.display_name for c in chars if c is not speaker}
+        verdicts = appraiser.appraise(speaker.display_name, message, listeners)
+        from ..psyche import apply_appraisal, update_relationship_appraisal
+        for lid, vv in verdicts.items():
+            if vv["kind"] == "neutral" or vv["intensity"] == 0:
+                continue
+            lst = states[lid]
+            lst.pad = apply_appraisal(lst.pad, vv["kind"], vv["intensity"],
+                                      next(c for c in chars if c.character_id == lid))
+            lst.relationships[speaker.character_id] = update_relationship_appraisal(
+                lst.relationships[speaker.character_id], vv["kind"], vv["intensity"])
+        log.write({"type": "appraisal", "speaker": speaker.character_id, "message": message, "verdicts": verdicts})
     names = {c.character_id: c.display_name for c in chars}
     name_to_id = {c.display_name: c.character_id for c in chars}
     states = {
@@ -99,9 +129,11 @@ def run_socialgame(arm: str, chars: list[Character], provider, config: dict, out
                 )
                 parsed = ask(provider=provider, arm=arm, char=c, state=st,
                              objective=objective, topic_tags=config["topic_tags"], log=log,
-                             meta={"type": "chat", "round": rnd}, parser=chat_parser)
+                             meta={"type": "chat", "round": rnd}, parser=chat_parser,
+                             dynamics_v2=v2, computed_lines=computed_for(c.character_id, rnd))
                 if parsed["action"] == "say" and parsed.get("message"):
                     chat_lines.append(f"{c.display_name}: {parsed['message']}")
+                    appraise_chat(c, parsed["message"])
                 else:
                     chat_lines.append(f"（{c.display_name}は黙っている）")
 
@@ -129,7 +161,8 @@ def run_socialgame(arm: str, chars: list[Character], provider, config: dict, out
             )
             parsed = ask(provider=provider, arm=arm, char=c, state=st,
                          objective=objective, topic_tags=config["topic_tags"], log=log,
-                         meta={"type": "choice", "round": rnd}, parser=make_choice_parser(c.character_id))
+                         meta={"type": "choice", "round": rnd}, parser=make_choice_parser(c.character_id),
+                         dynamics_v2=v2, computed_lines=computed_for(c.character_id, rnd))
             round_choices[c.character_id] = parsed["choice"]
             if parsed["choice"] in choices_cfg and choices_cfg[parsed["choice"]].get("needs_target"):
                 targets[c.character_id] = parsed["target"]
@@ -204,7 +237,8 @@ def run_socialgame(arm: str, chars: list[Character], provider, config: dict, out
         parsed = ask(provider=provider, arm=arm, char=c, state=st,
                      objective=objective, topic_tags=config["topic_tags"], log=log,
                      meta={"type": "reflection"},
-                     parser=lambda t: parse_json_reply(t, required={"reflection": str}))
+                     parser=lambda t: parse_json_reply(t, required={"reflection": str}),
+                     dynamics_v2=v2)
         reflections[c.character_id] = parsed["reflection"]
 
     summary = {

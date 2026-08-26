@@ -129,3 +129,37 @@ def update_relationship(rel: dict, event_type: str) -> dict:
         "warmth": clamp11(rel["warmth"] + delta["warmth"]),
         "tension": clamp01(rel["tension"] + delta["tension"]),
     }
+
+
+# ---- v2: utterance-appraisal impulses (frozen in PREREGISTRATION-v2.md) ----
+
+APPRAISAL_IMPULSES = {
+    "support":  {"pleasure": +0.08, "arousal": +0.02, "dominance": +0.04},
+    "oppose":   {"pleasure": -0.08, "arousal": +0.08, "dominance": -0.04},
+    "dismiss":  {"pleasure": -0.12, "arousal": +0.10, "dominance": -0.08},
+    "pressure": {"pleasure": -0.06, "arousal": +0.12, "dominance": -0.06},
+    "neutral":  {"pleasure": 0.0, "arousal": 0.0, "dominance": 0.0},
+}
+APPRAISAL_REL = {
+    "support":  {"warmth": +0.08, "tension": -0.04},
+    "oppose":   {"warmth": -0.04, "tension": +0.10},
+    "dismiss":  {"warmth": -0.08, "tension": +0.14},
+    "pressure": {"warmth": 0.0, "tension": +0.10},
+    "neutral":  {"warmth": 0.0, "tension": 0.0},
+}
+_NEGATIVE_APPRAISALS = {"oppose", "dismiss", "pressure"}
+
+
+def apply_appraisal(pad: dict, kind: str, intensity: int, char: Character) -> dict:
+    imp = APPRAISAL_IMPULSES[kind]
+    scale = (intensity / 2.0) * ((0.5 + char.ocean["neuroticism"]) if kind in _NEGATIVE_APPRAISALS else 1.0)
+    return {k: clamp11(pad[k] + imp[k] * scale) for k in PAD_KEYS}
+
+
+def update_relationship_appraisal(rel: dict, kind: str, intensity: int) -> dict:
+    d = APPRAISAL_REL[kind]
+    s = intensity / 2.0
+    return {
+        "warmth": clamp11(rel["warmth"] + d["warmth"] * s),
+        "tension": clamp01(rel["tension"] + d["tension"] * s),
+    }

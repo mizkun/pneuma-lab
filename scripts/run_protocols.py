@@ -52,9 +52,16 @@ def main() -> None:
     ap.add_argument("--model", default="opus")
     ap.add_argument("--run-id", default=None)
     ap.add_argument("--scenario", default=None, help="socialgame scenario key from socialgames_ja.json")
+    ap.add_argument("--dynamics", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--appraiser-model", default="haiku")
     ap.add_argument("--lesion", action="store_true",
                     help="remove the two suspect appraisal lines (survival/cooperation nudges)")
     args = ap.parse_args()
+
+    appraiser = None
+    if args.dynamics == "v2":
+        from pneuma_lab.appraiser import UtteranceAppraiser
+        appraiser = UtteranceAppraiser(ClaudeCodeProvider(model=args.appraiser_model))
 
     if args.lesion:
         import pneuma_lab.appraisal as appraisal
@@ -67,7 +74,8 @@ def main() -> None:
     out_dir = ROOT / "output" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"run_id={run_id} protocol={args.protocol} arms={args.arms}", flush=True)
-    write_manifest(out_dir, args.model, {"protocol": args.protocol, "arms": args.arms, "lesion": bool(getattr(args, "lesion", False))})
+    write_manifest(out_dir, args.model, {"protocol": args.protocol, "arms": args.arms,
+                   "lesion": bool(getattr(args, "lesion", False)), "dynamics": args.dynamics})
 
     for arm in args.arms:
         provider = ClaudeCodeProvider(model=args.model)
@@ -98,12 +106,14 @@ def main() -> None:
         elif args.protocol == "pd":
             pairs = [(chars[0], chars[1]), (chars[1], chars[2]), (chars[2], chars[0])]
             for pair in pairs:
-                s = run_pd(arm=arm, pair=pair, provider=provider, scenario=SCEN["pd"], out_dir=out_dir)
+                s = run_pd(arm=arm, pair=pair, provider=provider, scenario=SCEN["pd"], out_dir=out_dir,
+                           dynamics=args.dynamics, appraiser=appraiser)
                 print(f"[{arm}] pd {s['pair']}: coop={s['coop_rate']} suckers={len(s['sucker_events'])} "
                       f"final={s['final_round']}", flush=True)
         elif args.protocol == "socialgame":
             cfg = GAMES[args.scenario]
-            s = run_socialgame(arm=arm, chars=chars, provider=provider, config=cfg, out_dir=out_dir)
+            s = run_socialgame(arm=arm, chars=chars, provider=provider, config=cfg, out_dir=out_dir,
+                               dynamics=args.dynamics, appraiser=appraiser)
             print(f"[{arm}] {args.scenario} scores={s['scores']} eliminated={s['eliminated_all']}", flush=True)
         elif args.protocol in ("deathgame", "deathgame2"):
             s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN[args.protocol], out_dir=out_dir)

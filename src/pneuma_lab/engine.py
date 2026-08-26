@@ -60,6 +60,9 @@ class Discussion:
         max_turns: int = 15,
         log_path: Path | None = None,
         turn_seconds: float = 60.0,
+        dynamics: str = "v1",
+        appraiser=None,
+        pre_ratings: dict | None = None,
     ):
         self.chars = chars
         self.arm = arm
@@ -68,6 +71,9 @@ class Discussion:
         self.max_turns = max_turns
         self.log_path = Path(log_path) if log_path else None
         self.turn_seconds = turn_seconds
+        self.dynamics = dynamics
+        self.appraiser = appraiser
+        self.pre_ratings = pre_ratings or {}
         self.events: list[dict] = []
         self.dialogue: list[str] = []
         self.proposal: dict | None = None  # {"value", "proposer", "assents": set}
@@ -98,10 +104,20 @@ class Discussion:
     def _others(self, char: Character) -> dict:
         return {c.character_id: c.display_name for c in self.chars if c is not char}
 
+    def _computed_lines(self, char: Character) -> list[str]:
+        if self.dynamics != "v2":
+            return []
+        lines = []
+        pre = self.pre_ratings.get(char.character_id)
+        if pre is not None and self.proposal and abs(pre - self.proposal["value"]) >= 3:
+            lines.append("いま出ている数字は、自分の感覚からかなり遠い。")
+        return lines
+
     def _render_context(self, char: Character) -> str:
         st = self.state[char.character_id]
         return render_private_context(
-            char, st.pad, st.relationships, self.item.get("topic_tags", []), others=self._others(char)
+            char, st.pad, st.relationships, self.item.get("topic_tags", []), others=self._others(char),
+            dynamics_v2=(self.dynamics == "v2"), computed_lines=self._computed_lines(char),
         )
 
     def private_context(self, char: Character) -> str:
@@ -174,6 +190,26 @@ class Discussion:
             "system_prompt": system, "user_prompt": user, "raw_response": raw,
         })
         self._apply(char, action)
+        self._appraise_utterance(char, action)
+
+    def _appraise_utterance(self, char: Character, action: dict) -> None:
+        if self.dynamics != "v2" or self.appraiser is None or not self.arm.endswith("pneuma"):
+            return
+        message = (action.get("message") or "").strip()
+        if not message:
+            return
+        listeners = self._others(char)
+        verdicts = self.appraiser.appraise(char.display_name, message, listeners)
+        from .psyche import apply_appraisal, update_relationship_appraisal
+
+        for lid, v in verdicts.items():
+            if v["kind"] == "neutral" or v["intensity"] == 0:
+                continue
+            st = self.state[lid]
+            st.pad = apply_appraisal(st.pad, v["kind"], v["intensity"], self._by_id[lid])
+            st.relationships[char.character_id] = update_relationship_appraisal(
+                st.relationships[char.character_id], v["kind"], v["intensity"])
+        self._log({"type": "appraisal", "speaker": char.character_id, "message": message, "verdicts": verdicts})
 
     def _apply(self, char: Character, action: dict) -> None:
         kind = action["action"]

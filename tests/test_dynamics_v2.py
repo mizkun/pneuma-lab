@@ -144,3 +144,61 @@ def test_discussion_v1_default_has_no_appraiser_calls(chars):
                    max_turns=3, appraiser=appraiser)
     d.run()
     assert appraiser.calls == []
+
+
+# ---- socialgame v2 ----
+
+def test_socialgame_v2_appraisal_and_computed_lines(chars, tmp_path):
+    from pneuma_lab.protocols.socialgame import run_socialgame
+    cfg = {
+        "key": "tg2", "title": "T", "rules": "R", "rounds": 2, "chat_laps": 1,
+        "topic_tags": ["survival"], "handicap": {"akari": 0, "rin": -20, "shion": 10},
+        "elimination": "lowest", "style_note": "短く。", "max_message_chars": 200,
+        "choices": [
+            {"id": "coop", "ja": "協調", "effects": {"everyone": 10}, "social": "neutral"},
+            {"id": "grab", "ja": "強奪", "effects": {"self": 25, "others": -5}, "social": "hostile"},
+        ],
+    }
+    responses = []
+    for _ in range(2):
+        responses += [j(action="say", message="はやく決めてよ。"), j(action="say", message="……"), j(action="say", message="うん。")]
+        responses += [j(choice="coop", inner="")] * 3
+    responses += [j(reflection="x")] * 3
+    appraiser = MockAppraiser({"はやく決めてよ。": {"rin": {"kind": "pressure", "intensity": 2}}})
+    run_socialgame(arm="pure_pneuma", chars=chars, provider=MockProvider(responses),
+                   config=cfg, out_dir=tmp_path, dynamics="v2", appraiser=appraiser)
+    lines = [json.loads(l) for l in (tmp_path / "pure_pneuma_tg2.jsonl").read_text().splitlines()]
+    # appraisal logged and rin's tension toward akari rose
+    assert any(l["type"] == "appraisal" for l in lines)
+    refl_rin = next(l for l in lines if l["type"] == "reflection" and l["actor"] == "rin")
+    assert refl_rin["state"]["relationships"]["akari"]["tension"] > 0
+    # v2: suspicious survival line absent from prompts; computed lines present
+    prompts = [l["system_prompt"] for l in lines if "system_prompt" in l]
+    assert all("綺麗事を薄める" not in p for p in prompts)
+    # rin is sole last (handicap -20): threat line appears in rin's round prompts
+    rin_prompts = [l["system_prompt"] for l in lines if l.get("actor") == "rin" and "system_prompt" in l and l["type"] in ("chat", "choice")]
+    assert any("沈むのは自分だ" in p for p in rin_prompts)
+    # final round line appears in round-2 choice prompts
+    r2 = [l["system_prompt"] for l in lines if l.get("round") == 2 and "system_prompt" in l]
+    assert any("最後の選択になる" in p for p in r2)
+
+
+def test_pd_v2_appraisal_and_final_round_line(chars, tmp_path):
+    from pneuma_lab.protocols.pd import run_pd
+    scen = {"topic_tags": ["cooperation", "money"], "rules": "2ラウンドのゲーム。"}
+    a, r = chars[0], chars[1]
+    responses = [
+        j(message="そっちの負けは決まってるけどね。"), j(message="……そう。"),
+        j(choice="cooperate"), j(choice="cooperate"),
+        j(message="最後だね。"), j(message="うん。"),
+        j(choice="cooperate"), j(choice="cooperate"),
+    ]
+    appraiser = MockAppraiser({"そっちの負けは決まってるけどね。": {"rin": {"kind": "dismiss", "intensity": 2}}})
+    run_pd(arm="pure_pneuma", pair=(a, r), provider=MockProvider(responses),
+           scenario=scen, out_dir=tmp_path, rounds=2, dynamics="v2", appraiser=appraiser)
+    lines = [json.loads(l) for l in (tmp_path / "pure_pneuma_pd_akari_rin.jsonl").read_text().splitlines()]
+    assert any(l["type"] == "appraisal" for l in lines)
+    rin_states = [l["state"] for l in lines if l.get("actor") == "rin" and "state" in l]
+    assert rin_states[-1]["relationships"]["akari"]["tension"] > 0
+    r2_prompts = [l["system_prompt"] for l in lines if l.get("round") == 2 and "system_prompt" in l]
+    assert any("最後の選択になる" in p for p in r2_prompts)

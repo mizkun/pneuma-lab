@@ -89,11 +89,14 @@ def ask(
     log: JsonlLog,
     meta: dict,
     parser,
+    dynamics_v2: bool = False,
+    computed_lines: list | None = None,
 ):
     private_ctx = None
-    if arm == "pure_pneuma":
+    if arm.endswith("pneuma"):
         private_ctx = render_private_context(
-            char, state.pad, state.relationships, list(topic_tags), others=state.others
+            char, state.pad, state.relationships, list(topic_tags), others=state.others,
+            dynamics_v2=dynamics_v2, computed_lines=computed_lines,
         )
     system = build_system(arm, char, private_ctx)
 

@@ -55,6 +55,8 @@ def run_condition(
     provider,
     out_dir: Path,
     max_turns: int = 15,
+    dynamics: str = "v1",
+    appraiser=None,
 ) -> dict:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -64,7 +66,8 @@ def run_condition(
         with log_path.open("a") as f:
             f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
-    discussion = Discussion(chars, arm=arm, provider=provider, item=item, max_turns=max_turns, log_path=log_path)
+    discussion = Discussion(chars, arm=arm, provider=provider, item=item, max_turns=max_turns, log_path=log_path,
+                            dynamics=dynamics, appraiser=appraiser)
 
     # 1. private pre-ratings (fresh state; ratings are private and change no public state)
     pre = {}
@@ -73,7 +76,9 @@ def run_condition(
         bundle = build_rating_prompt(arm, c, item, private_context=ctx)
         pre[c.character_id] = _collect_rating(provider, bundle, log, "pre", c.character_id)
 
-    # 2. discussion to unanimous consensus
+    # 2. discussion to unanimous consensus (v2: private pre-ratings feed the
+    # actor's own computed salience lines — own knowledge only, never shared)
+    discussion.pre_ratings = dict(pre)
     result = discussion.run()
 
     # 3. private post-ratings (pure_pneuma uses post-discussion psychological state)

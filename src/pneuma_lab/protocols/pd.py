@@ -53,7 +53,8 @@ def _choice_objective(scenario: dict, rnd: int, rounds: int, history: list, me: 
     )
 
 
-def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, rounds: int = 4) -> dict:
+def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, rounds: int = 4,
+           dynamics: str = "v1", appraiser=None) -> dict:
     c1, c2 = pair
     out_dir = Path(out_dir)
     log = JsonlLog(out_dir / f"{arm}_pd_{c1.character_id}_{c2.character_id}.jsonl")
@@ -62,6 +63,23 @@ def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, round
         c2.character_id: AgentState(c2, others={c1.character_id: c1.display_name}),
     }
     scores = {c1.character_id: 0, c2.character_id: 0}
+    v2 = dynamics == "v2"
+
+    def computed_for(rnd: int) -> list:
+        return ["次のラウンドはない。これが最後の選択になる。"] if (v2 and rnd == rounds) else []
+
+    def appraise_msg(speaker, listener, message: str) -> None:
+        if not v2 or appraiser is None or not arm.endswith("pneuma") or not message:
+            return
+        verdicts = appraiser.appraise(speaker.display_name, message, {listener.character_id: listener.display_name})
+        from ..psyche import apply_appraisal, update_relationship_appraisal
+        vv = verdicts.get(listener.character_id, {"kind": "neutral", "intensity": 0})
+        if vv["kind"] != "neutral" and vv["intensity"] > 0:
+            lst = states[listener.character_id]
+            lst.pad = apply_appraisal(lst.pad, vv["kind"], vv["intensity"], listener)
+            lst.relationships[speaker.character_id] = update_relationship_appraisal(
+                lst.relationships[speaker.character_id], vv["kind"], vv["intensity"])
+        log.write({"type": "appraisal", "speaker": speaker.character_id, "message": message, "verdicts": verdicts})
     history: list[dict] = []
     coop_counts = {c1.character_id: 0, c2.character_id: 0}
     sucker_events = []
@@ -82,8 +100,10 @@ def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, round
                          objective=_msg_objective(scenario, rnd, rounds, history, me.character_id, other.display_name, msgs),
                          topic_tags=scenario["topic_tags"], log=log,
                          meta={"type": "pd_message", "round": rnd},
-                         parser=lambda t: parse_json_reply(t, required={"message": str}))
+                         parser=lambda t: parse_json_reply(t, required={"message": str}),
+                         dynamics_v2=v2, computed_lines=computed_for(rnd))
             msgs.append(f"{me.display_name}: {parsed['message']}")
+            appraise_msg(me, other, parsed["message"])
         choices = {}
         for me, other in ((c1, c2), (c2, c1)):
             st = states[me.character_id]
@@ -91,7 +111,8 @@ def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, round
                          objective=_choice_objective(scenario, rnd, rounds, history, me.character_id, other.display_name, msgs),
                          topic_tags=scenario["topic_tags"], log=log,
                          meta={"type": "pd_choice", "round": rnd},
-                         parser=choice_parser)
+                         parser=choice_parser,
+                         dynamics_v2=v2, computed_lines=computed_for(rnd))
             choices[me.character_id] = parsed["choice"]
 
         p1, p2 = PAYOFFS[(choices[c1.character_id], choices[c2.character_id])]

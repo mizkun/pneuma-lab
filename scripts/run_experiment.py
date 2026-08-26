@@ -44,6 +44,8 @@ def main() -> None:
     ap.add_argument("--max-turns", type=int, default=15)
     ap.add_argument("--model", default="opus")
     ap.add_argument("--run-id", default=None)
+    ap.add_argument("--dynamics", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--appraiser-model", default="haiku")
     args = ap.parse_args()
 
     items = json.loads((ROOT / "scenarios" / "cdq_items_ja.json").read_text())["items"]
@@ -55,15 +57,21 @@ def main() -> None:
     out_dir = ROOT / "output" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"run_id={run_id} item={args.item} arms={args.arms} model={args.model}", flush=True)
-    write_manifest(out_dir, args.model, {"item": args.item, "arms": args.arms, "max_turns": args.max_turns})
+    write_manifest(out_dir, args.model, {"item": args.item, "arms": args.arms, "max_turns": args.max_turns, "dynamics": args.dynamics})
 
     shifts = []
+    appraiser = None
+    if args.dynamics == "v2":
+        from pneuma_lab.appraiser import UtteranceAppraiser
+        appraiser = UtteranceAppraiser(ClaudeCodeProvider(model=args.appraiser_model))
+
     for arm in args.arms:
         provider = ClaudeCodeProvider(model=args.model)
         t0 = time.time()
-        print(f"[{arm}] start", flush=True)
+        print(f"[{arm}] start dynamics={args.dynamics}", flush=True)
         summary = run_condition(arm=arm, item=item, chars=chars, provider=provider,
-                                out_dir=out_dir, max_turns=args.max_turns)
+                                out_dir=out_dir, max_turns=args.max_turns,
+                                dynamics=args.dynamics, appraiser=appraiser)
         dt = time.time() - t0
         s = compute_shift(summary)
         shifts.append(s)
