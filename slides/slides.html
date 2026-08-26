@@ -157,24 +157,24 @@ svg .axis { stroke: #c9c8c3; }
 <!-- 5. 結果1: 個性 -->
 <section class="slide">
   <h2>結果① 個性はコンテキストの産物だった</h2>
-  <p>手術ジレンマ・事前評定の3人のばらつき（母標準偏差、3レプリケーション平均）</p>
+  <p>手術ジレンマ・事前評定の3人のばらつき（母標準偏差、5レプリケーション平均）</p>
   <svg viewBox="0 0 900 260" role="img" aria-label="事前評定SD比較">
     <line x1="180" y1="30" x2="180" y2="210" class="axis"/>
     <g>
       <text x="164" y="66" text-anchor="end" font-size="18">raw</text>
-      <rect x="182" y="48" width="4" height="26" rx="2" fill="#52514e"/>
-      <text x="196" y="66" font-size="18" font-weight="700">0.00</text>
-      <text x="270" y="66" font-size="16" fill="#52514e">— 全員が同一値（クローン集団）</text>
+      <rect x="182" y="48" width="33" height="26" rx="2" fill="#52514e"/>
+      <text x="225" y="66" font-size="18" font-weight="700">0.09</text>
+      <text x="290" y="66" font-size="16" fill="#52514e">— 5ラン中4ランで全員が同一値（クローン集団）</text>
     </g>
     <g>
       <text x="164" y="136" text-anchor="end" font-size="18">identity_only</text>
-      <rect x="182" y="118" width="490" height="26" rx="4" fill="#eb6834"/>
-      <text x="682" y="136" font-size="18" font-weight="700">1.36</text>
+      <rect x="182" y="118" width="443" height="26" rx="4" fill="#eb6834"/>
+      <text x="635" y="136" font-size="18" font-weight="700">1.23</text>
     </g>
     <g>
       <text x="164" y="206" text-anchor="end" font-size="18">pure_pneuma</text>
-      <rect x="182" y="188" width="468" height="26" rx="4" fill="#2a78d6"/>
-      <text x="660" y="206" font-size="18" font-weight="700">1.30</text>
+      <rect x="182" y="188" width="461" height="26" rx="4" fill="#2a78d6"/>
+      <text x="653" y="206" font-size="18" font-weight="700">1.28</text>
     </g>
   </svg>
   <p>キャラ設定文（identity / pneuma）を与えて初めて、判断が分かれる（例: 朱里4・凛7・紫苑7）。<br>
@@ -183,8 +183,8 @@ svg .axis { stroke: #c9c8c3; }
 
 <!-- 6. 結果2: シフト方向 -->
 <section class="slide">
-  <h2>結果② 心理ハーネスだけが「人間方向」に極性化した</h2>
-  <p>手術ジレンマ（リスキー項目）: consensus_shift = 合意値 − 事前個人平均（負 = リスク側 = 人間方向）</p>
+  <h2>結果② 内面の注入だけが「慎重な人への全員一致」を壊した</h2>
+  <p>手術ジレンマ（リスキー項目・各アームn=5）: consensus_shift = 合意値 − 事前個人平均（負 = リスク側 = 人間方向）</p>
   <svg viewBox="0 0 1000 300" role="img" aria-label="シフト比較">
     <line x1="500" y1="24" x2="500" y2="250" class="axis"/>
     <text x="500" y="272" text-anchor="middle" class="tick">0（平均への妥協 = 人間で棄却されたパターン）</text>
@@ -192,21 +192,21 @@ svg .axis { stroke: #c9c8c3; }
     <text x="720" y="272" text-anchor="middle" class="tick">慎重側 →</text>
     <g>
       <text x="128" y="62" text-anchor="end" font-size="19">raw</text>
-      <rect x="366" y="42" width="134" height="26" rx="4" fill="#c9c8c3"/>
-      <text x="356" y="62" text-anchor="end" font-size="18" font-weight="700">-0.67</text>
-      <text x="140" y="90" font-size="14" fill="#52514e">※ただし個性ゼロ: 統合すべき意見の差が無い</text>
+      <rect x="394" y="42" width="106" height="26" rx="4" fill="#c9c8c3"/>
+      <text x="384" y="62" text-anchor="end" font-size="18" font-weight="700">-0.53</text>
+      <text x="140" y="90" font-size="14" fill="#52514e">※ほぼ個性ゼロ: クローンの中央回帰であり極性化ではない</text>
     </g>
     <g>
       <text x="128" y="142" text-anchor="end" font-size="19">identity_only</text>
-      <rect x="500" y="122" width="222" height="26" rx="4" fill="#eb6834"/>
-      <text x="734" y="142" font-size="18" font-weight="700">+1.11</text>
-      <text x="140" y="170" font-size="14" fill="#52514e">3/3回、最も慎重な人に全員譲歩（人間と逆）</text>
+      <rect x="500" y="122" width="226" height="26" rx="4" fill="#eb6834"/>
+      <text x="738" y="142" font-size="18" font-weight="700">+1.13</text>
+      <text x="140" y="170" font-size="14" fill="#52514e">5/5回、最も慎重な人の値(7)に全員譲歩（人間と逆）。内面を固定注入した検証アームも同傾向(+0.78)</text>
     </g>
     <g>
       <text x="128" y="222" text-anchor="end" font-size="19">pure_pneuma</text>
-      <rect x="344" y="202" width="156" height="26" rx="4" fill="#2a78d6"/>
-      <text x="334" y="222" text-anchor="end" font-size="18" font-weight="700">-0.78</text>
-      <text x="140" y="250" font-size="14" fill="#2a78d6">2/3回で極性化。最良ラン: 6.0→4.0（事後-2.33で内面化）</text>
+      <rect x="434" y="202" width="66" height="26" rx="4" fill="#2a78d6"/>
+      <text x="424" y="222" text-anchor="end" font-size="18" font-weight="700">-0.33</text>
+      <text x="140" y="250" font-size="14" fill="#2a78d6">慎重アンカー到達0/5。2/5でリスク側へ。最良ラン: 6.0→4.0（事後の私的評定も-2.33）</text>
     </g>
   </svg>
 <span class="pagenum">6</span></section>
@@ -249,9 +249,10 @@ svg .axis { stroke: #c9c8c3; }
     <div>
       <h3 class="warn">まだ足りないもの（正直に）</h3>
       <ul>
-        <li>転職ジレンマは項目文の床効果で全アーム慎重ドリフト → 項目設計に感度が依存</li>
-        <li>結婚ジレンマ（慎重項目）は全員が事前7に張り付き弁別不能</li>
-        <li>n=3/条件。方向と再現性の観察に留まる</li>
+        <li>穏やかな討議では心理状態が動かず「毎ターン再計算」が実質不成立（動的介入が成立したのはデスゲームのみ）</li>
+        <li>転職ジレンマは床効果、結婚ジレンマは天井 → 項目設計に感度が依存</li>
+        <li>n=3〜5/条件。方向と再現性の観察に留まる</li>
+        <li>コンテクスト非共有の独立AIレビュー2系統の査読を受け、主張を縮約済み</li>
       </ul>
       <p class="small muted">次サイクル仮説: 情動の伝染（他者の発話が聞き手のPADを直接動かす経路）を1機構だけ追加し、未使用シナリオで転移検証する。</p>
     </div>
@@ -268,7 +269,7 @@ svg .axis { stroke: #c9c8c3; }
     <li>ハーネスは行動を選ばないので、同じ基盤の上にどんなシナリオ（協力・対立・取引・極限状況）でも載る</li>
   </ul>
   <h3>再現性</h3>
-  <p class="small">全62テスト / 全ラン27本の生ログ（送信プロンプト・生応答込み）/ 心理計算は乱数なしの決定論 / LLM呼び出しはClaude Code CLI経由でAPIキー不要。リポジトリの <code>README.md</code> から一括再実行可能。</p>
+  <p class="small">全94テスト / 45実験ランの生ログ（送信プロンプト・生応答・実行マニフェスト込み）/ 心理計算は乱数なしの決定論 / LLM呼び出しはClaude Code CLI経由でAPIキー不要。リポジトリの <code>README.md</code> から一括再実行可能。</p>
 <span class="pagenum">9</span></section>
 
 <!-- 10. まとめ -->
@@ -276,7 +277,7 @@ svg .axis { stroke: #c9c8c3; }
   <h2 style="font-size:40px;">まとめ</h2>
   <ul style="font-size:25px; line-height:2.1;">
     <li>素のLLM集団は<b>クローン</b>で、キャラ設定文を足しても<b>「一番慎重な人に合わせるいい子」</b>のままだった</li>
-    <li>毎ターン心理状態を計算し直して注入する<b>Pneumaハーネスだけ</b>が、個性・説得・面従腹背・人間方向の極性化を生んだ</li>
+    <li>心理状態から組み立てた内面を注入する<b>Pneumaハーネスだけ</b>が、論拠による説得・面従腹背・宣言つきの裏切り・自己犠牲を生んだ</li>
     <li>ハーネスは<b>行動を選ばない</b>。人間らしさは、指示ではなく<b>内面の帰結</b>として現れた</li>
   </ul>
   <p class="muted" style="margin-top:36px;">Pneuma Lab — 心理学的ハーネスによる少人数マルチエージェント・インタラクション</p>
