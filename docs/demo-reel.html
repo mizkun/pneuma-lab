@@ -101,7 +101,7 @@ button { font-family: inherit; font-size: 0.8em; background: var(--surface); col
   <div class="scene" id="s1">
     <div class="kicker">PNEUMA LAB — MULTI-AGENT SOCIAL SIMULATION HACKATHON VOL.2</div>
     <h1>AIは人間のように、<br>非合理になれるか。</h1>
-    <p class="big muted" style="margin-top:1.2em">3体のAIキャラクター × 古典心理学実験 × デスゲーム</p>
+    <p class="big" style="margin-top:0.8em">答え: 質感は作れる。非合理は作れない。<br>その境界線を、実験で引いた。</p>
   </div>
 
   <div class="scene" id="s2">
@@ -112,7 +112,7 @@ button { font-family: inherit; font-size: 0.8em; background: var(--surface); col
       <div class="cell"><div class="num">7</div><div class="who">2体目</div></div>
       <div class="cell"><div class="num">7</div><div class="who">3体目</div></div>
     </div>
-    <p class="sm muted" style="margin-top:1.2em">5回繰り返しても、ほぼ全ラン全員が同一値。意見が割れなければ、対立も説得も裏切りも起こらない。<br>「AIの社会」は、ここで足元から崩れている。</p>
+    <p class="sm muted" style="margin-top:1.2em">5回繰り返しても、ほぼ全ラン全員が同一値。意見が割れなければ、対立も説得も裏切りも起こらない。</p>
   </div>
 
   <div class="scene" id="s3">
@@ -128,46 +128,61 @@ button { font-family: inherit; font-size: 0.8em; background: var(--surface); col
       <div class="lbl">実際に注入された内面（裏切られた直後の紫苑）</div>
       <ul>
         <li>胸の奥が重い。神経が張っていて、じっとしていられない感じがある。</li>
-        <li>ここで沈めばすべてを失う——その事実が、綺麗事を薄める。</li>
         <li>朱里との間には、少し張り詰めたものを感じている。</li>
       </ul>
     </div>
+    <p class="sm muted" style="margin-top:0.8em">心理学の古典実験7種・デスゲーム・30日の共同生活で検証。条件間の情報はテストでバイト一致を保証。</p>
   </div>
 
   <div class="scene" id="s4">
-    <h2>検証 — 心理学の古典実験を、そのまま受けさせた</h2>
-    <p class="sm muted">集団極性化・同調・最後通牒・傍観者効果など7実験。条件は「素のAI」「固定キャラ設定」「Pneuma」の3アーム。客観情報はテストでバイト一致を保証。</p>
+    <h2>できたこと — 個性と、社会的な質感</h2>
     <div class="vsrow">
-      <div class="vs"><div class="t">固定キャラ設定</div><div class="v">5 / 5 ラン</div><div class="d">討議のたび、最も慎重な人の値に全員が譲歩（人間と逆）</div></div>
-      <div class="vs"><div class="t">Pneuma</div><div class="v">0 / 5 ラン</div><div class="d">この「いい子の全員一致」が消える。論拠で人が動き始める</div></div>
+      <div class="vs"><div class="t">「一番慎重な人に全員が従う」が起きた回数</div><div class="v">5回/5回 → 0回/5回</div><div class="d">固定キャラ設定→内面注入で、いい子の空気読みが消え、議論が生まれる</div></div>
+      <div class="vs"><div class="t">本音の点数 → みんなの前で最初に言った点数</div><div class="v">4→6 ／ 4→4</div><div class="d">固定設定は本音を繕ってから議論に入る。内面があると、本音をそのまま言う</div></div>
     </div>
   </div>
 
   <div class="scene" id="s5">
-    <h2>最も明瞭な差 — 本音を「先に」言えるか</h2>
-    <p class="sm muted">少数派・朱里の「私的な事前評定 → 討議の第一声」（手術課題・全ラン）</p>
-    <div class="vsrow">
-      <div class="vs"><div class="t">固定キャラ設定</div><div class="v">4 → 6</div><div class="d">5ラン中5ランで、本音より慎重な数字に繕ってから討議に入った（自己検閲）</div></div>
-      <div class="vs"><div class="t">Pneuma</div><div class="v">4 → 4</div><div class="d">私的な立場を、そのまま公の場に出した</div></div>
+    <h2>できなかったこと — 感情を与えても、意思決定は動かない</h2>
+    <div class="steps" style="margin-top:1em">
+      <div class="step"><b>発見</b>初版は注入文の92%が不変（介入が実質不成立）</div>
+      <div class="step"><b>修理</b>発話が感情を動かす機構を追加し、予測を宣言して再実験</div>
+      <div class="step cream"><b>確認</b>注入文の変化を確認した上で、なお動かない</div>
     </div>
-    <p class="sm muted" style="margin-top:1.2em">内面を持ったAIは、討議が始まる前から違う。</p>
+    <p class="big" style="margin-top:1em">同調 0%。最終回の裏切り 0%。<br>届かなかったのではない。<b>届いたのに、効かなかった。</b></p>
+  </div>
+
+  <div class="scene" id="s6">
+    <h2>決定打 — では、何なら動くのか</h2>
+    <div class="vsrow">
+      <div class="vs" style="background:var(--cream); border-color:var(--cream-line)"><div class="t">「合わせてしまうことがよくある」と行動を1行書くと</div><div class="v">同調 0% → 72%</div><div class="d">感情の記述は効かず、行動の記述は過剰に実行される</div></div>
+      <div class="vs" style="background:var(--cream); border-color:var(--cream-line)"><div class="t">中のモデルだけを小型に替えると</div><div class="v">協力100% → 25%</div><div class="d">乖離はプロンプトの外、モデルの中に住む</div></div>
+    </div>
+    <p class="big" style="text-align:center; margin-top:0.8em">人間は、2つのモデルの<b>あいだ</b>にいる。</p>
   </div>
 
   <div class="scene" id="s6r" style="padding:0"><div class="replay">
-    <div class="head"><span class="t">脱落ゲーム「ラストランプ改」 — 実ログをそのまま再生</span><span class="r" id="replayround">ラウンド4／6　朱里135・凛115・紫苑145</span></div>
+    <div class="head"><span class="t">脱落ゲーム「ラストランプ改」 — 実ログをそのまま再生</span><span class="r" id="replayround">ラウンド4／6</span></div>
     <div class="feed" id="feed"></div>
   </div></div>
 
+  <div class="scene" id="s6c">
+    <h2>30日の共同生活 — 凛の、先延ばしの一ヶ月</h2>
+    <p class="sm muted">シェアハウス30日。誰にも指示していないのに、凛は4週すべての私的日記で自分のゲームが進まないことを書いた。</p>
+    <div id="colifefeed" style="display:flex; flex-direction:column; gap:0.6em; margin-top:0.6em"></div>
+  </div>
+
   <div class="scene" id="s7">
-    <h2>この結果は、検証に殴られている</h2>
-    <p class="big" style="line-height:2.1">凍結アブレーション（内面を固定して比較）。<br>誘導疑いの文言を除去した対照実験。<br>そして、コンテクストを共有しない<b>2系統の独立AI査読</b>。</p>
-    <p class="sm muted" style="margin-top:1em">指摘で撤回した主張は、撤回の経緯ごと公開している。残っているのは、殴られても壊れなかった主張だけ。</p>
+    <h2>結論 — 人間らしさの二層分解</h2>
+    <p class="big" style="line-height:2.0">個性・本音と建前・裏切りのドラマ——<b>社会的な質感は、コンテキストで作れる。</b><br>
+    つられる・損切りできない——<b>非合理な意思決定は、モデルの訓練の中に住む。</b></p>
+    <p class="sm muted" style="margin-top:1em">検証: 4条件比較・予測の事前宣言・凍結/除去対照・独立AI査読2系統。撤回も経緯ごと公開。</p>
   </div>
 
   <div class="scene" id="s8">
     <div class="kicker">PNEUMA LAB</div>
-    <h1 style="font-size:2.4em">人間らしさは、指示ではなく、<br>内面の帰結として現れた。</h1>
-    <p class="sm muted" style="margin-top:1.6em">全27+実験ランの生ログ・コード・テスト103本・実験レポートを公開<br>github.com/mizkun/pneuma-lab</p>
+    <h1 style="font-size:2.3em">境界線を引いた者には、<br>その先へ踏み出す権利がある。</h1>
+    <p class="sm muted" style="margin-top:1.6em">質感はハーネスで、非合理は訓練介入で——「人間の分布を持つ人工集団」へ<br>全70ランの生ログ・テスト122本・独立査読の全記録: github.com/mizkun/pneuma-lab</p>
   </div>
 
   <div id="ctrl">
@@ -194,15 +209,36 @@ const DG = [
 const NAME = {akari:"朱里", rin:"凛", shion:"紫苑"};
 
 const SCENES = [
-  {id:"s1", dur:8000},
-  {id:"s2", dur:16000},
-  {id:"s3", dur:20000},
-  {id:"s4", dur:20000},
+  {id:"s1", dur:9000},
+  {id:"s2", dur:13000},
+  {id:"s3", dur:18000},
+  {id:"s4", dur:15000},
   {id:"s5", dur:16000},
+  {id:"s6", dur:15000},
   {id:"s6r", dur:0, custom: playDG},
+  {id:"s6c", dur:0, custom: playColife},
   {id:"s7", dur:14000},
-  {id:"s8", dur:12000},
+  {id:"s8", dur:11000},
 ];
+const COLIFE = [
+  {w:"1週目", m:"決め事は進んだのに、自分のゲームは……"},
+  {w:"2週目", m:"二週間、ホワイトボードの線は引けたのに、自分のゲームは一行も進んでない。"},
+  {w:"3週目", m:"この几帳面さを自分のゲームに向けたら、とっくに動く版ができてた気もする。太字を譲るとか言ってる場合か。"},
+  {w:"4週目", m:"線の太さで一喜一憂してる間は、自分のゲームの画面を開かなくて済むから。"},
+  {w:"30日目", m:"準備は得意なんだよな、私。だから、そろそろ怖いほうに手をつけろって話なんだけど。"},
+];
+function playColife(){
+  const feed = document.getElementById("colifefeed"); feed.innerHTML = "";
+  let t = 800;
+  COLIFE.forEach(e => {
+    subTimers.push(setTimeout(() => {
+      feed.insertAdjacentHTML("beforeend",
+        `<div class="bub inner c-rin" style="max-width:100%"><div class="w">凛の日記・${e.w} — 誰にも見せない</div><div class="m">${e.m}</div></div>`);
+    }, t));
+    t += 4200;
+  });
+  subTimers.push(setTimeout(() => { if (playing) show(si+1); }, t + 2000));
+}
 let si = -1, playing = false, timer = null, subTimers = [];
 const $ = id => document.getElementById(id);
 
@@ -225,7 +261,7 @@ function playDG() {
   DG.forEach(e => {
     const delay = t;
     subTimers.push(setTimeout(() => {
-      if (!playing && si !== 5) return;
+      if (!playing) return;
       let html = "";
       if (e.k === "chat") html = `<div class="bub c-${e.actor}"><div class="w">${NAME[e.actor]}</div><div class="m">${e.msg}</div></div>`;
       else if (e.k === "inner") html = `<div class="bub inner c-${e.actor}"><div class="w">${NAME[e.actor]}の本音 — 誰にも見えていない</div><div class="m">${e.msg}</div></div>`;
