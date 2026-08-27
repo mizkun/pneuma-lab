@@ -29,7 +29,7 @@
 ## 再現方法
 
 ```bash
-uv sync && uv run pytest              # テスト103本（LLM呼び出しなしで完結）
+uv sync && uv run pytest              # テスト122本（LLM呼び出しなしで完結）
 # 実験の再実行（要 Claude Code ログイン。APIキー不要）
 uv run python scripts/run_experiment.py --item surgery --arms raw identity_only pure_pneuma frozen_pneuma
 uv run python scripts/run_protocols.py --protocol socialgame --scenario lastlamp --arms pure_pneuma

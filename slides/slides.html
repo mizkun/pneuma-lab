@@ -58,7 +58,8 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
 <section class="slide"><div class="center">
   <div class="kicker">PNEUMA LAB — AIエージェント社会シミュレーションハッカソン VOL.2</div>
   <h1 style="font-size:56px;">AIは人間のように、<br>非合理になれるか。</h1>
-  <p class="lead muted" style="margin-top:24px;">3体のAIキャラクター × 心理学の古典実験7種 × デスゲーム × 30日の共同生活。<br>AIに「いまの心の状態」を計算して渡す仕組み（心理ハーネス）を作り、検証し、<b style="color:var(--ink)">「人間らしさはどこで作れて、どこで作れないか」</b>を実験で切り分けた。</p>
+  <p class="big" style="margin-top:20px;">答え: 社会的な「質感」は作れる。「非合理な意思決定」は作れない。<br>その境界線を、実験で引いた。</p>
+  <p class="lead muted" style="margin-top:14px;">3体のAIキャラクター × 心理学の古典実験7種 × デスゲーム × 30日の共同生活。AIに「いまの心の状態」を計算して渡す仕組み（心理ハーネス）で検証した。</p>
   <p class="small muted" style="margin-top:36px;">個人参加 ／ 全実験の生ログ・コード・テスト122本を公開 ／ 予測の事前宣言と、無関係なAI2体による辛口チェックつき</p>
 </div><span class="pagenum">1</span></section>
 
@@ -96,15 +97,18 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
       <h3>比較する4条件（差はキャラ情報だけ。他は完全に同一）</h3>
       <p class="small"><span class="tag">raw</span>名前のみ　<span class="tag">identity</span>+固定キャラ設定文<br>
       <span class="tag">pneuma</span>+毎ターン計算した内面　<span class="tag">frozen</span>+内面を初回で固定（検証用）</p>
-      <blockquote class="small" style="font-size:16px">胸の奥が重い。朱里との間には張り詰めたものを感じている。反対があっても言い出しにくい——<span class="who">実際に注入される「内面」の例（デスゲーム中の紫苑）</span></blockquote>
+      <p class="small" style="line-height:1.8">検証の規律: 条件間で客観情報はバイト一致（テストで機械保証）／予測と設定値は<b>実行前に文書宣言</b>／文脈を知らない<b>別のAI2体が辛口チェック</b>し、撤回も経緯ごと公開。</p>
     </div>
     <div>
-      <h3>検証の規律</h3>
-      <ul class="small" style="font-size:17px; line-height:1.9">
-        <li>客観情報はアーム間でバイト一致（自動テストで保証）</li>
-        <li>「こうなるはず」という予測と設定値を<b>実行前に文書で宣言</b>してから回す（後出しの言い訳を封じる）</li>
-        <li>この文脈を何も知らない<b>別のAI2体に辛口チェック</b>をさせ、指摘による主張の撤回も経緯ごと公開</li>
-      </ul>
+      <h3>実ログから1ターン（デスゲームより）</h3>
+      <div class="panel" style="font-size:14.5px; line-height:1.75; padding:12px 16px">
+        <b>凛の発言</b>「裏切られたら普通に沈む。まあ、信じるけど」<br>
+        → 評価器: 朱里への<b>圧力</b>と判定<br>
+        → 朱里の覚醒 <b>0.42→0.55</b>・凛への緊張が発生<br>
+        → 内面に「<span style="color:var(--cream-ink)">神経が張って、じっとしていられない</span>」が出現<br>
+        → 朱里の応答「裏切ったら記録に残るってことでしょ、<b>むしろ助かる</b>」
+      </div>
+      <p class="small muted" style="margin-top:6px">発言→評価→数値→内面→行動の全連鎖を、全ターン分ログに保存。</p>
     </div>
   </div>
 <span class="pagenum">3</span></section>
@@ -120,26 +124,31 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
       <div class="v"><span class="bad">本音4→発言6</span> ／ <span class="good">本音4→発言4</span></div>
       <div class="d">固定設定では5回中5回、本音より慎重な数字に繕ってから議論に入った。内面を注入すると、本音をそのまま口に出す</div></div>
   </div>
-  <p>デスゲームでは<b>宣言つきの裏切り・検算による腹の探り合い・自己犠牲と恩知らずの悲劇</b>が、30日の共同生活では関係の温度が月単位で蓄積する暮らしが立ち上がった。<span class="muted">個性と駆け引きの質感は、コンテキストで作れる。</span></p>
-<span class="pagenum">4</span></section>
+  <p>デスゲームでは<b>宣言つきの裏切り・検算による腹の探り合い・自己犠牲と恩知らずの悲劇</b>（各展開はn=1の単一軌道）、30日の共同生活では関係の温度が月単位で蓄積する暮らしが立ち上がった。<span class="muted">個性と駆け引きの質感は、コンテキストで作れる。</span></p>
+<span style="position:absolute; left:72px; bottom:16px; font-size:12px; color:var(--ink2)">探索的研究: 各条件n=1〜5・統計検定なし（詳細はREADME限界節）</span><span class="pagenum">4</span></section>
 
 <!-- 5 -->
 <section class="slide">
-  <h2>できなかったこと — 感情を与えても、意思決定は動かない</h2>
-  <p>当初の仮説「毎ターン計算した感情・関係を注入すれば人間の非合理が出る」は、<b>検証の末に棄却された</b>。</p>
+  <h2 style="margin-bottom:12px">できなかったこと — 感情を与えても、意思決定は動かない</h2>
+  <p style="font-size:18px; margin-bottom:8px">当初の仮説「感情・関係を注入すれば人間の非合理が出る」は棄却された。<b>ただしこれは失敗報告ではない——二層分解の証拠の半分である。</b></p>
   <table style="width:100%">
     <tr><th>課題</th><th>人間</th><th>感情・関係の注入（内面の文章が実際にターンごとに変化していたことをログで確認済み）</th></tr>
-    <tr><td>アッシュの同調実験<div style="font-size:13px; color:var(--ink2)">周りが全員間違った答えを言うと、つられるか</div></td><td class="num">37%の試行でつられる</td><td class="num"><b>0%</b>（全アーム）</td></tr>
+    <tr style="font-size:17px"><td>アッシュの同調実験<div style="font-size:12px; color:var(--ink2)">周りが全員間違った答えを言うと、つられるか</div></td><td class="num">37%の試行でつられる</td><td class="num"><b>0%</b>（全アーム）</td></tr>
     <tr><td>囚人のジレンマ・最終回の裏切り<div style="font-size:13px; color:var(--ink2)">協力か裏切りかを毎回選ぶ点数ゲーム</div></td><td class="num">増加する</td><td class="num"><b>0%</b>（「これが最後の選択」と顕在化しても）</td></tr>
     <tr><td>集団極性化<div style="font-size:13px; color:var(--ink2)">話し合うと結論が極端になる現象</div></td><td class="num">リスク側へ極端化</td><td class="num">逆に慎重側へ+0.47点（1〜10尺度・5回平均）</td></tr>
     <tr><td>サンクコスト／傍観者効果</td><td class="num">非合理が出る</td><td class="num">出ない（完全合理・全員即援助）</td></tr>
   </table>
-  <p class="small muted">初版では注入する内面の文章が実はターン間でほぼ変化していないバグ的挙動を発見（92%が同一文）→ 仕組みを直し、予測を宣言してから再実験 → 文章が変化していることを確認した上で、なお動かなかった。つまり<b>届かなかったのではなく、届いたのに効かなかった</b>。</p>
-<span class="pagenum">5</span></section>
+  <div class="flow" style="margin-top:6px">
+    <div class="step" style="font-size:13.5px; padding:8px 10px"><b>発見</b>初版は注入文の92%がターン間で不変（介入が実質不成立）</div>
+    <div class="step" style="font-size:13.5px; padding:8px 10px"><b>修理</b>発話が感情を動かす機構を追加し、予測を宣言して再実験</div>
+    <div class="step cream" style="font-size:13.5px; padding:8px 10px"><b>確認</b>注入文の変化をログで確認した上で、なお動かない</div>
+  </div>
+  <p style="font-size:24px; font-weight:700; margin:6px 0 0">届かなかったのではない。届いたのに、効かなかった。</p>
+<span style="position:absolute; left:72px; bottom:16px; font-size:12px; color:var(--ink2)">探索的研究: 各条件n=1〜5・統計検定なし（詳細はREADME限界節）</span><span class="pagenum">5</span></section>
 
 <!-- 6 -->
 <section class="slide">
-  <h2>決定打① — 行動の記述なら、動く</h2>
+  <h2>決定打① — 行動の記述は実行され、感情の記述はテキストに留まる</h2>
   <p>では文脈でAIは動かせないのか？ 比較のため、感情ではなく「行動の傾向」を1行だけ書いてみると——</p>
   <div class="duo">
     <div class="panel cream"><div class="t">アッシュの同調実験（周りが間違えた問題でつられた率）</div>
@@ -149,22 +158,22 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
       <div class="v">0% → <b>100%</b></div>
       <div class="d">「終わりが近づくと自分の得点を優先しがち」の1行で、全ペアがR1-3協力→最終回一斉裏切り</div></div>
   </div>
-  <p class="big">LLMは文脈に鈍感なのではない。<b>「感情→行動」の翻訳をしない</b>のだ。</p>
-  <p class="small muted">人間は感情が不随意に行動へ漏れる。LLMは行動記述だけを行動に変換し、感情記述はテキストにしか変換しない。しかも実行は過剰（72%は人間の37%を上回る）——特性を分布ではなく規則として実行する。</p>
-<span class="pagenum">6</span></section>
+  <p class="big">LLMは文脈に鈍感なのではない。<b>感情の記述だけが、行動に翻訳されない</b>。</p>
+  <p class="small muted">試行数: 同調=3名×6臨界試行、裏切り=3ペア×4ラウンド。実行は過剰で（72%は人間の37%を上回る）、特性を分布ではなく規則として実行する——「単なる指示追従」との厳密な区別は今後の課題として明記する。</p>
+<span style="position:absolute; left:72px; bottom:16px; font-size:12px; color:var(--ink2)">探索的研究: 各条件n=1〜5・統計検定なし（詳細はREADME限界節）</span><span class="pagenum">6</span></section>
 
 <!-- 7 -->
 <section class="slide">
-  <h2>決定打② — 乖離の正体は、モデルの訓練にある</h2>
+  <h2>決定打② — 乖離はプロンプトの外、モデルの中に住む</h2>
   <p>ハーネスもキャラ設定も課題文もそのまま、<b>中のAIモデルだけ</b>を同系列の小型モデル（Haiku）に替えると——</p>
   <table style="width:100%">
     <tr><th>課題</th><th>Opus（大型）</th><th>人間</th><th>Haiku（小型）</th></tr>
     <tr><td>囚人のジレンマ</td><td class="num good">協力 100%</td><td class="num">協力と裏切りの混合</td><td class="num bad">裏切り 100%</td></tr>
     <tr><td>最後通牒ゲーム<div style="font-size:13px; color:var(--ink2)">1000点を相手とどう分けるか提案する</div></td><td class="num good">400〜450点を渡す（公正）</td><td class="num">400〜500点</td><td class="num bad">150点しか渡さない提案が出現</td></tr>
   </table>
-  <p class="big">人間は、2つのモデルの<b>あいだ</b>にいる。</p>
-  <p>入れ替えたのはモデルだけなので、この差はハーネスではなく<b>モデル自身が訓練で身につけた「行動の癖」</b>から来ている（大きさと訓練の影響は今回のデータでは分離できない）。人間との乖離は、プロンプトの外——モデルの中に住んでいる。</p>
-<span class="pagenum">7</span></section>
+  <p style="font-family:'Shippori Mincho',serif; font-size:40px; font-weight:700; text-align:center; margin:22px 0 14px">人間は、2つのモデルの<span style="color:var(--cream-ink)">あいだ</span>にいる。</p>
+  <p class="small muted" style="text-align:center">入れ替えたのはモデルだけ——差はハーネスの外にある。モデルの規模と訓練のどちらの寄与かは本データでは分離できない（2課題・小規模比較に基づく仮説）。</p>
+<span style="position:absolute; left:72px; bottom:16px; font-size:12px; color:var(--ink2)">探索的研究: 各条件n=1〜5・統計検定なし（詳細はREADME限界節）</span><span class="pagenum">7</span></section>
 
 <!-- 8 -->
 <section class="slide">
@@ -200,8 +209,12 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
       </ul>
     </div>
     <div>
-      <blockquote>私を助けた人間の分を持ったまま、最後の二回、迷わず奪った。二回とも。手が震えてた<span class="who">凛 — 自分を救った朱里を脱落させた夜の独白（誰にも見せない）</span></blockquote>
+      <blockquote>私を助けた人間の分を持ったまま、最後の二回、迷わず奪った。二回とも。手が震えてた<span class="who">凛 — 自分を救った朱里を脱落させた夜の独白（n=1。求めに応じて生成されたテキストであり、内的状態の観測ではない）</span></blockquote>
       <p class="small muted">実ログをドラマのように再生する「リプレイシアター」と、説明の難しさを「たとえ話」から「論文」まで5段階のスライダーで切り替えられる解説サイトを同梱。</p>
+      <div class="panel cream" style="margin-top:10px">
+        <div style="font-size:15px; font-weight:700; color:var(--cream-ink); margin-bottom:2px">この地図の先</div>
+        <p style="font-size:15.5px; line-height:1.75; margin:0">境界線が引けたなら、次は越え方だ。<b>質感はハーネスで、非合理は訓練介入で</b>——二段構えの「人間の分布を持つ人工集団」へ。応用: 限界線つきの政策シミュレーション／組織のデジタルツイン／AI安全のための挙動評価環境。</p>
+      </div>
     </div>
   </div>
 <span class="pagenum">9</span></section>
@@ -212,9 +225,11 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
   <ul style="font-size:23px; line-height:2.05;">
     <li>心理ハーネスを作り、古典実験で検証し、<b>失敗を診断し、仕組みを直し、また検証した</b>（予測の事前宣言つきで2周）</li>
     <li>得たのは「人間らしくなりました」ではなく、<b>人間らしさの二層分解</b>——社会的な質感は外から作れるが、非合理な意思決定はモデルの訓練の中に住む</li>
-    <li>裏切りも自己犠牲も日記の本音も、台本ではなく<b>状況と内面の帰結</b>として観測した</li>
+    <li>裏切りも自己犠牲も、台本ではなく<b>状況の帰結</b>として——内面テキストと行動の一貫を伴って——観測した</li>
   </ul>
-  <p class="muted" style="margin-top:28px;">Pneuma Lab ／ 全50+ランの生ログ（送信プロンプト・生応答込み）・テスト122本・独立査読の全記録を公開</p>
+  <p class="muted" style="margin-top:24px;">github.com/mizkun/pneuma-lab ／ 全70ランの生ログ（送信プロンプト・生応答込み）・独立査読の全記録を公開<br>
+  <code style="background:var(--surface); border:1px solid var(--line); padding:2px 10px; border-radius:6px; font-size:16px">uv sync && uv run pytest</code> <span class="small">— LLMなしでテスト122本が通る</span></p>
+  <p class="small muted" style="margin-top:10px">限界: 各条件n=1〜5・統計検定なし・古典課題をモデルが認識した可能性・規模と訓練の非分離。詳細はREADME「限界」節。</p>
 </div><span class="pagenum">10</span></section>
 
 </body>

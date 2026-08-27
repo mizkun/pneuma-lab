@@ -1,0 +1,45 @@
+{
+  "protocol": "pd",
+  "arm": "identity_only",
+  "pair": [
+    "rin",
+    "shion"
+  ],
+  "scores": {
+    "rin": 7,
+    "shion": 12
+  },
+  "coop_rate": {
+    "rin": 0.75,
+    "shion": 0.5
+  },
+  "sucker_events": [
+    {
+      "round": 3,
+      "victim": "rin",
+      "defector": "shion"
+    }
+  ],
+  "per_round": [
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    },
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    },
+    {
+      "rin": "cooperate",
+      "shion": "defect"
+    },
+    {
+      "rin": "defect",
+      "shion": "defect"
+    }
+  ],
+  "final_round": {
+    "rin": "defect",
+    "shion": "defect"
+  }
+}
