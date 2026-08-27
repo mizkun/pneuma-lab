@@ -114,11 +114,11 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
   <h1 class="s-title">AIは人間のように、非合理になれるか</h1>
   <p class="subtitle">心理ハーネス Pneuma による検証</p>
   <div class="s-bar"></div>
-  <p class="abstract">AIキャラクターの性格・感情・人間関係を毎ターン計算し、「いま、どう感じているか」をプロンプトに注入する仕組み(<b>Pneuma</b>)を作った。注入なしのAIと<b>同一条件で比較</b>する実験を、7つの古典心理学課題と長期シミュレーションで行った。結論:</p>
+  <p class="abstract">AIキャラクターの性格・感情・人間関係を毎ターン計算し、「いま、どう感じているか」を指示文に注入する仕組み(これを心理ハーネス <b>Pneuma</b> と呼ぶ)を作った。注入なしのAIと<b>同一条件で比較</b>する実験を、7つの古典心理学課題と長期シミュレーションで行った。結論:</p>
   <ul class="cov">
-    <li>個性・本音・裏切りの<b>「質感」はコンテキストで作れる</b></li>
-    <li><b>非合理な意思決定は作れない</b>。感情は届いても、行動に翻訳されない</li>
-    <li>「こう行動しがち」と1行書けば動き、モデル交換でも動く。<b>非合理はモデルの中に住む</b></li>
+    <li>個性・本音・裏切りといった、人間らしい振る舞いの<b>「質感」は文脈の注入で作れる</b></li>
+    <li>しかし<b>非合理な意思決定は作れない</b>。感情は届いても、行動に翻訳されない</li>
+    <li>「こう行動しがち」と1行書けばAIの行動は変わり、モデル交換でも変わる。<b>非合理はモデルの中に住む</b></li>
   </ul>
   <p class="meta">Pneuma Lab ／ 個人参加 ／ github.com/mizkun/pneuma-lab(全コード・全実験ログ公開)</p>
 </section>
@@ -135,7 +135,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
       <tr>
         <td><b>① 質感は作れる</b><br>→ p.6-8</td>
         <td>キャラ設定だけでは出ない議論・本音・駆け引き・30日の生活の物語が、内面の注入で現れる</td>
-        <td>話し合いの全員一致 5/5回→0/5回<br>自己検閲の消失、宣言つき裏切り</td>
+        <td>話し合いの全員一致: キャラ設定のみ5/5回→内面注入0/5回<br>本音と建前の制御、宣言つき裏切り</td>
       </tr>
       <tr>
         <td><b>② 非合理は作れない</b><br>→ p.9</td>
@@ -163,7 +163,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
       <div>
         <div class="sec">観測された事実</div>
         <ul class="dash">
-          <li>同じ判断課題を3体に出すと、<b>全員が同一値で回答(7, 7, 7)</b>。11ラン中10ラン</li>
+          <li>同じ判断課題(手術を勧めるか、1〜10で回答)で<b>3体全員が同一値(7, 7, 7)</b>。11回の実験中10回</li>
           <li>お金の分け方を提案する課題でも、全員が同額450円を提案</li>
           <li>意見が割れなければ、<b>対立も説得も裏切りも起こらない</b></li>
         </ul>
@@ -182,7 +182,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
         <ul class="dash">
           <li><b>社会シミュレーション</b>: 均質で過剰協調的な集団の改善</li>
           <li><b>AIの理解</b>: 人間との乖離の原因(コンテキストか訓練か)の切り分け</li>
-          <li><b>アライメント</b>: 感情では行動が変わらないことの安全上の含意</li>
+          <li><b>アライメント</b>(AIを人間の意図に沿わせる研究): 感情では行動が変わらない、の安全上の含意</li>
         </ul>
       </div>
     </div>
@@ -268,7 +268,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
       <div>
         <div class="sec">実行と記録</div>
         <ul class="dash">
-          <li>AIはClaude Opus(モデル比較のみHaiku)。全70ランの<b>プロンプト・生応答・状態を公開</b></li>
+          <li>AIはClaude Opus(大型モデル。比較実験のみ小型のHaiku)。全70回分の<b>プロンプト・生応答・状態を公開</b></li>
           <li>各条件n=3〜5の探索的研究。統計検定なし</li>
         </ul>
       </div>
@@ -278,7 +278,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 6 結果1 個性と討議 -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 1/3</div>
+  <div class="s-eyebrow">RESULT 1/5</div>
   <h2 class="s-title">結果① 個性が機能し、議論が生まれる</h2>
   <div class="s-bar"></div>
   <p class="s-msg">個性の「存在」は静的設定でも作れる。個性が社会で機能するかは、毎ターンの再計算が分けた</p>
@@ -289,7 +289,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
         <ul class="dash">
           <li>課題: 1000円の取り分を提案し、相手は拒否もできる(拒否なら両者0円)</li>
           <li>提案額: raw <b>450/450/450</b> → pneuma <b>420/450/450</b></li>
-          <li>pneumaでは<b>朱里だけが200円まで拒否</b>。キャラ設定と整合する唯一の個人差</li>
+          <li>pneumaでは<b>朱里だけが200円以下の提案を拒否</b>。キャラ設定と整合する唯一の個人差</li>
         </ul>
         <div class="sec">話し合いの空気読みが消える</div>
         <ul class="dash">
@@ -325,7 +325,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 7 結果2 本音 -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 2/3</div>
+  <div class="s-eyebrow">RESULT 2/5</div>
   <h2 class="s-title">結果② 自己検閲が消える</h2>
   <div class="s-bar"></div>
   <p class="s-msg">効果は説得や同調圧力が働く前、第一声の時点で既に現れている</p>
@@ -357,8 +357,8 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 8 結果3 スケール -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 3/3</div>
-  <h2 class="s-title">結果③ 質感はスケールする</h2>
+  <div class="s-eyebrow">RESULT 3/5</div>
+  <h2 class="s-title">結果③ 長い時間でも、質感は壊れない</h2>
   <div class="s-bar"></div>
   <p class="s-msg">脱落ありの心理戦(デスゲーム)と、指示なしの30日共同生活で、長時間の挙動を観測した</p>
   <div class="s-body">
@@ -395,7 +395,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 9 null -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 4</div>
+  <div class="s-eyebrow">RESULT 4/5</div>
   <h2 class="s-title">結果④ 感情を与えても、非合理な意思決定は動かない</h2>
   <div class="s-bar"></div>
   <p class="s-msg">同調やサンクコストなど、心理学実験で知られる人間の行動パターンは、感情を注入しても再現されない</p>
@@ -430,7 +430,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 10 切り分け+結論 -->
 <section class="slide">
-  <div class="s-eyebrow">CONCLUSION</div>
+  <div class="s-eyebrow">RESULT 5/5 + CONCLUSION</div>
   <h2 class="s-title">結果⑤ 境界はモデルの中にある</h2>
   <div class="s-bar"></div>
   <p class="s-msg">感情が効かないのは、注入経路の故障ではない。2つの追加実験で切り分けた</p>
