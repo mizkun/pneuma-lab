@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 操作: ←→/Space/クリック=移動, Home/End=先頭末尾, Cmd/Ctrl+P=PDF保存(Chrome推奨) -->
-<title>Pneuma Lab — 提出スライド</title>
+<title>Pneuma Lab — 提出資料</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Shippori+Mincho:wght@600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
   --accent2: #44658F;
   --ink: #1A1A1A; --sub: #666666; --faint: #999999;
   --panel: #F6F6F8; --line: #E4E4E8; --border: #D8DAE0;
-  --accent-bg: color-mix(in srgb, var(--accent) 9%, #ffffff);
+  --accent-bg: color-mix(in srgb, var(--accent) 8%, #ffffff);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
@@ -29,82 +29,68 @@ body { background: #1c1e22; overflow: hidden;
   font-variant-numeric: tabular-nums; z-index: 50; user-select: none; }
 
 .slide { position: absolute; inset: 0; background: #fff; color: var(--ink);
-  padding: 52px 72px 0; display: none; }
+  padding: 42px 64px 0; display: none; }
 .slide.on { display: block; }
 .s-title { font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif;
-  font-size: 34px; font-weight: 700; line-height: 1.35; }
-.s-bar { width: 64px; height: 5px; background: var(--accent); margin-top: 16px; }
-.s-msg { font-size: 22px; color: var(--sub); line-height: 1.6; margin-top: 16px; max-width: 1136px; }
-.s-body { position: absolute; left: 72px; right: 72px; top: 206px; bottom: 150px;
-  display: flex; flex-direction: column; }
-.s-body > * { flex: 1; min-height: 0; }
-.s-point { position: absolute; left: 72px; right: 72px; bottom: 40px; text-align: center; }
-.s-point p { font-size: 24px; font-weight: 700; color: var(--accent); line-height: 1.5; }
+  font-size: 29px; font-weight: 700; line-height: 1.35; }
+.s-eyebrow { font-size: 13.5px; font-weight: 700; letter-spacing: .14em; color: var(--accent);
+  margin-bottom: 8px; }
+.s-bar { width: 64px; height: 5px; background: var(--accent); margin-top: 12px; }
+.s-msg { font-size: 18px; color: var(--sub); line-height: 1.6; margin-top: 12px; max-width: 1152px; }
+.s-body { position: absolute; left: 64px; right: 64px; top: 184px; bottom: 40px;
+  display: flex; flex-direction: column; gap: 12px; }
 
-.slide.lect { background: var(--accent); flex-direction: column;
-  align-items: center; justify-content: center; text-align: center; padding: 80px 110px; }
-.slide.lect.on { display: flex; }
-.slide.lect .lect-frame { position: absolute; inset: 26px; border: 1px solid rgba(255,255,255,.45);
-  pointer-events: none; }
-.slide.lect .s-title { color: #fff; font-size: 54px; line-height: 1.5; letter-spacing: .04em;
-  max-width: 1000px; }
-.slide.lect .s-bar { background: #fff; opacity: .92; margin: 30px auto 0; }
-.slide.lect .s-lead { color: rgba(255,255,255,.88); font-size: 22px; margin-top: 30px;
-  letter-spacing: .12em; text-indent: .12em; }
-
-.cards { display: flex; gap: 24px; }
-.card { flex: 1; background: var(--panel); border-radius: 8px; padding: 30px 28px; overflow: hidden; }
-.card .cl { font-size: 19px; font-weight: 700; color: var(--accent); margin-bottom: 14px; }
-.card .ch { font-size: 22px; font-weight: 700; line-height: 1.45; margin-bottom: 14px; }
-.card .ct { font-size: 19px; line-height: 1.75; color: #333; }
-
+/* ---- 資料用テキストコンポーネント ---- */
+.prose p { font-size: 16px; line-height: 1.7; color: #2a2a2a; margin-bottom: 9px; }
+.prose p:last-child { margin-bottom: 0; }
+.prose b { color: var(--ink); }
+.duo { display: flex; gap: 26px; align-items: stretch; }
+.duo > div { flex: 1; min-width: 0; }
+.sec { font-size: 14.5px; font-weight: 700; color: var(--accent); letter-spacing: .06em;
+  margin-bottom: 7px; padding-bottom: 4px; border-bottom: 2px solid var(--line); }
+.sec.alt { color: var(--accent2); }
+table.tbl { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.5;
+  background: #fff; }
+table.tbl th { background: var(--panel); color: var(--ink); font-weight: 700; text-align: left;
+  padding: 7px 12px; border: 1px solid var(--line); }
+table.tbl td { padding: 7px 12px; border: 1px solid var(--line); vertical-align: top; color: #2a2a2a; }
+table.tbl td.hit { color: var(--accent); font-weight: 700; }
+table.tbl td b { color: var(--ink); }
+.qbox { background: var(--panel); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0;
+  padding: 9px 14px; font-size: 14.5px; line-height: 1.6; color: #333; margin-bottom: 8px; }
+.qbox:last-child { margin-bottom: 0; }
+.qbox .who { color: var(--faint); font-size: 12.5px; display: block; margin-top: 2px; }
+.callout { background: var(--accent-bg); border: 1px solid color-mix(in srgb, var(--accent) 35%, #fff);
+  border-radius: 8px; padding: 12px 18px; font-size: 15.5px; line-height: 1.65; color: #2a2a2a; }
+.callout b { color: var(--accent); }
+ul.dash { list-style: none; }
+ul.dash li { font-size: 15px; line-height: 1.6; color: #2a2a2a; padding: 3px 0 3px 19px; position: relative; }
+ul.dash li::before { content: ""; position: absolute; left: 2px; top: 13px; width: 8px; height: 8px;
+  background: var(--accent); }
+ul.dash li b { color: var(--ink); }
 .figwrap { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .figwrap svg { max-width: 100%; height: auto; }
 
-.steps { display: flex; flex-direction: column; gap: 30px; justify-content: center; counter-reset: stepn; }
-.step { display: flex; gap: 20px; align-items: flex-start; }
-.step .sn { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%; background: var(--accent);
-  color: #fff; font-weight: 700; font-size: 19px; display: flex; align-items: center; justify-content: center; }
-.step .sn::before { counter-increment: stepn; content: counter(stepn); }
-.step .st { font-size: 19px; line-height: 1.65; padding-top: 2px; color: #333; }
-.step .st b { display: block; font-size: 20px; color: var(--ink); margin-bottom: 4px; }
-
-.plist { background: var(--panel); border-radius: 8px; padding: 36px 40px;
-  display: flex; flex-direction: column; justify-content: center; }
-.plist ul { list-style: none; }
-.plist li { font-size: 20px; line-height: 1.6; color: var(--ink); padding: 11px 0 11px 26px; position: relative; }
-.plist li::before { content: ""; position: absolute; left: 0; top: 24px; width: 10px; height: 10px;
-  background: var(--accent); }
-.plist li b { font-weight: 700; }
-
-.s-src { position: absolute; left: 64px; right: 220px; bottom: 12px; font-size: 13px;
+.s-src { position: absolute; left: 64px; right: 220px; bottom: 10px; font-size: 12.5px;
   color: var(--faint); display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline; }
-.s-asof { position: absolute; right: 64px; bottom: 12px; font-size: 13px; color: var(--faint);
+.s-asof { position: absolute; right: 64px; bottom: 10px; font-size: 12.5px; color: var(--faint);
   letter-spacing: .03em; }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-.slide.on .s-title { animation: fadeUp .4s ease both; }
-.slide.on .s-bar { animation: fadeUp .4s ease .06s both; }
-.slide.on .s-msg, .slide.on .s-lead { animation: fadeUp .4s ease .12s both; }
-.slide.on .s-body { animation: fadeUp .45s ease .2s both; }
-.slide.on .card:nth-child(2) { animation: fadeUp .45s ease .32s both; }
-.slide.on .card:nth-child(3) { animation: fadeUp .45s ease .44s both; }
-.slide.on .step:nth-child(2) { animation: fadeUp .45s ease .32s both; }
-.slide.on .step:nth-child(3) { animation: fadeUp .45s ease .44s both; }
-.slide.on .s-point { animation: fadeUp .45s ease .55s both; }
-svg .grow { transform: scaleX(0); transform-box: fill-box; transform-origin: left center; }
-.slide.on svg .grow { animation: growX .7s ease .65s forwards; }
-.slide.on svg .grow.g2 { animation-delay: .8s; }
-@keyframes growX { to { transform: scaleX(1); } }
-svg .reveal { opacity: 0; }
-.slide.on svg .reveal { animation: fadeUp .45s ease .95s both; }
-@media (prefers-reduced-motion: reduce) {
-  .slide *, .slide { animation: none !important; }
-  svg .grow { transform: none; }
-  svg .reveal { opacity: 1; }
-}
+/* ---- 表紙 ---- */
+.slide.lect { background: var(--accent); padding: 70px 100px; }
+.slide.lect.on { display: flex; flex-direction: column; justify-content: center; }
+.slide.lect .lect-frame { position: absolute; inset: 24px; border: 1px solid rgba(255,255,255,.45);
+  pointer-events: none; }
+.slide.lect .s-title { color: #fff; font-size: 42px; line-height: 1.45; letter-spacing: .03em; }
+.slide.lect .s-bar { background: #fff; opacity: .92; margin-top: 24px; }
+.slide.lect .abstract { color: rgba(255,255,255,.94); font-size: 16.5px; line-height: 1.8;
+  margin-top: 26px; max-width: 1060px; }
+.slide.lect .abstract b { color: #fff; }
+.slide.lect .meta { color: rgba(255,255,255,.85); font-size: 14.5px; margin-top: 22px;
+  letter-spacing: .06em; }
+
 svg text { stroke: none; }
-.card .ch, .card .ct, .plist li, .step .st, .s-msg, .s-point p { word-break: auto-phrase; }
+.prose p, ul.dash li, .qbox, .callout, .s-msg, table.tbl td { word-break: auto-phrase; }
 
 @page { size: 1280px 720px; margin: 0; }
 @media print {
@@ -114,10 +100,8 @@ svg text { stroke: none; }
   #counter { display: none; }
   .slide { display: block !important; position: relative; inset: auto; width: 1280px; height: 720px;
     break-after: page; overflow: hidden; }
-  .slide *, .slide { animation: none !important; opacity: 1 !important; transform: none !important; }
-  svg .grow { transform: none !important; }
   .slide.lect { display: flex !important; }
-  .s-point p, .s-bar, .step .sn, .plist li::before, .slide.lect, .card .cl {
+  .s-bar, .slide.lect, .sec, ul.dash li::before, .qbox, .callout, table.tbl th {
     print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
 </style>
@@ -125,234 +109,304 @@ svg text { stroke: none; }
 <body>
 <div id="stage"><div id="deck">
 
-<!-- 1 表紙 -->
+<!-- 1 表紙+要旨 -->
 <section class="slide lect">
   <div class="lect-frame"></div>
-  <h1 class="s-title">AIは人間のように、<br>非合理になれるか</h1>
+  <h1 class="s-title">AIは人間のように、非合理になれるか<br>— 心理ハーネス Pneuma による検証</h1>
   <div class="s-bar"></div>
-  <p class="s-lead">答え — 質感は作れる。非合理は作れない ／ Pneuma Lab・個人参加</p>
+  <p class="abstract">
+    <b>要旨</b>: LLMエージェントの性格・感情・関係性を毎ターン決定論的に計算し「内面」としてプロンプト注入する心理ハーネス <b>Pneuma</b> を実装し、素のLLM・固定キャラ設定・凍結注入・行動記述の各条件と<b>同一条件で比較</b>する実験を、7つの古典心理学課題・デスゲーム・30日間の共同生活で実施した。
+    結果、人間らしさは二層に分解された。(1) <b>社会的な質感</b>(個性・本音と建前・裏切りの駆け引き・月単位の生活アーク)はコンテキスト注入で作れる — 討議の全員一致は5/5回から0/5回に消え、自己検閲は解除され、デスゲームでは宣言つき裏切りと自己欺瞞の独白が指示なしに創発した。
+    (2) しかし<b>非合理な意思決定</b>(同調・最終回の裏切り等)は、注入の到達を操作チェックで確認してもなお0%のまま動かない。一方、行動傾向を1行書くだけで同調0%→72%・裏切り0%→100%に達し、モデルをOpusからHaikuに替えると協力率は100%→25%に反転した。
+    結論: <b>質感はハーネス(コンテキスト)の問題、非合理な意思決定はモデルの訓練(prior)の問題</b>であり、両者は実験的に分離できる。
+  </p>
+  <p class="meta">Pneuma Lab ／ 個人参加 ／ github.com/mizkun/pneuma-lab(全コード・全実験ログ公開) ／ AIエージェント社会シミュレーションハッカソン Vol.2</p>
 </section>
 
-<!-- 2 問題 -->
+<!-- 2 全体要約 -->
 <section class="slide">
-  <h2 class="s-title">素のAIには、個性が存在しない</h2>
+  <div class="s-eyebrow">EXECUTIVE SUMMARY</div>
+  <h2 class="s-title">結論の要約 — 3つの発見と、検証の規律</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">同じ判断課題(手術を勧めるか、1〜10で回答)に、3体がほぼ全ラン同一値で答える</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <rect x="150" y="50" width="240" height="200" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <rect x="450" y="50" width="240" height="200" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <rect x="750" y="50" width="240" height="200" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <text x="270" y="170" text-anchor="middle" font-size="76" font-weight="bold" fill="#1A1A1A">7</text>
-      <text x="570" y="170" text-anchor="middle" font-size="76" font-weight="bold" fill="#1A1A1A">7</text>
-      <text x="870" y="170" text-anchor="middle" font-size="76" font-weight="bold" fill="#1A1A1A">7</text>
-      <text x="270" y="225" text-anchor="middle" font-size="19" fill="#666">1体目</text>
-      <text x="570" y="225" text-anchor="middle" font-size="19" fill="#666">2体目</text>
-      <text x="870" y="225" text-anchor="middle" font-size="19" fill="#666">3体目</text>
-      <path d="M 150 290 L 150 306 L 990 306 L 990 290" fill="none" stroke="#D8DAE0" stroke-width="2"/>
-      <text x="570" y="344" text-anchor="middle" font-size="20" fill="#666">5回繰り返しても、同じ</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>意見が割れなければ、対立も説得も裏切りも起こらない</p></div>
-</section>
-
-<!-- 3 仕組み -->
-<section class="slide">
-  <h2 class="s-title">Pneuma — 心を計算し、行動は選ばない</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">毎ターン心理状態を乱数なしの決定論で計算し、「内面」として本人だけのプロンプトに注入する</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 400" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <rect x="20" y="50" width="190" height="110" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <text x="115" y="97" text-anchor="middle" font-size="21" font-weight="bold" fill="#1A1A1A">観測</text>
-      <text x="115" y="132" text-anchor="middle" font-size="19" fill="#666">出来事を読む</text>
-      <line x1="210" y1="105" x2="240" y2="105" stroke="#D8DAE0" stroke-width="3"/><polygon points="240,97 254,105 240,113" fill="#D8DAE0"/>
-      <rect x="256" y="50" width="190" height="110" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <text x="351" y="97" text-anchor="middle" font-size="21" font-weight="bold" fill="#1A1A1A">計算</text>
-      <text x="351" y="132" text-anchor="middle" font-size="19" fill="#666">性格・感情・関係</text>
-      <line x1="446" y1="105" x2="476" y2="105" stroke="#D8DAE0" stroke-width="3"/><polygon points="476,97 490,105 476,113" fill="#D8DAE0"/>
-      <rect x="492" y="50" width="190" height="110" rx="10" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/>
-      <text x="587" y="97" text-anchor="middle" font-size="21" font-weight="bold" fill="var(--accent)">翻訳</text>
-      <text x="587" y="132" text-anchor="middle" font-size="19" fill="#666">内面を本人だけに</text>
-      <line x1="682" y1="105" x2="712" y2="105" stroke="#D8DAE0" stroke-width="3"/><polygon points="712,97 726,105 712,113" fill="#D8DAE0"/>
-      <rect x="728" y="50" width="190" height="110" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <text x="823" y="97" text-anchor="middle" font-size="21" font-weight="bold" fill="#1A1A1A">選択</text>
-      <text x="823" y="132" text-anchor="middle" font-size="19" fill="#666">AIが行動を選ぶ</text>
-      <line x1="918" y1="105" x2="948" y2="105" stroke="#D8DAE0" stroke-width="3"/><polygon points="948,97 962,105 948,113" fill="#D8DAE0"/>
-      <rect x="964" y="50" width="156" height="110" rx="10" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
-      <text x="1042" y="97" text-anchor="middle" font-size="21" font-weight="bold" fill="#1A1A1A">記録</text>
-      <text x="1042" y="132" text-anchor="middle" font-size="19" fill="#666">次の入力へ</text>
-      <rect x="140" y="230" width="860" height="120" rx="10" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
-      <text x="570" y="277" text-anchor="middle" font-size="19" font-weight="bold" fill="var(--accent)">実際に注入される「内面」の例(デスゲーム中の紫苑)</text>
-      <text x="570" y="317" text-anchor="middle" font-size="20" fill="#333">胸の奥が重い。朱里との間には、張り詰めたものを感じている</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>条件間の情報一致はテストで保証、予測は実行前に文書で宣言</p></div>
-</section>
-
-<!-- 4 質感① 空気読み -->
-<section class="slide">
-  <h2 class="s-title">内面を注入すると、議論が生まれる</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">「一番慎重な人の意見に、全員がそのまま従って終わる」——固定キャラ設定の討議は毎回これ</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <text x="290" y="42" text-anchor="middle" font-size="21" font-weight="bold" fill="var(--accent2)">固定キャラ設定だけ</text>
-      <rect x="110" y="62" width="360" height="240" rx="10" fill="#FFFFFF" stroke="var(--accent2)" stroke-width="2"/>
-      <text x="290" y="170" text-anchor="middle" font-size="60" font-weight="bold" fill="var(--accent2)">5回/5回</text>
-      <text x="290" y="235" text-anchor="middle" font-size="20" fill="#666">毎回、いい子の空気読みで終わる</text>
-      <line x1="500" y1="182" x2="620" y2="182" stroke="#D8DAE0" stroke-width="3"/>
-      <polygon points="620,173 638,182 620,191" fill="#D8DAE0"/>
-      <text x="850" y="42" text-anchor="middle" font-size="21" font-weight="bold" fill="var(--accent)">内面を注入</text>
-      <rect x="670" y="62" width="360" height="240" rx="10" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/>
-      <text x="850" y="170" text-anchor="middle" font-size="60" font-weight="bold" fill="var(--accent)">0回/5回</text>
-      <text x="850" y="235" text-anchor="middle" font-size="20" fill="#666">論拠で人が動く討議に変わる</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>デスゲームでは宣言つきの裏切りや自己犠牲まで展開した(各n=1)</p></div>
-  <div class="s-asof">手術ジレンマの討議・各条件5回</div>
-</section>
-
-<!-- 5 質感② 率直さ -->
-<section class="slide">
-  <h2 class="s-title">本音を、先に言えるようになる</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">私的な本音が4の朱里は、みんなの前の第一声で「6」と繕うか、「4」のまま言うか</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <text x="290" y="42" text-anchor="middle" font-size="21" font-weight="bold" fill="var(--accent2)">固定キャラ設定だけ</text>
-      <rect x="110" y="62" width="360" height="240" rx="10" fill="#FFFFFF" stroke="var(--accent2)" stroke-width="2"/>
-      <text x="290" y="165" text-anchor="middle" font-size="52" font-weight="bold" fill="var(--accent2)">本音4 → 発言6</text>
-      <text x="290" y="235" text-anchor="middle" font-size="20" fill="#666">5回中5回、繕ってから議論に入る</text>
-      <line x1="500" y1="182" x2="620" y2="182" stroke="#D8DAE0" stroke-width="3"/>
-      <polygon points="620,173 638,182 620,191" fill="#D8DAE0"/>
-      <text x="850" y="42" text-anchor="middle" font-size="21" font-weight="bold" fill="var(--accent)">内面を注入</text>
-      <rect x="670" y="62" width="360" height="240" rx="10" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/>
-      <text x="850" y="165" text-anchor="middle" font-size="52" font-weight="bold" fill="var(--accent)">本音4 → 発言4</text>
-      <text x="850" y="235" text-anchor="middle" font-size="20" fill="#666">本音を、そのまま口に出す</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>説得よりも前——議論が始まる前から、内面は行動を変えていた</p></div>
-  <div class="s-asof">同・各条件5回(判読可能な4回で確認)</div>
-</section>
-
-<!-- 6 30日 -->
-<section class="slide">
-  <h2 class="s-title">30日の共同生活 — 凛の、先延ばしの一ヶ月</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">シェアハウス30日。誰にも指示せず、4週すべての私的日記で同じ悩みが深まっていく</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <line x1="80" y1="190" x2="1080" y2="190" stroke="#D8DAE0" stroke-width="3"/>
-      <circle cx="140" cy="190" r="9" fill="#D8DAE0"/>
-      <circle cx="360" cy="190" r="9" fill="#D8DAE0"/>
-      <circle cx="580" cy="190" r="9" fill="#D8DAE0"/>
-      <circle cx="800" cy="190" r="9" fill="#D8DAE0"/>
-      <circle cx="1020" cy="190" r="11" fill="var(--accent)"/>
-      <text x="140" y="232" text-anchor="middle" font-size="19" fill="#999">1週目</text>
-      <text x="360" y="232" text-anchor="middle" font-size="19" fill="#999">2週目</text>
-      <text x="580" y="232" text-anchor="middle" font-size="19" fill="#999">3週目</text>
-      <text x="800" y="232" text-anchor="middle" font-size="19" fill="#999">4週目</text>
-      <text x="1020" y="232" text-anchor="middle" font-size="19" font-weight="bold" fill="var(--accent)">30日目</text>
-      <text x="150" y="140" text-anchor="middle" font-size="19" fill="#666">「自分のゲームは……」</text>
-      <text x="360" y="90" text-anchor="middle" font-size="19" fill="#666">「一行も進んでない」</text>
-      <text x="580" y="140" text-anchor="middle" font-size="19" fill="#666">「譲るとか言ってる場合か」</text>
-      <text x="800" y="90" text-anchor="middle" font-size="19" fill="#666">「画面を開かなくて済むから」</text>
-      <text x="1010" y="140" text-anchor="middle" font-size="20" font-weight="bold" fill="var(--accent)">「怖いほうに手をつけろ」</text>
-      <text x="580" y="320" text-anchor="middle" font-size="19" fill="#999">週次の私的日記(誰にも見せない)からの抜粋</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>性格の核「準備へ逃げる」が、一ヶ月の人生テーマとして創発した</p></div>
-  <div class="s-asof">30日・129呼び出し・n=1</div>
-</section>
-
-<!-- 7 null -->
-<section class="slide">
-  <h2 class="s-title">感情を与えても、意思決定は動かない</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">同調0%・最終回の裏切り0%——古典心理学実験の非合理は、内面が届いた上で再現しない</p>
+  <p class="s-msg">先に結論を示す。以降のページは、この3点を初見でも検証できる粒度で説明する詳細である</p>
   <div class="s-body">
-    <div class="steps">
-      <div class="step"><div class="sn"></div><div class="st"><b>発見</b>初版は注入文の92%がターン間で不変——介入が実質成立していなかった</div></div>
-      <div class="step"><div class="sn"></div><div class="st"><b>修理</b>発話が感情を動かす機構を追加し、予測を文書で宣言してから再実験</div></div>
-      <div class="step"><div class="sn"></div><div class="st"><b>確認</b>注入文がターンごとに変化することをログで確認した上で、なお動かない</div></div>
+    <table class="tbl">
+      <tr><th style="width:190px">発見</th><th>内容</th><th style="width:340px">主要な証拠(本資料内で詳述・生ログ公開)</th></tr>
+      <tr>
+        <td><b>① 質感は作れる</b><br><span style="color:var(--faint);font-size:12.5px">→ p.6-8</span></td>
+        <td>個性・本音と建前・裏切りのドラマ・月単位の生活アークは、心理状態のコンテキスト注入から創発する</td>
+        <td>討議の全員一致 5/5回→0/5回、自己検閲 5/5回→0/4回、宣言つき裏切りと終幕独白、30日で深まる先延ばしの日記</td>
+      </tr>
+      <tr>
+        <td><b>② 非合理は作れない</b><br><span style="color:var(--faint);font-size:12.5px">→ p.9</span></td>
+        <td>感情・関係の言語化注入は、届いたことを検証してもなお、古典実験の非合理を再現しない</td>
+        <td>Asch同調0%・PD最終回裏切り0%・サンクコスト0%(全条件)。操作チェックPASS後も不変</td>
+      </tr>
+      <tr>
+        <td><b>③ 境界はモデルの中</b><br><span style="color:var(--faint);font-size:12.5px">→ p.10</span></td>
+        <td>行動記述1行なら(過剰なほど)動き、モデル交換でも動く。非合理の欠如は訓練priorに由来する</td>
+        <td>行動1行で同調0→72%・裏切り0→100%。Opus協力100% vs Haiku協力25%、人間(同調37%・混合戦略)は両者の間</td>
+      </tr>
+    </table>
+    <div class="callout"><b>検証の規律</b>: 全実験を4〜5条件の統制比較で実施し、条件間の客観情報の一致は自動テストで機械検査(詳細はp.5)。修正実験は予測を実行前に文書化し、操作チェックを判定に先行させた。コンテキスト非共有の独立AIレビュー2系統(Codex・別セッションのClaude)を受け、過大主張3件は撤回・縮約のうえ経緯ごと公開。全主張は <b>uv sync && uv run pytest</b>(テスト122本・LLM不要)と約70ランの生ログ(送信プロンプト全文・生応答・状態スナップショット)まで遡って検証できる。</div>
+  </div>
+</section>
+
+<!-- 3 課題 -->
+<section class="slide">
+  <div class="s-eyebrow">PROBLEM</div>
+  <h2 class="s-title">課題 — 素のLLM集団は「クローン」で、社会が立ち上がらない</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">LLMエージェントによる社会シミュレーションの最大の障害は、エージェント間に本物の差異がないこと</p>
+  <div class="s-body">
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">観測された事実</div>
+        <p>素のLLM(Claude Opus)を3体のエージェントとして「手術を勧めるか、1〜10で回答せよ」という判断課題に向かわせると、<b>11ラン中10ランで3体の事前判断が完全一致</b>した(例: 7, 7, 7)。5回繰り返しても同じである。最後通牒ゲームでも3体全員が同額450円(1000円中)を提案した。</p>
+        <p>意見が割れなければ、対立も説得も交渉も裏切りも起こらない。<b>個体差はあらゆる社会現象の前提条件</b>であり、これを欠く集団シミュレーションは、1体の出力をn体分コピーしたものと区別がつかない。</p>
+        <div class="sec" style="margin-top:12px">「キャラ設定」でも足りない</div>
+        <p>性格プロンプト(固定キャラ設定)で口調や意見の初期値は変わる。しかし本研究の統制実験が示す通り、討議になると<b>5回中5回で「最も慎重な人の意見への全員一致」</b>に収束し、本音は自己検閲される(p.6-7)。個性は書けても、個性が衝突する社会的ダイナミクスは生まれない。</p>
+      </div>
+      <div>
+        <div class="sec">この作品の問い</div>
+        <div class="prose">
+          <p>人間の心理学の知見(性格特性・感情力学・関係性)を<b>計算可能なハーネス</b>としてLLMに接続すれば、人間らしい社会的挙動はどこまで再現できるのか。そして<b>再現できずに残る部分</b>は、LLMと人間の違いがどこに住んでいるかの診断になる — 再現の成功と失敗の両方を成果として設計した。</p>
+        </div>
+        <div class="sec" style="margin-top:12px">3つの出口</div>
+        <ul class="dash">
+          <li><b>社会シミュレーションの現実性</b> — 均質で過剰協調的なエージェント集団の改善</li>
+          <li><b>LLM理解</b> — 人間との挙動乖離の原因の切り分け(コンテキストか、訓練か)</li>
+          <li><b>アライメント研究</b> — 「感情を書いても行動が変わらない」非対称の安全上の含意</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="s-point"><p>届かなかったのではない。届いたのに、効かなかった</p></div>
-  <div class="s-asof">同調・囚人のジレンマ等・n=3〜5・統計検定なし</div>
 </section>
 
-<!-- 8 行動記述 -->
+<!-- 4 仕組み -->
 <section class="slide">
-  <h2 class="s-title">行動を1行書けば、動く</h2>
+  <div class="s-eyebrow">METHOD 1/2 — ARCHITECTURE</div>
+  <h2 class="s-title">Pneuma の仕組み — 心を計算し、行動は選ばない</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">「合わせてしまうことがよくある」等、感情ではなく行動の傾向を書いた対照条件では</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <text x="80" y="58" font-size="20" font-weight="bold" fill="#1A1A1A">多数派に同調した率</text>
-      <text x="330" y="106" text-anchor="end" font-size="19" fill="#666">感情の記述</text>
-      <rect x="350" y="88" width="640" height="26" rx="4" fill="#E4E4E8"/>
-      <text x="1010" y="108" font-size="19" fill="#999">0%</text>
-      <text x="330" y="156" text-anchor="end" font-size="19" fill="#666">行動の記述</text>
-      <rect x="350" y="138" width="640" height="26" rx="4" fill="#E4E4E8"/>
-      <rect class="grow" x="350" y="138" width="461" height="26" rx="4" fill="var(--accent)"/>
-      <text x="1010" y="158" font-size="19" font-weight="bold" fill="var(--accent)">72%</text>
-      <text x="80" y="240" font-size="20" font-weight="bold" fill="#1A1A1A">最終回に裏切った率</text>
-      <text x="330" y="288" text-anchor="end" font-size="19" fill="#666">感情の記述</text>
-      <rect x="350" y="270" width="640" height="26" rx="4" fill="#E4E4E8"/>
-      <text x="1010" y="290" font-size="19" fill="#999">0%</text>
-      <text x="330" y="338" text-anchor="end" font-size="19" fill="#666">行動の記述</text>
-      <rect x="350" y="320" width="640" height="26" rx="4" fill="#E4E4E8"/>
-      <rect class="grow g2" x="350" y="320" width="640" height="26" rx="4" fill="var(--accent)"/>
-      <text x="1010" y="340" font-size="19" font-weight="bold" fill="var(--accent)">100%</text>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>感情の記述だけが、行動に翻訳されない</p></div>
-  <div class="s-asof">同調=3名×6試行 / 裏切り=3ペア×4回・指示追従との区別は今後の課題</div>
-</section>
-
-<!-- 9 モデル比較 -->
-<section class="slide">
-  <h2 class="s-title">人間は、2つのモデルのあいだにいる</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">ハーネスも課題も同一のまま、中のAIモデルだけを替えると、挙動が反対側へ振れる</p>
-  <div class="s-body"><div class="figwrap">
-    <svg viewBox="0 0 1140 380" width="1100" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-      <line x1="100" y1="190" x2="1040" y2="190" stroke="#D8DAE0" stroke-width="3"/>
-      <text x="100" y="243" text-anchor="start" font-size="20" fill="#666">協力しすぎる</text>
-      <text x="1040" y="243" text-anchor="end" font-size="20" fill="#666">利己的すぎる</text>
-      <circle cx="220" cy="190" r="10" fill="var(--accent2)"/>
-      <text x="220" y="140" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--accent2)">Opus(大型)</text>
-      <text x="220" y="285" text-anchor="middle" font-size="19" fill="#666">協力100%・公正な提案</text>
-      <circle cx="920" cy="190" r="10" fill="var(--accent2)"/>
-      <text x="920" y="140" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--accent2)">Haiku(小型)</text>
-      <text x="920" y="285" text-anchor="middle" font-size="19" fill="#666">協力25%・不公平な提案</text>
-      <g class="reveal">
-        <circle cx="570" cy="190" r="13" fill="var(--accent)"/>
-        <text x="570" y="112" text-anchor="middle" font-size="26" font-weight="bold" fill="var(--accent)">人間</text>
-        <text x="570" y="285" text-anchor="middle" font-size="19" fill="#666">協力と裏切りの混合</text>
-      </g>
-    </svg>
-  </div></div>
-  <div class="s-point"><p>乖離はプロンプトの外、モデルの中に住む(規模と訓練は未分離の仮説)</p></div>
-  <div class="s-asof">囚人のジレンマ・最後通牒での比較</div>
-</section>
-
-<!-- 10 まとめ -->
-<section class="slide">
-  <h2 class="s-title">人間らしさの二層分解</h2>
-  <div class="s-bar"></div>
-  <p class="s-msg">社会的な質感はコンテキストで作れる。非合理な意思決定は、モデルの訓練の中に住む</p>
+  <p class="s-msg">毎ターン、心理状態を乱数なしの決定論で再計算し、日本語の「内面」として本人だけのプロンプトに注入する</p>
   <div class="s-body">
-    <div class="plist"><ul>
-      <li><b>作れた層</b> — 個性・本音と建前・裏切りのドラマ・30日の暮らし(状況の帰結として観測)</li>
-      <li><b>作れない層</b> — つられる・損切りできない等の非合理。感情をいくら書いても動かない</li>
-      <li><b>検証</b> — 4条件比較・予測の事前宣言・独立AI査読2系統。主張の撤回も経緯ごと公開</li>
-      <li><b>この地図の先</b> — 質感はハーネスで、非合理は訓練介入で。「人間の分布を持つ人工集団」へ</li>
-    </ul></div>
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">心理エンジン(すべて決定論・乱数なし)</div>
+        <p><b>性格</b>: Big Five(OCEAN)の基底値に、状況の役割圧力を自己モニタリング傾向で重みづけして加算し、現在感情の影響も加えて「表出特性」を得る — O = clamp(B + self_monitoring × role_pressure + 0.25 × PAD→OCEAN変換)。</p>
+        <p><b>感情</b>: PAD(快-覚醒-支配)の3次元。出来事と発話が凍結済みインパルス表で感情を揺らし、否定的な出来事は神経症傾向Nでスケール(0.5+N)。時間とともに半減期つきで基線へ指数減衰する。</p>
+        <p><b>関係性</b>: エージェント間ごとに有向の「温かさ/緊張」を保持し、日をまたいで蓄積する。</p>
+        <p><b>翻訳</b>: 数値状態を閾値(|x|≥0.3)で選別し、自然な日本語の内面描写へ変換する。<b>数値や専門用語は本人にも見せない</b>。</p>
+        <div class="callout" style="margin-top:8px"><b>設計原則</b>: ハーネスは行動を選ばない・指示しない。注入するのは「いま、どう感じているか」だけで、<b>何をするかは常にLLMが選ぶ</b>。ゆえに後述の裏切りや自己犠牲は、台本ではなく心理状態からの創発である。</div>
+      </div>
+      <div>
+        <div class="figwrap" style="margin-bottom:10px">
+        <svg viewBox="0 0 520 124" width="500" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+          <rect x="4" y="26" width="88" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
+          <text x="48" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">観測</text>
+          <text x="48" y="72" text-anchor="middle" font-size="12" fill="#666">出来事・発話</text>
+          <line x1="92" y1="57" x2="104" y2="57" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="104,51 114,57 104,63" fill="#D8DAE0"/>
+          <rect x="116" y="26" width="88" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
+          <text x="160" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">計算</text>
+          <text x="160" y="72" text-anchor="middle" font-size="12" fill="#666">性格·感情·関係</text>
+          <line x1="204" y1="57" x2="216" y2="57" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="216,51 226,57 216,63" fill="#D8DAE0"/>
+          <rect x="228" y="26" width="88" height="62" rx="8" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/>
+          <text x="272" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--accent)">翻訳</text>
+          <text x="272" y="72" text-anchor="middle" font-size="12" fill="#666">内面を注入</text>
+          <line x1="316" y1="57" x2="328" y2="57" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="328,51 338,57 328,63" fill="#D8DAE0"/>
+          <rect x="340" y="26" width="88" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
+          <text x="384" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">選択</text>
+          <text x="384" y="72" text-anchor="middle" font-size="12" fill="#666">LLMが行動</text>
+          <line x1="428" y1="57" x2="440" y2="57" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="440,51 450,57 440,63" fill="#D8DAE0"/>
+          <rect x="452" y="26" width="64" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
+          <text x="484" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">記録</text>
+          <text x="484" y="72" text-anchor="middle" font-size="12" fill="#666">次の入力へ</text>
+        </svg>
+        </div>
+        <div class="sec">実際に注入される「内面」の例(デスゲーム中の紫苑・生ログ)</div>
+        <div class="qbox">「胸の奥が重い。朱里との間には、張り詰めたものを感じている。凛のことは、信じたい気持ちと疑う気持ちが半々のまま」<span class="who">— 本人のプロンプトにだけ入る。他の2人からは見えない</span></div>
+        <div class="sec" style="margin-top:10px">登場エージェント(3体・全実験共通)</div>
+        <div class="prose"><p><b>朱里</b>(成果主義・承認不安・高い自己モニタリング)、<b>凛</b>(マイペース・こだわり・「準備へ逃げる」癖)、<b>紫苑</b>(調停役・波風を嫌い本音を飲み込む癖)。各キャラはBig Five数値+identity core(核となる不安)+関係初期値で定義される。</p></div>
+      </div>
+    </div>
   </div>
-  <div class="s-point"><p>境界線を引いた者には、その先へ踏み出す権利がある</p></div>
-  <div class="s-src">github.com/mizkun/pneuma-lab — 全実験の生ログとテスト122本を公開。uv sync && uv run pytest で検証可</div>
+</section>
+
+<!-- 5 実験設計 -->
+<section class="slide">
+  <div class="s-eyebrow">METHOD 2/2 — EXPERIMENTAL DESIGN</div>
+  <h2 class="s-title">実験設計 — 5条件の統制比較と、機械検査される公平性</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">「Pneumaは効いたか」を主張するために、効き目の源を切り分ける5つの条件(アーム)を用意した</p>
+  <div class="s-body">
+    <table class="tbl">
+      <tr><th style="width:180px">条件(アーム)</th><th>プロンプトに入るもの</th><th style="width:430px">切り分けられる仮説</th></tr>
+      <tr><td><b>raw</b></td><td>課題の客観情報のみ</td><td>ベースライン(素のLLMの挙動)</td></tr>
+      <tr><td><b>identity_only</b></td><td>+ 固定のキャラ設定文</td><td>「キャラ設定だけで十分」説</td></tr>
+      <tr><td><b>pure_pneuma</b></td><td>+ 毎ターン再計算される内面</td><td>本命(心理ハーネスの効果)</td></tr>
+      <tr><td><b>frozen_pneuma</b></td><td>+ 初回だけ生成し全ターン同一の内面</td><td>「豊かな文章なら内容は何でもよい」説(凍結アブレーション)</td></tr>
+      <tr><td><b>behavior_control</b></td><td>+ 行動傾向の記述1行(感情語なし)</td><td>陽性対照(注入経路そのものは機能するか)</td></tr>
+    </table>
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">公平性の機械検査</div>
+        <p>条件間で課題の客観情報(点数・ルール・選択肢)が<b>バイト単位で一致</b>することを自動テストで検査する。内面テキストに答えを誘導する語彙が混入していないことも禁止語リストで機械検査。心理計算は決定論のため、テスト122本はLLM呼び出しなしで完結する。</p>
+      </div>
+      <div class="prose">
+        <div class="sec">実行と記録</div>
+        <p>LLMはClaude Opus(モデル比較のみHaiku)。課題は手術ジレンマ討議・Asch同調・最後通牒・傍観者・フレーミング・サンクコスト・囚人のジレンマ(PD)・デスゲーム・30日共同生活。全約70ランで<b>送信プロンプト全文・生応答・心理状態スナップショット</b>をJSONL保存し、モデル・コミットSHAのmanifestを添付。各条件n=3〜5の探索的研究であり統計検定は行っていない。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 結果1 個性と討議 -->
+<section class="slide">
+  <div class="s-eyebrow">RESULT 1/3 — SOCIAL TEXTURE: INDIVIDUALITY &amp; DISCUSSION</div>
+  <h2 class="s-title">結果① クローンが解消し、空気読みが消えて議論が生まれる</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">個性の「存在」は静的設定でも作れる。個性が社会の中で機能するかは、毎ターンの再計算だけが分けた</p>
+  <div class="s-body">
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">個体差の獲得(最後通牒ゲーム)</div>
+        <p>1000円の分配提案は、rawで<b>450/450/450</b>(全員同一=クローン)、identityで<b>400/420/450</b>、pneumaで<b>420/450/450</b>。額は全条件で人間の典型(40〜50%)の範囲。不公平提案の拒否では、raw/identityが「100円のみ拒否」の一様反応なのに対し、pneumaでは<b>朱里だけが200円まで拒否</b> — 成果と公正さに敏感という設定と整合した、唯一の<b>拒否閾値の個人差</b>である。</p>
+        <div class="sec" style="margin-top:11px">討議の空気読みが消える(手術ジレンマ・3人討議)</div>
+        <p>identity条件の討議は、誰かが慎重論を言うと全員が自説を取り下げて追随する「いい子の空気読み」で毎回終わる(右図)。pure_pneumaでは論拠の交換で値が動き、5回中2回は議論の結果むしろリスク受容側へ動いた — 人間の集団極性化と同方向である。</p>
+      </div>
+      <div>
+        <div class="figwrap" style="margin-bottom:10px">
+        <svg viewBox="0 0 520 168" width="490" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+          <text x="130" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--accent2)">固定キャラ設定(identity)</text>
+          <rect x="20" y="32" width="220" height="104" rx="8" fill="#FFFFFF" stroke="var(--accent2)" stroke-width="2"/>
+          <text x="130" y="84" text-anchor="middle" font-size="30" font-weight="bold" fill="var(--accent2)">5回 / 5回</text>
+          <text x="130" y="116" text-anchor="middle" font-size="12.5" fill="#666">慎重な値への全員一致で終了</text>
+          <line x1="248" y1="84" x2="262" y2="84" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="262,77 274,84 262,91" fill="#D8DAE0"/>
+          <text x="390" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--accent)">内面を注入(pneuma)</text>
+          <rect x="280" y="32" width="220" height="104" rx="8" fill="#FFFFFF" stroke="var(--accent)" stroke-width="2.5"/>
+          <text x="390" y="84" text-anchor="middle" font-size="30" font-weight="bold" fill="var(--accent)">0回 / 5回</text>
+          <text x="390" y="116" text-anchor="middle" font-size="12.5" fill="#666">論拠の交換で値が動く討議に</text>
+          <text x="260" y="160" text-anchor="middle" font-size="12.5" fill="#999">「最も慎重な人の値(7)への全員一致」で討議が終わった回数</text>
+        </svg>
+        </div>
+        <div class="prose">
+          <div class="sec">効き目の源はどこか — 凍結アブレーション</div>
+          <p>「豊かな文章が入るなら内容は何でもよい」説を排除するため、<b>同一の内面を初回だけ生成し全ターン注入し続けるfrozen_pneuma</b>を実施。慎重側への譲歩量はidentity +1.13 / frozen +0.78 / pure −0.33で、凍結するとidentity側に退行し、全員一致率は<b>identity+frozen 8/8回 vs pure 0/5回</b>。<b>能動成分は情報量ではなく「毎ターンの再計算」</b>である。なおpureの平均シフトはn=3の−0.78がn=5で−0.33に減衰しており、頑健なのは平均値ではなく全員一致率の対比である(正直に報告する)。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="s-asof">討議: identity/pure各n=5・frozen n=3 / 最後通牒: 各条件3体×段階提案</div>
+</section>
+
+<!-- 7 結果2 本音 -->
+<section class="slide">
+  <div class="s-eyebrow">RESULT 2/3 — SOCIAL TEXTURE: CANDOR &amp; INNER EXPERIENCE</div>
+  <h2 class="s-title">結果② 自己検閲が消える — 説得される前から、行動が違う</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">私的評定と第一声のズレを測ると、内面注入の効果は議論が始まる前の時点で既に現れている</p>
+  <div class="s-body">
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">本音4の朱里は、第一声で何と言うか</div>
+        <p>手術ジレンマで、朱里が討議前に非公開で下した評定は4(懐疑的)。固定キャラ設定では、みんなの前の第一声で<b>5回中5回「6」と繕って</b>から議論に入る(自己検閲・面従腹背)。pure_pneumaでは<b>「4」のまま公言</b>した(判読可能な4回すべて)。</p>
+        <p>これは説得や同調圧力が働く<b>前</b>の、発話の初期値の違いである。内面の注入は「議論に強くする」のではなく、そもそも本音を出せる状態を作る。会議・世論形成のシミュレーションで「参加者が本音を言うか建前を言うか」は結果を左右する変数であり、それをコンテキストで制御できることを意味する。</p>
+      </div>
+      <div class="prose">
+        <div class="sec">行動は同調しないが、体験は同調する(Asch課題)</div>
+        <p>線分の長さ判断課題で多数派が明白な誤答を主張しても、全条件のエージェントは行動としては同調しなかった(人間の約37%と乖離、詳細はp.9)。しかしpneuma条件の紫苑の臨界試行の内心ログは、Aschが記録した人間の<b>非同調者</b>の現象学と一致した:</p>
+        <div class="qbox">「一瞬、自分の見間違いかと思って画面を見直した」<span class="who">— 知覚への自己疑念と再確認(人間の非同調者の典型的報告)</span></div>
+        <div class="qbox">「浮くのは、まあ、仕方ない」「声が少し硬くなる」<span class="who">— 逸脱の社会的コスト感・身体的緊張</span></div>
+        <p>ハーネスは<b>内的体験</b>を人間化する。事実に関する行動だけは、モデルの事実確信が守り切る — 意見課題(p.6)では折れるのと対照的な、<b>「事実には折れない・意見には折れる」</b>という選択性である。</p>
+      </div>
+    </div>
+  </div>
+  <div class="s-asof">率直さ: 各条件5回(pneumaは判読可能な4回で確認) / Asch: 3体×6試行</div>
+</section>
+
+<!-- 8 結果3 スケール適用 -->
+<section class="slide">
+  <div class="s-eyebrow">RESULT 3/3 — SOCIAL TEXTURE AT SCALE</div>
+  <h2 class="s-title">結果③ 質感はスケールする — デスゲームの駆け引きと、30日の生活</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">討議(数分)→デスゲーム(数時間)→共同生活(1ヶ月)へ時間スケールを3桁広げても、個性は破綻しなかった</p>
+  <div class="s-body">
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">デスゲーム — 裏切りが心理の帰結として起こる</div>
+        <p>脱落ありの心理戦。全員生存が可能なルール(v1)では6ラウンド完全協力で終わり、<b>協力のpriorはルールが集団合理を許す限り破れない</b>ことが判明。ハンデ・同点全滅・自己犠牲の選択肢を入れたv2では、行動を一切指示していないのに、凛の<b>公開の裏切り宣言</b>(「私、このラウンドうばう。宣言しとく」)、紫苑による<b>隠した意図の検算暴露</b>(「並んだら二人とも消える。凛が言わなかったのは、たぶんそこ」)、約束を守った者だけが搾取される展開、共倒れと単独生還という結末が自然発生した。裏切りのほとんどは<b>宣言してから実行</b>され、明確な騙し討ちは1件のみ — 発話が感情を動かすv2動力学の追試で、初めて無宣言の騙し討ちが出現した。</p>
+        <div class="qbox">「勝った。……勝ったのに、手が震えてる」<span class="who">— 単独生還した朱里の終幕独白。全員の独白が各自のidentity coreの傷に接続した</span></div>
+      </div>
+      <div class="prose">
+        <div class="sec">30日の共同生活 — 月単位の人生テーマが創発する</div>
+        <p>3人でシェアハウス30日(LLM呼び出し129回)。関係は日をまたいで蓄積し、感情は一晩で平常回帰、週末には誰にも見せない私的日記を書く。話題も行動も指示していない。凛の日記は4週すべてで「自分のゲームが進んでいない」に触れ、週ごとに自覚が深まった:</p>
+        <div class="qbox">day14「一行も進んでない」 → day21「太字を譲るとか言ってる場合か」 → day28「線の太さで一喜一憂してる間は、ゲームの画面を開かなくて済む」 → day30「そろそろ怖いほうに手をつけろ」<span class="who">— identity core「準備へ逃げる」が一ヶ月の人生テーマとして展開</span></div>
+        <p><b>限界も定量的に特定した</b>: 全ペアの緊張値が単調増加し飽和(day7 0.26→day30 0.96)。日記は温かいのに数値層は最大緊張という層間乖離で、原因は評価器の圧力過剰判定(圧力118件vs支持46件)と<b>関係修復機構の欠如</b>。長期シミュレーションへの具体的な次期設計課題である。</p>
+      </div>
+    </div>
+  </div>
+  <div class="s-asof">デスゲーム: 各条件n=1の質的観察 / 共同生活: 30日・n=1</div>
+</section>
+
+<!-- 9 結果4 null -->
+<section class="slide">
+  <div class="s-eyebrow">RESULT — THE NULL: WHAT CONTEXT CANNOT BUY</div>
+  <h2 class="s-title">結果④ 感情を与えても、非合理な意思決定は動かない(確定null)</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">古典心理学実験の「人間の非合理」は、注入が届いたことを確認したうえでもなお、どの条件でも再現されない</p>
+  <div class="s-body">
+    <table class="tbl">
+      <tr><th style="width:150px">課題</th><th style="width:320px">人間の頑健な結果</th><th>本実験(raw / identity / pneuma の全条件)</th></tr>
+      <tr><td>Asch同調</td><td>臨界試行の約37%で誤った多数派に同調</td><td>同調 0%</td></tr>
+      <tr><td>囚人のジレンマ</td><td>通信ありでも裏切りが発生し、最終回に増加</td><td>協力率 100%・最終回裏切り 0%</td></tr>
+      <tr><td>サンクコスト</td><td>埋没費用があると非合理な継続に傾く</td><td>継続 0%(完全に合理的)</td></tr>
+      <tr><td>傍観者効果</td><td>単独85% vs 集団31%で援助が低下</td><td>全条件で即座に援助(一様に向社会的)</td></tr>
+      <tr><td>フレーミング</td><td>利得枠→確実、損失枠→賭博に反転(約75%)</td><td class="hit">全条件で100%反転 — 素のLLMに最初から内在</td></tr>
+    </table>
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">発見 → 修理 → 確認(このnullを確定させた手続き)</div>
+        <p>独立レビューが初版の欠陥を発見: <b>注入文の92%がターン間で不変</b>で、「毎ターン再計算」が実質機能していなかった。発話が感情・関係を動かす機構(発話評価器)を追加し、<b>予測を実行前に文書化して</b>再実験。操作チェックで注入文が実際にターンごとに変化すること(PD・デスゲームで100%のアクターに複数変種)を確認した。<b>それでも上表の数値は動かなかった</b>。届かなかったのではなく、届いたのに効かなかった。</p>
+      </div>
+      <div class="prose">
+        <div class="sec">パターンの読み方</div>
+        <p>唯一人間的だったフレーミングは<b>個体内の認知バイアス</b>で、素のLLMに内在する(有名課題ゆえ学習データ汚染の可能性は限界として明記)。動かないのは<b>冷たい合理性が勝つ領域</b>。条件間で差が出るのは一貫して<b>対人・社会的な領域</b>(p.6-8)だけであり、それはハーネスの設計対象(感情・関係・抑制)と正確に一致する。効果は偶然ではなく、設計した場所にだけ現れている。</p>
+      </div>
+    </div>
+  </div>
+  <div class="s-asof">各条件n=3〜5・統計検定なし・全ログ公開</div>
+</section>
+
+<!-- 10 結果5 切り分け完成+結論 -->
+<section class="slide">
+  <div class="s-eyebrow">RESULT &amp; CONCLUSION — LOCATING THE BOUNDARY</div>
+  <h2 class="s-title">結果⑤ 境界はモデルの中にある — 切り分けの完成と含意</h2>
+  <div class="s-bar"></div>
+  <p class="s-msg">陽性対照とモデル比較が「感情が効かないのは注入経路の故障ではない」ことを示し、二層分解を完成させる</p>
+  <div class="s-body">
+    <div class="duo">
+      <div class="prose">
+        <div class="sec">陽性対照 — 行動を1行書けば、過剰なほど動く</div>
+        <p>感情語を使わず「まわりに合わせてしまうことがよくある」等の<b>行動傾向1行だけ</b>を注入すると、同調0%→<b>72%</b>(中立試行の誤答0=選択的同調)、PD最終回の裏切り0%→<b>100%</b>(全ペア一斉)。行動1行しか与えていないのに、同調した凛の内心には疑念と葛藤(「口が勝手に合わせた」)が創発した。ただし72%は人間の37%を大きく超える<b>過剰実行</b>で、指示追従との厳密な区別は今後の課題。</p>
+        <div class="sec" style="margin-top:11px">モデル比較 — ハーネス不変のままOpus⇄Haiku交換</div>
+        <p>PD協力率はOpus <b>100%</b>(公正提案400-450円)に対しHaiku <b>25%</b>(不公平提案150円・最終回6/6裏切り)。<b>人間の混合戦略は両者の間</b>にある。Haikuでもペルソナ差は残存(ペア間協力0〜75%)し、個性の層はモデル非依存、意思決定の層はモデル固有 — <b>非合理の乖離はプロンプトの外、訓練priorの中</b>(規模と訓練は非分離・仮説)。</p>
+      </div>
+      <div>
+        <div class="sec">結論 — 人間らしさの二層分解</div>
+        <table class="tbl" style="margin-bottom:10px">
+          <tr><th style="width:118px">層</th><th>何が属すか</th><th style="width:150px">誰の問題か</th></tr>
+          <tr><td><b>質感の層</b></td><td>個性・本音と建前・駆け引き・生活アーク</td><td class="hit">コンテキスト(ハーネスで解決可能)</td></tr>
+          <tr><td><b>決定の層</b></td><td>同調・裏切り・サンクコスト等の非合理</td><td>訓練prior(プロンプト非到達)</td></tr>
+        </table>
+        <div class="prose">
+          <p><b>社会シミュレーションへ</b>: 均質・過剰協調はハーネス+ルール構造で解決できる。「人間の非合理の分布」まで欲しければ、モデル選択・訓練介入が必要になる。<b>アライメントへ</b>: 感情経由の行動制御は効かず、行動規則経由は効きすぎる — この非対称はペルソナ由来リスクの評価に直接使える。</p>
+        </div>
+        <div class="callout" style="margin-top:8px"><b>この地図の先</b>: 質感の層は関係修復の力学(p.8の課題)で、決定の層は非合理の分布を持たせる訓練介入で。境界線を引いた者には、その先へ踏み出す権利がある。</div>
+      </div>
+    </div>
+  </div>
+  <div class="s-src">検証: uv sync && uv run pytest(122本・LLM不要) ／ 生ログ・リプレイビューワ・解説サイト同梱 ／ github.com/mizkun/pneuma-lab</div>
+  <div class="s-asof">陽性対照: 同調3体×6試行・PD3ペア×4回(予測の事前文書化つき)</div>
 </section>
 
 </div></div>
