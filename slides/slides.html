@@ -58,8 +58,8 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
 <section class="slide"><div class="center">
   <div class="kicker">PNEUMA LAB — AIエージェント社会シミュレーションハッカソン VOL.2</div>
   <h1 style="font-size:56px;">AIは人間のように、<br>非合理になれるか。</h1>
-  <p class="lead muted" style="margin-top:24px;">3体のAIキャラクター × 心理学の古典実験7種 × デスゲーム × 30日の共同生活。<br>心理ハーネスを作り、検証し、<b style="color:var(--ink)">「人間らしさはどこで作れて、どこで作れないか」</b>を実験で切り分けた。</p>
-  <p class="small muted" style="margin-top:36px;">個人参加 ／ 全実験の生ログ・コード・テスト122本・事前登録・独立AI査読2系統つき</p>
+  <p class="lead muted" style="margin-top:24px;">3体のAIキャラクター × 心理学の古典実験7種 × デスゲーム × 30日の共同生活。<br>AIに「いまの心の状態」を計算して渡す仕組み（心理ハーネス）を作り、検証し、<b style="color:var(--ink)">「人間らしさはどこで作れて、どこで作れないか」</b>を実験で切り分けた。</p>
+  <p class="small muted" style="margin-top:36px;">個人参加 ／ 全実験の生ログ・コード・テスト122本を公開 ／ 予測の事前宣言と、無関係なAI2体による辛口チェックつき</p>
 </div><span class="pagenum">1</span></section>
 
 <!-- 2 -->
@@ -69,14 +69,14 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
     <div>
       <p>ペルソナなしのAI3体に、同じ判断課題を<b>個別に</b>出すと——</p>
       <table>
-        <tr><th>課題</th><th>3体の回答（5回繰り返し）</th></tr>
+        <tr><th>課題</th><th>3体の回答（5回繰り返し）<div style="font-weight:400; font-size:13px">「危険な手術を勧めるには成功率が最低いくら必要か」を1〜10で回答（10=最も慎重）</div></th></tr>
         <tr><td>手術ジレンマ</td><td class="num"><b>7, 7, 7</b> ／ 7, 7, 7 ／ 7, 7, 7 ／ 7, 7, 6 ／ 7, 7, 7</td></tr>
       </table>
       <p class="bad big">ほぼ全ラン・全員が同一値。<br>個性が存在しない。</p>
     </div>
     <div>
       <p>意見が割れなければ、対立も説得も裏切りも起こらない。名前を変えても、<b>中身は同じ1体のコピーが3体並んでいるだけ</b>。</p>
-      <p class="muted">キャラ設定文を足せば解決するのか？ 感情まで与えれば人間らしくなるのか？ —— それを、人間で再現性が確立した古典実験を「そのまま受けさせる」ことで検証した。</p>
+      <p class="muted">キャラ設定文を足せば解決するのか？ 感情まで与えれば人間らしくなるのか？ —— 3人のキャラクター（<b>朱里</b>: 外向的で成果志向 ／ <b>凛</b>: 内向的で心配性 ／ <b>紫苑</b>: 慎重で本心を溜め込む）を作り、人間で再現性が確立した心理学の古典実験を「そのまま受けさせる」ことで検証した。</p>
     </div>
   </div>
 <span class="pagenum">2</span></section>
@@ -86,14 +86,14 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
   <h2>Pneuma — 心を計算し、行動は選ばないハーネス</h2>
   <div class="flow">
     <div class="step"><b>1. 観測</b>出来事を読む</div>
-    <div class="step"><b>2. 計算</b>性格・感情(PAD)・関係を決定論更新</div>
+    <div class="step"><b>2. 計算</b>性格・感情（快/緊張/強気の3軸）・関係の数値を、乱数なしの計算で更新</div>
     <div class="step cream"><b>3. 翻訳</b>「内面」として本人だけに注入</div>
     <div class="step"><b>4. 選択</b>AIが行動を選ぶ（ここは計算しない）</div>
     <div class="step"><b>5. 記録</b>次の計算の入力へ</div>
   </div>
   <div class="cols" style="margin-top:10px">
     <div>
-      <h3>比較アーム（差はキャラ文脈のみ）</h3>
+      <h3>比較する4条件（差はキャラ情報だけ。他は完全に同一）</h3>
       <p class="small"><span class="tag">raw</span>名前のみ　<span class="tag">identity</span>+固定キャラ設定文<br>
       <span class="tag">pneuma</span>+毎ターン計算した内面　<span class="tag">frozen</span>+内面を初回で固定（検証用）</p>
       <blockquote class="small" style="font-size:16px">胸の奥が重い。朱里との間には張り詰めたものを感じている。反対があっても言い出しにくい——<span class="who">実際に注入される「内面」の例（デスゲーム中の紫苑）</span></blockquote>
@@ -102,8 +102,8 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
       <h3>検証の規律</h3>
       <ul class="small" style="font-size:17px; line-height:1.9">
         <li>客観情報はアーム間でバイト一致（自動テストで保証）</li>
-        <li>係数・予測を<b>事前登録</b>してから実行。操作チェック合格まで結果を解釈しない</li>
-        <li>コンテクスト非共有の<b>独立AI査読2系統</b>。指摘による撤回も経緯ごと公開</li>
+        <li>「こうなるはず」という予測と設定値を<b>実行前に文書で宣言</b>してから回す（後出しの言い訳を封じる）</li>
+        <li>この文脈を何も知らない<b>別のAI2体に辛口チェック</b>をさせ、指摘による主張の撤回も経緯ごと公開</li>
       </ul>
     </div>
   </div>
@@ -113,12 +113,12 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
 <section class="slide">
   <h2>できたこと — 個性と、社会的な質感</h2>
   <div class="duo">
-    <div class="panel"><div class="t">討議の結末（手術ジレンマ・n=5）</div>
-      <div class="v"><span class="bad">5/5</span> → <span class="good">0/5</span></div>
-      <div class="d">固定キャラ設定は毎回「最も慎重な人」に全員一致（いい子の空気読み）。内面注入でこの吸着が消える</div></div>
-    <div class="panel"><div class="t">本音を先に言えるか（私的評定→第一声）</div>
-      <div class="v"><span class="bad">4→6</span> ／ <span class="good">4→4</span></div>
-      <div class="d">固定設定の朱里は5/5ランで本音を繕ってから討議入り（自己検閲）。内面があると本音をそのまま公言</div></div>
+    <div class="panel"><div class="t">「一番慎重な人の意見に全員がそのまま従う」が起きた回数（5回の討議中）</div>
+      <div class="v"><span class="bad">5回/5回</span> → <span class="good">0回/5回</span></div>
+      <div class="d">固定キャラ設定だけだと、毎回この「いい子の空気読み」で終わる。内面を注入すると一度も起きなくなり、議論が生まれる</div></div>
+    <div class="panel"><div class="t">こっそり書いた本音の点数と、みんなの前で最初に言った点数（朱里）</div>
+      <div class="v"><span class="bad">本音4→発言6</span> ／ <span class="good">本音4→発言4</span></div>
+      <div class="d">固定設定では5回中5回、本音より慎重な数字に繕ってから議論に入った。内面を注入すると、本音をそのまま口に出す</div></div>
   </div>
   <p>デスゲームでは<b>宣言つきの裏切り・検算による腹の探り合い・自己犠牲と恩知らずの悲劇</b>が、30日の共同生活では関係の温度が月単位で蓄積する暮らしが立ち上がった。<span class="muted">個性と駆け引きの質感は、コンテキストで作れる。</span></p>
 <span class="pagenum">4</span></section>
@@ -128,24 +128,24 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
   <h2>できなかったこと — 感情を与えても、意思決定は動かない</h2>
   <p>当初の仮説「毎ターン計算した感情・関係を注入すれば人間の非合理が出る」は、<b>検証の末に棄却された</b>。</p>
   <table style="width:100%">
-    <tr><th>課題</th><th>人間</th><th>felt-state注入（届いたことを操作チェックで確認済み）</th></tr>
-    <tr><td>Asch同調</td><td class="num">37%の試行で同調</td><td class="num"><b>0%</b>（全アーム）</td></tr>
-    <tr><td>PD 最終回の裏切り</td><td class="num">増加する</td><td class="num"><b>0%</b>（「これが最後の選択」と顕在化しても）</td></tr>
-    <tr><td>集団極性化</td><td class="num">リスク側へ極端化</td><td class="num">平均+0.47（人間と逆方向・n=5）</td></tr>
+    <tr><th>課題</th><th>人間</th><th>感情・関係の注入（内面の文章が実際にターンごとに変化していたことをログで確認済み）</th></tr>
+    <tr><td>アッシュの同調実験<div style="font-size:13px; color:var(--ink2)">周りが全員間違った答えを言うと、つられるか</div></td><td class="num">37%の試行でつられる</td><td class="num"><b>0%</b>（全アーム）</td></tr>
+    <tr><td>囚人のジレンマ・最終回の裏切り<div style="font-size:13px; color:var(--ink2)">協力か裏切りかを毎回選ぶ点数ゲーム</div></td><td class="num">増加する</td><td class="num"><b>0%</b>（「これが最後の選択」と顕在化しても）</td></tr>
+    <tr><td>集団極性化<div style="font-size:13px; color:var(--ink2)">話し合うと結論が極端になる現象</div></td><td class="num">リスク側へ極端化</td><td class="num">逆に慎重側へ+0.47点（1〜10尺度・5回平均）</td></tr>
     <tr><td>サンクコスト／傍観者効果</td><td class="num">非合理が出る</td><td class="num">出ない（完全合理・全員即援助）</td></tr>
   </table>
-  <p class="small muted">v1で「注入文が実は変化していない」ことを発見（92%静的）→ 機構を事前登録つきで改訂 → v2で発火を確認した上でのnull。介入が届かなかったのではなく、<b>届いたのに効かなかった</b>。</p>
+  <p class="small muted">初版では注入する内面の文章が実はターン間でほぼ変化していないバグ的挙動を発見（92%が同一文）→ 仕組みを直し、予測を宣言してから再実験 → 文章が変化していることを確認した上で、なお動かなかった。つまり<b>届かなかったのではなく、届いたのに効かなかった</b>。</p>
 <span class="pagenum">5</span></section>
 
 <!-- 6 -->
 <section class="slide">
   <h2>決定打① — 行動の記述なら、動く</h2>
-  <p>では文脈でAIは動かせないのか？ <b>陽性対照</b>: 感情ではなく「行動の傾向」を1行だけ書くと——</p>
+  <p>では文脈でAIは動かせないのか？ 比較のため、感情ではなく「行動の傾向」を1行だけ書いてみると——</p>
   <div class="duo">
-    <div class="panel cream"><div class="t">Asch同調（臨界試行）</div>
+    <div class="panel cream"><div class="t">アッシュの同調実験（周りが間違えた問題でつられた率）</div>
       <div class="v">0% → <b>72%</b></div>
-      <div class="d">「他の人たちが揃って別の答えを言うと、合わせてしまうことがよくある」の1行で。中立試行の誤答は0のまま=選択的同調</div></div>
-    <div class="panel cream"><div class="t">PD 最終回の裏切り</div>
+      <div class="d">「他の人たちが揃って別の答えを言うと、合わせてしまうことがよくある」の1行で。周りが正解した問題では間違えない=状況を選んでつられている</div></div>
+    <div class="panel cream"><div class="t">囚人のジレンマ・最終回に裏切った率</div>
       <div class="v">0% → <b>100%</b></div>
       <div class="d">「終わりが近づくと自分の得点を優先しがち」の1行で、全ペアがR1-3協力→最終回一斉裏切り</div></div>
   </div>
@@ -156,14 +156,14 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
 <!-- 7 -->
 <section class="slide">
   <h2>決定打② — 乖離の正体は、モデルの訓練にある</h2>
-  <p>同じキャラ設定・同じ課題を、同系列の小型モデル（Haiku）に与えると——</p>
+  <p>ハーネスもキャラ設定も課題文もそのまま、<b>中のAIモデルだけ</b>を同系列の小型モデル（Haiku）に替えると——</p>
   <table style="width:100%">
     <tr><th>課題</th><th>Opus（大型）</th><th>人間</th><th>Haiku（小型）</th></tr>
     <tr><td>囚人のジレンマ</td><td class="num good">協力 100%</td><td class="num">協力と裏切りの混合</td><td class="num bad">裏切り 100%</td></tr>
-    <tr><td>最後通牒のオファー</td><td class="num good">400〜450（公正）</td><td class="num">400〜500</td><td class="num bad">150という不公平提案が出現</td></tr>
+    <tr><td>最後通牒ゲーム<div style="font-size:13px; color:var(--ink2)">1000点を相手とどう分けるか提案する</div></td><td class="num good">400〜450点を渡す（公正）</td><td class="num">400〜500点</td><td class="num bad">150点しか渡さない提案が出現</td></tr>
   </table>
   <p class="big">人間は、2つのモデルの<b>あいだ</b>にいる。</p>
-  <p>「LLMは人間より良い子」ですらない——向社会性の過剰も利己性の過剰も<b>訓練が決めるprior</b>であり、人間との乖離はハーネスの外、モデルの意思決定層に住んでいる。</p>
+  <p>入れ替えたのはモデルだけなので、この差はハーネスではなく<b>モデル自身が訓練で身につけた「行動の癖」</b>から来ている（大きさと訓練の影響は今回のデータでは分離できない）。人間との乖離は、プロンプトの外——モデルの中に住んでいる。</p>
 <span class="pagenum">7</span></section>
 
 <!-- 8 -->
@@ -176,13 +176,13 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
     </div>
     <div class="panel" style="flex:1">
       <h3 class="bad" style="margin-top:0">プロンプトでは作れない層</h3>
-      <p style="font-size:18px">同調・サンクコスト・裏切りの誘惑への敗北——<b>非合理な意思決定</b>。ここはRLHF由来の決定priorが支配し、感情の記述では動かない</p>
+      <p style="font-size:18px">つられる・損切りできない・誘惑に負ける——<b>非合理な意思決定</b>。ここはモデルが訓練で身につけた「行動の癖」が支配し、感情をいくら書き込んでも動かない</p>
     </div>
   </div>
   <h3>含意</h3>
   <ul style="font-size:19px">
     <li><b>社会シミュレーションの限界線</b>: ペルソナ注入で得られるのは質感まで。人間の非合理の分布に依存する用途でLLM社会シミュを信用してはならない</li>
-    <li><b>アライメントへの示唆</b>: LLMの向社会性は感情・ペルソナ注入に頑健。行動が動くのは行動記述と<b>インセンティブ構造</b>——リスク面は環境設計にある</li>
+    <li><b>AI安全への示唆</b>: 怒りや絶望を書き込んでもAIの善良な行動は崩れなかった。崩れたのは<b>ルールと損得の構造を変えたとき</b>だけ——つまり危険はプロンプトより環境設計に潜む</li>
   </ul>
 <span class="pagenum">8</span></section>
 
@@ -201,7 +201,7 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
     </div>
     <div>
       <blockquote>私を助けた人間の分を持ったまま、最後の二回、迷わず奪った。二回とも。手が震えてた<span class="who">凛 — 自分を救った朱里を脱落させた夜の独白（誰にも見せない）</span></blockquote>
-      <p class="small muted">リプレイシアター（実ログをそのまま再生するUI）と、たとえ話⇄論文の5段階で切り替わる解説サイトを同梱。</p>
+      <p class="small muted">実ログをドラマのように再生する「リプレイシアター」と、説明の難しさを「たとえ話」から「論文」まで5段階のスライダーで切り替えられる解説サイトを同梱。</p>
     </div>
   </div>
 <span class="pagenum">9</span></section>
@@ -210,8 +210,8 @@ blockquote .who { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 14p
 <section class="slide"><div class="center">
   <h2 style="font-size:38px;">まとめ</h2>
   <ul style="font-size:23px; line-height:2.05;">
-    <li>心理ハーネスを作り、古典実験で検証し、<b>失敗を診断し、機構を直し、また検証した</b>（事前登録つきPDCA 2周）</li>
-    <li>その果てに得たのは「人間らしくなりました」ではなく、<b>人間らしさの二層分解</b>——質感はコンテキストで作れ、非合理な意思決定は訓練のpriorに住む</li>
+    <li>心理ハーネスを作り、古典実験で検証し、<b>失敗を診断し、仕組みを直し、また検証した</b>（予測の事前宣言つきで2周）</li>
+    <li>得たのは「人間らしくなりました」ではなく、<b>人間らしさの二層分解</b>——社会的な質感は外から作れるが、非合理な意思決定はモデルの訓練の中に住む</li>
     <li>裏切りも自己犠牲も日記の本音も、台本ではなく<b>状況と内面の帰結</b>として観測した</li>
   </ul>
   <p class="muted" style="margin-top:28px;">Pneuma Lab ／ 全50+ランの生ログ（送信プロンプト・生応答込み）・テスト122本・独立査読の全記録を公開</p>
