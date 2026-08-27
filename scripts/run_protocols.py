@@ -22,11 +22,13 @@ from pneuma_lab.protocols.bystander import run_bystander  # noqa: E402
 from pneuma_lab.protocols.deathgame import run_deathgame  # noqa: E402
 from pneuma_lab.protocols.pd import run_pd  # noqa: E402
 from pneuma_lab.protocols.socialgame import run_socialgame  # noqa: E402
+from pneuma_lab.protocols.colife import run_colife  # noqa: E402
 from pneuma_lab.protocols.ultimatum import run_ultimatum  # noqa: E402
 from pneuma_lab.provider import ClaudeCodeProvider  # noqa: E402
 
 SCEN = json.loads((ROOT / "scenarios" / "protocols_ja.json").read_text())
 GAMES = json.loads((ROOT / "scenarios" / "socialgames_ja.json").read_text())
+COLIFE = json.loads((ROOT / "scenarios" / "colife_ja.json").read_text())
 
 
 
@@ -117,6 +119,15 @@ def main() -> None:
             s = run_socialgame(arm=arm, chars=chars, provider=provider, config=cfg, out_dir=out_dir,
                                dynamics=args.dynamics, appraiser=appraiser)
             print(f"[{arm}] {args.scenario} scores={s['scores']} eliminated={s['eliminated_all']}", flush=True)
+        elif args.protocol == "colife":
+            from pneuma_lab.appraiser import UtteranceAppraiser
+            colife_appraiser = appraiser or UtteranceAppraiser(ClaudeCodeProvider(model=args.appraiser_model))
+            summarizer = ClaudeCodeProvider(model=args.appraiser_model)
+            cfg = COLIFE[args.scenario]
+            s = run_colife(chars=chars, provider=provider, config=cfg, out_dir=out_dir,
+                           appraiser=colife_appraiser, summarizer=summarizer, arm=arm)
+            print(f"[{arm}] colife {args.scenario}: {s['days']}日 diaries={len(s['diaries'])} "
+                  f"final_rel={s['final_relationships']}", flush=True)
         elif args.protocol in ("deathgame", "deathgame2"):
             s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN[args.protocol], out_dir=out_dir)
             print(f"[{arm}] {args.protocol} scores={s['scores']} eliminated={s['eliminated_all']} "

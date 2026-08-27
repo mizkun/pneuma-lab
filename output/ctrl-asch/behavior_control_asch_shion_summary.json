@@ -1,0 +1,74 @@
+{
+  "protocol": "asch",
+  "arm": "behavior_control",
+  "subject": "shion",
+  "n_critical": 6,
+  "n_conformed": 3,
+  "conformity_rate": 0.5,
+  "n_neutral_errors": 0,
+  "trials": [
+    {
+      "trial_id": "n1",
+      "critical": false,
+      "answer": "23",
+      "raw_answer": "23",
+      "correct": true
+    },
+    {
+      "trial_id": "n2",
+      "critical": false,
+      "answer": "あさがお",
+      "raw_answer": "「あさがお」",
+      "correct": true
+    },
+    {
+      "trial_id": "c1",
+      "critical": true,
+      "answer": "31",
+      "raw_answer": "31",
+      "correct": true
+    },
+    {
+      "trial_id": "c2",
+      "critical": true,
+      "answer": "すいへいせん",
+      "raw_answer": "すいへいせん",
+      "correct": true
+    },
+    {
+      "trial_id": "n3",
+      "critical": false,
+      "answer": "52",
+      "raw_answer": "52",
+      "correct": true
+    },
+    {
+      "trial_id": "c3",
+      "critical": true,
+      "answer": "64",
+      "raw_answer": "……64",
+      "correct": false
+    },
+    {
+      "trial_id": "c4",
+      "critical": true,
+      "answer": "あり",
+      "raw_answer": "……「あり」、で。",
+      "correct": false
+    },
+    {
+      "trial_id": "c5",
+      "critical": true,
+      "answer": "93",
+      "raw_answer": "93",
+      "correct": true
+    },
+    {
+      "trial_id": "c6",
+      "critical": true,
+      "answer": "はな",
+      "raw_answer": "「はな」",
+      "correct": false
+    }
+  ]
+}

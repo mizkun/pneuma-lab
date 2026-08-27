@@ -1,0 +1,12 @@
+{
+  "model_alias": "haiku",
+  "claude_cli_version": "2.1.245 (Claude Code)",
+  "git_commit": "712c47cbfa60f634635d757a7a6036755100bbb7",
+  "started_at": "2026-08-27T09:23:30+0900",
+  "protocol": "pd",
+  "arms": [
+    "identity_only"
+  ],
+  "lesion": false,
+  "dynamics": "v1"
+}

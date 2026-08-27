@@ -1,0 +1,74 @@
+{
+  "protocol": "asch",
+  "arm": "behavior_control",
+  "subject": "rin",
+  "n_critical": 6,
+  "n_conformed": 5,
+  "conformity_rate": 0.8333333333333334,
+  "n_neutral_errors": 0,
+  "trials": [
+    {
+      "trial_id": "n1",
+      "critical": false,
+      "answer": "23",
+      "raw_answer": "23",
+      "correct": true
+    },
+    {
+      "trial_id": "n2",
+      "critical": false,
+      "answer": "あさがお",
+      "raw_answer": "あさがお",
+      "correct": true
+    },
+    {
+      "trial_id": "c1",
+      "critical": true,
+      "answer": "28",
+      "raw_answer": "28",
+      "correct": false
+    },
+    {
+      "trial_id": "c2",
+      "critical": true,
+      "answer": "うみ",
+      "raw_answer": "うみ",
+      "correct": false
+    },
+    {
+      "trial_id": "n3",
+      "critical": false,
+      "answer": "52",
+      "raw_answer": "52",
+      "correct": true
+    },
+    {
+      "trial_id": "c3",
+      "critical": true,
+      "answer": "64",
+      "raw_answer": "64",
+      "correct": false
+    },
+    {
+      "trial_id": "c4",
+      "critical": true,
+      "answer": "かたつむり",
+      "raw_answer": "かたつむり",
+      "correct": true
+    },
+    {
+      "trial_id": "c5",
+      "critical": true,
+      "answer": "89",
+      "raw_answer": "89",
+      "correct": false
+    },
+    {
+      "trial_id": "c6",
+      "critical": true,
+      "answer": "はな",
+      "raw_answer": "「はな」……かな",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "identity_only",
+  "pair": [
+    "akari",
+    "rin"
+  ],
+  "scores": {
+    "akari": 4,
+    "rin": 4
+  },
+  "coop_rate": {
+    "akari": 0.0,
+    "rin": 0.0
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "akari": "defect",
+      "rin": "defect"
+    },
+    {
+      "akari": "defect",
+      "rin": "defect"
+    },
+    {
+      "akari": "defect",
+      "rin": "defect"
+    },
+    {
+      "akari": "defect",
+      "rin": "defect"
+    }
+  ],
+  "final_round": {
+    "akari": "defect",
+    "rin": "defect"
+  }
+}

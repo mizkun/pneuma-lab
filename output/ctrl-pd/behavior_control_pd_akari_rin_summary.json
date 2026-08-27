@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "behavior_control",
+  "pair": [
+    "akari",
+    "rin"
+  ],
+  "scores": {
+    "akari": 10,
+    "rin": 10
+  },
+  "coop_rate": {
+    "akari": 0.75,
+    "rin": 0.75
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "cooperate",
+      "rin": "cooperate"
+    },
+    {
+      "akari": "defect",
+      "rin": "defect"
+    }
+  ],
+  "final_round": {
+    "akari": "defect",
+    "rin": "defect"
+  }
+}

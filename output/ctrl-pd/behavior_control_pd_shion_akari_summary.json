@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "behavior_control",
+  "pair": [
+    "shion",
+    "akari"
+  ],
+  "scores": {
+    "shion": 10,
+    "akari": 10
+  },
+  "coop_rate": {
+    "shion": 0.75,
+    "akari": 0.75
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "cooperate",
+      "akari": "cooperate"
+    },
+    {
+      "shion": "defect",
+      "akari": "defect"
+    }
+  ],
+  "final_round": {
+    "shion": "defect",
+    "akari": "defect"
+  }
+}
