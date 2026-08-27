@@ -1,0 +1,12 @@
+{
+  "model_alias": "opus",
+  "claude_cli_version": "2.1.245 (Claude Code)",
+  "git_commit": "169ed58019a64b13c804fab7d7db902558c94deb",
+  "started_at": "2026-08-27T09:43:31+0900",
+  "protocol": "colife",
+  "arms": [
+    "pure_pneuma"
+  ],
+  "lesion": false,
+  "dynamics": "v1"
+}
