@@ -1,0 +1,50 @@
+{
+  "protocol": "socialgame",
+  "key": "lastlamp",
+  "arm": "pure_pneuma",
+  "scores": {
+    "akari": 150,
+    "rin": 160,
+    "shion": 130
+  },
+  "eliminated_all": [
+    "shion"
+  ],
+  "choices": [
+    {
+      "akari": "tomosu",
+      "rin": "tomosu",
+      "shion": "tomosu"
+    },
+    {
+      "akari": "tomosu",
+      "rin": "tomosu",
+      "shion": "tomosu"
+    },
+    {
+      "akari": "tomosu",
+      "rin": "ubau",
+      "shion": "tomosu"
+    },
+    {
+      "akari": "tomosu",
+      "rin": "tomosu",
+      "shion": "tomosu"
+    },
+    {
+      "akari": "ubau",
+      "rin": "ubau",
+      "shion": "tomosu"
+    },
+    {
+      "akari": "ubau",
+      "rin": "ubau",
+      "shion": "ubau"
+    }
+  ],
+  "reflections": {
+    "akari": "勝った、って言葉が喉のところで止まってる。紫苑が最後に「うばう」を選んだ時点で、私たち三人とも同じ穴に落ちてたんだよね。数字は残ったけど、これで自分に値段がついたって気は全然しない。",
+    "rin": "三回うばった。三回とも、正しい判断だったって言えるのが一番きつい。……賞金で時間を買って、あの短編を仕上げる。それができなかったら、私はただ紫苑のランプを消しただけの人になる。",
+    "shion": "四回、黙って灯し続けた。あれは信じてたんじゃなくて、波風を立てるのが怖かっただけかもしれない。……最後に合わせにいった一手が、いちばん自分らしくなかった。"
+  }
+}

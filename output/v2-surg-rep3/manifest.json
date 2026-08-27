@@ -1,0 +1,12 @@
+{
+  "model_alias": "opus",
+  "claude_cli_version": "2.1.245 (Claude Code)",
+  "git_commit": "3b96407ff7ea13fd9919f5505c8c7ecd17f5a33d",
+  "started_at": "2026-08-26T23:32:02+0900",
+  "item": "surgery",
+  "arms": [
+    "pure_pneuma"
+  ],
+  "max_turns": 15,
+  "dynamics": "v2"
+}

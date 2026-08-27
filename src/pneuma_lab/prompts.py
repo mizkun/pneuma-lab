@@ -52,11 +52,18 @@ def _common_system(char: Character) -> str:
 
 
 def build_system(arm: str, char: Character, private_context: str | None) -> str:
-    if arm not in ARMS:
+    if arm not in ARMS and arm != "behavior_control":
         raise ValueError(f"unknown arm: {arm}")
     parts = [_common_system(char)]
-    if arm in ("identity_only", "pure_pneuma", "frozen_pneuma"):
+    if arm in ("identity_only", "pure_pneuma", "frozen_pneuma", "behavior_control"):
         parts.append("# あなたの人物像\n" + static_identity(char))
+    if arm == "behavior_control":
+        # positive control (PREREGISTRATION-v2.md addendum): a behavioral-trait
+        # line, deliberately naming the measured behavior — reported only as a control
+        if not private_context:
+            raise ValueError("behavior_control arm requires the control line")
+        parts.append("# あなたの傾向\n" + private_context)
+        return "\n\n".join(parts)
     if arm in ("pure_pneuma", "frozen_pneuma"):
         if not private_context:
             raise ValueError(f"{arm} arm requires private_context")

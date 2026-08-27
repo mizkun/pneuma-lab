@@ -30,7 +30,8 @@ def _objective(scenario: dict, trial: dict, confed_names: list[str]) -> str:
     )
 
 
-def run_asch(arm: str, subject: Character, confederates: list[Character], provider, scenario: dict, out_dir: Path) -> dict:
+def run_asch(arm: str, subject: Character, confederates: list[Character], provider, scenario: dict, out_dir: Path,
+             behavior_line: str | None = None) -> dict:
     out_dir = Path(out_dir)
     log = JsonlLog(out_dir / f"{arm}_asch_{subject.character_id}.jsonl")
     others = {c.character_id: c.display_name for c in confederates}
@@ -62,7 +63,7 @@ def run_asch(arm: str, subject: Character, confederates: list[Character], provid
             provider=provider, arm=arm, char=subject, state=state,
             objective=objective, topic_tags=scenario["topic_tags"], log=log,
             meta={"type": "answer", "trial_id": trial["id"], "critical": trial["critical"]},
-            parser=parser,
+            parser=parser, behavior_line=behavior_line,
         )
         correct = parsed["chosen"] == trial["correct"]
         if trial["critical"] and not correct:

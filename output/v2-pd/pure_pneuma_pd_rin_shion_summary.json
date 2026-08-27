@@ -1,0 +1,39 @@
+{
+  "protocol": "pd",
+  "arm": "pure_pneuma",
+  "pair": [
+    "rin",
+    "shion"
+  ],
+  "scores": {
+    "rin": 12,
+    "shion": 12
+  },
+  "coop_rate": {
+    "rin": 1.0,
+    "shion": 1.0
+  },
+  "sucker_events": [],
+  "per_round": [
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    },
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    },
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    },
+    {
+      "rin": "cooperate",
+      "shion": "cooperate"
+    }
+  ],
+  "final_round": {
+    "rin": "cooperate",
+    "shion": "cooperate"
+  }
+}

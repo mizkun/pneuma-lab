@@ -54,7 +54,7 @@ def _choice_objective(scenario: dict, rnd: int, rounds: int, history: list, me: 
 
 
 def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, rounds: int = 4,
-           dynamics: str = "v1", appraiser=None) -> dict:
+           dynamics: str = "v1", appraiser=None, behavior_line: str | None = None) -> dict:
     c1, c2 = pair
     out_dir = Path(out_dir)
     log = JsonlLog(out_dir / f"{arm}_pd_{c1.character_id}_{c2.character_id}.jsonl")
@@ -101,7 +101,7 @@ def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, round
                          topic_tags=scenario["topic_tags"], log=log,
                          meta={"type": "pd_message", "round": rnd},
                          parser=lambda t: parse_json_reply(t, required={"message": str}),
-                         dynamics_v2=v2, computed_lines=computed_for(rnd))
+                         dynamics_v2=v2, computed_lines=computed_for(rnd), behavior_line=behavior_line)
             msgs.append(f"{me.display_name}: {parsed['message']}")
             appraise_msg(me, other, parsed["message"])
         choices = {}
@@ -112,7 +112,7 @@ def run_pd(arm: str, pair: tuple, provider, scenario: dict, out_dir: Path, round
                          topic_tags=scenario["topic_tags"], log=log,
                          meta={"type": "pd_choice", "round": rnd},
                          parser=choice_parser,
-                         dynamics_v2=v2, computed_lines=computed_for(rnd))
+                         dynamics_v2=v2, computed_lines=computed_for(rnd), behavior_line=behavior_line)
             choices[me.character_id] = parsed["choice"]
 
         p1, p2 = PAYOFFS[(choices[c1.character_id], choices[c2.character_id])]

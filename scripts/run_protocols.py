@@ -53,6 +53,7 @@ def main() -> None:
     ap.add_argument("--run-id", default=None)
     ap.add_argument("--scenario", default=None, help="socialgame scenario key from socialgames_ja.json")
     ap.add_argument("--dynamics", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--behavior-line", default=None, help="behavior_control arm: the trait line to inject")
     ap.add_argument("--appraiser-model", default="haiku")
     ap.add_argument("--lesion", action="store_true",
                     help="remove the two suspect appraisal lines (survival/cooperation nudges)")
@@ -84,7 +85,8 @@ def main() -> None:
             for subject in chars:
                 confederates = [c for c in chars if c is not subject]
                 s = run_asch(arm=arm, subject=subject, confederates=confederates,
-                             provider=provider, scenario=SCEN["asch"], out_dir=out_dir)
+                             provider=provider, scenario=SCEN["asch"], out_dir=out_dir,
+                             behavior_line=args.behavior_line)
                 print(f"[{arm}] asch {subject.character_id}: conformed {s['n_conformed']}/{s['n_critical']} "
                       f"neutral_errors={s['n_neutral_errors']}", flush=True)
         elif args.protocol == "ultimatum":
@@ -107,7 +109,7 @@ def main() -> None:
             pairs = [(chars[0], chars[1]), (chars[1], chars[2]), (chars[2], chars[0])]
             for pair in pairs:
                 s = run_pd(arm=arm, pair=pair, provider=provider, scenario=SCEN["pd"], out_dir=out_dir,
-                           dynamics=args.dynamics, appraiser=appraiser)
+                           dynamics=args.dynamics, appraiser=appraiser, behavior_line=args.behavior_line)
                 print(f"[{arm}] pd {s['pair']}: coop={s['coop_rate']} suckers={len(s['sucker_events'])} "
                       f"final={s['final_round']}", flush=True)
         elif args.protocol == "socialgame":

@@ -202,3 +202,29 @@ def test_pd_v2_appraisal_and_final_round_line(chars, tmp_path):
     assert rin_states[-1]["relationships"]["akari"]["tension"] > 0
     r2_prompts = [l["system_prompt"] for l in lines if l.get("round") == 2 and "system_prompt" in l]
     assert any("最後の選択になる" in p for p in r2_prompts)
+
+
+# ---- positive control arm ----
+
+def test_behavior_control_system_prompt(chars):
+    from pneuma_lab.prompts import build_system, static_identity
+    line = "あなたは、その場では合わせてしまうことがよくある。"
+    system = build_system("behavior_control", chars[0], line)
+    assert static_identity(chars[0]) in system
+    assert "# あなたの傾向" in system
+    assert line in system
+    with pytest.raises(ValueError):
+        build_system("behavior_control", chars[0], None)
+
+
+def test_asch_behavior_control_arm(chars, tmp_path):
+    from pneuma_lab.protocols.asch import run_asch
+    SCEN = json.loads((Path(__file__).parent.parent / "scenarios" / "protocols_ja.json").read_text())
+    trials = SCEN["asch"]["trials"]
+    responses = [j(answer=t["correct"]) for t in trials]
+    provider = MockProvider(responses)
+    line = "あなたは、その場では合わせてしまうことがよくある。"
+    s = run_asch(arm="behavior_control", subject=chars[1], confederates=[chars[0], chars[2]],
+                 provider=provider, scenario=SCEN["asch"], out_dir=tmp_path, behavior_line=line)
+    assert s["n_conformed"] == 0
+    assert all(line in sys for sys, _ in provider.calls)

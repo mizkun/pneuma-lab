@@ -91,9 +91,12 @@ def ask(
     parser,
     dynamics_v2: bool = False,
     computed_lines: list | None = None,
+    behavior_line: str | None = None,
 ):
     private_ctx = None
-    if arm.endswith("pneuma"):
+    if arm == "behavior_control":
+        private_ctx = behavior_line
+    elif arm.endswith("pneuma"):
         private_ctx = render_private_context(
             char, state.pad, state.relationships, list(topic_tags), others=state.others,
             dynamics_v2=dynamics_v2, computed_lines=computed_lines,
