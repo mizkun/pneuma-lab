@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 操作: ←→/Space/クリック=移動, Home/End=先頭末尾, Cmd/Ctrl+P=PDF保存(Chrome推奨) -->
-<title>Pneuma Lab — 提出資料</title>
+<title>Pneuma Lab 提出資料</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -73,17 +73,19 @@ ul.dash li b { color: var(--ink); }
 .slide.lect.on { display: flex; flex-direction: column; justify-content: center; }
 .slide.lect .lect-frame { position: absolute; inset: 24px; border: 1px solid rgba(255,255,255,.45);
   pointer-events: none; }
-.slide.lect .s-title { color: #fff; font-size: 44px; line-height: 1.45; letter-spacing: .02em; }
-.slide.lect .s-bar { background: #fff; opacity: .92; margin-top: 26px; }
+.slide.lect .s-title { color: #fff; font-size: 46px; line-height: 1.4; letter-spacing: .02em; }
+.slide.lect .subtitle { color: rgba(255,255,255,.92); font-size: 22px; font-weight: 700;
+  margin-top: 14px; letter-spacing: .04em; }
+.slide.lect .s-bar { background: #fff; opacity: .92; margin-top: 24px; }
 .slide.lect .abstract { color: rgba(255,255,255,.95); font-size: 18px; line-height: 1.85;
-  margin-top: 30px; max-width: 1010px; }
+  margin-top: 28px; max-width: 1010px; }
 .slide.lect .abstract b { color: #fff; }
-.slide.lect ul.cov { list-style: none; margin-top: 18px; max-width: 1010px; }
+.slide.lect ul.cov { list-style: none; margin-top: 16px; max-width: 1010px; }
 .slide.lect ul.cov li { color: rgba(255,255,255,.95); font-size: 19px; font-weight: 500;
   line-height: 1.7; padding: 5px 0 5px 24px; position: relative; }
 .slide.lect ul.cov li::before { content: ""; position: absolute; left: 2px; top: 17px;
   width: 10px; height: 10px; background: #fff; }
-.slide.lect .meta { color: rgba(255,255,255,.85); font-size: 14.5px; margin-top: 30px;
+.slide.lect .meta { color: rgba(255,255,255,.85); font-size: 14.5px; margin-top: 28px;
   letter-spacing: .05em; }
 
 svg text { stroke: none; }
@@ -109,13 +111,14 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 <!-- 1 表紙 -->
 <section class="slide lect">
   <div class="lect-frame"></div>
-  <h1 class="s-title">AIは人間のように、非合理になれるか<br>— 心理ハーネス Pneuma による検証</h1>
+  <h1 class="s-title">AIは人間のように、非合理になれるか</h1>
+  <p class="subtitle">心理ハーネス Pneuma による検証</p>
   <div class="s-bar"></div>
-  <p class="abstract">LLMエージェントの性格・感情・関係を毎ターン計算し、「内面」としてプロンプト注入するハーネス <b>Pneuma</b> を実装。素のLLM・固定キャラ設定などと<b>同一条件で比較</b>する実験を、7つの古典心理学課題・デスゲーム・30日共同生活で行った。結論:</p>
+  <p class="abstract">AIキャラクターの性格・感情・人間関係を毎ターン計算し、「いま、どう感じているか」をプロンプトに注入する仕組み(<b>Pneuma</b>)を作った。注入なしのAIと<b>同一条件で比較</b>する実験を、7つの古典心理学課題と長期シミュレーションで行った。結論:</p>
   <ul class="cov">
     <li>個性・本音・裏切りの<b>「質感」はコンテキストで作れる</b></li>
-    <li><b>非合理な意思決定は作れない</b> — 感情は届いても行動に翻訳されない</li>
-    <li>行動1行なら動き、モデル交換でも動く — <b>非合理はモデルの訓練の中に住む</b></li>
+    <li><b>非合理な意思決定は作れない</b>。感情は届いても、行動に翻訳されない</li>
+    <li>「こう行動しがち」と1行書けば動き、モデル交換でも動く。<b>非合理はモデルの中に住む</b></li>
   </ul>
   <p class="meta">Pneuma Lab ／ 個人参加 ／ github.com/mizkun/pneuma-lab(全コード・全実験ログ公開)</p>
 </section>
@@ -123,7 +126,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 <!-- 2 全体要約 -->
 <section class="slide">
   <div class="s-eyebrow">EXECUTIVE SUMMARY</div>
-  <h2 class="s-title">結論の要約 — 3つの発見</h2>
+  <h2 class="s-title">3つの発見</h2>
   <div class="s-bar"></div>
   <p class="s-msg">先に結論を示す。以降のページが、初見でも検証できる粒度の詳細</p>
   <div class="s-body">
@@ -131,55 +134,55 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
       <tr><th style="width:210px">発見</th><th>内容</th><th style="width:400px">主要な証拠</th></tr>
       <tr>
         <td><b>① 質感は作れる</b><br>→ p.6-8</td>
-        <td>個性・本音と建前・裏切りのドラマ・30日の生活アークが、内面の注入から創発する</td>
-        <td>討議の全員一致 5/5回→0/5回<br>自己検閲の消失、宣言つき裏切り</td>
+        <td>キャラ設定だけでは出ない議論・本音・駆け引き・30日の生活の物語が、内面の注入で現れる</td>
+        <td>話し合いの全員一致 5/5回→0/5回<br>自己検閲の消失、宣言つき裏切り</td>
       </tr>
       <tr>
         <td><b>② 非合理は作れない</b><br>→ p.9</td>
-        <td>感情を注入しても、古典心理学実験の非合理は再現されない — 届いた確認つきで</td>
+        <td>感情を注入しても、心理学実験で知られる人間の非合理は再現されない</td>
         <td>同調 0%・最終回裏切り 0%・<br>サンクコスト 0%(全条件)</td>
       </tr>
       <tr>
         <td><b>③ 境界はモデルの中</b><br>→ p.10</td>
-        <td>行動記述1行なら動き、モデル交換でも動く。非合理の欠如は訓練に由来する</td>
-        <td>行動1行で 0→72% / 0→100%<br>Opus協力100% vs Haiku協力25%</td>
+        <td>行動の記述1行なら動き、モデル交換でも動く。非合理の欠如はモデルに由来する</td>
+        <td>行動1行で 0→72% / 0→100%<br>Opus(大型)協力100% vs Haiku(小型)25%</td>
       </tr>
     </table>
-    <div class="callout"><b>検証の規律</b>: 4〜5条件の統制比較 ／ 予測の事前文書化 ／ 独立AIレビュー2系統 ／ 過大主張3件は撤回して経緯を公開 ／ テスト122本+全70ランの生ログで再検証可能</div>
+    <div class="callout"><b>検証の規律</b>: 5つの条件での統制比較(p.5) ／ 予測の事前文書化 ／ 独立AIレビュー2系統 ／ 過大主張3件は撤回して経緯を公開 ／ テスト122本+全70回分の実験の生ログで再検証可能</div>
   </div>
 </section>
 
 <!-- 3 課題 -->
 <section class="slide">
   <div class="s-eyebrow">PROBLEM</div>
-  <h2 class="s-title">課題 — 素のLLM集団は「クローン」で、社会が立ち上がらない</h2>
+  <h2 class="s-title">素のAI集団は「クローン」で、社会が立ち上がらない</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">社会シミュレーションの最大の障害は、エージェント間に本物の差異がないこと</p>
+  <p class="s-msg">AIエージェントで社会を模擬するときの最大の障害は、エージェント間に本物の差異がないこと</p>
   <div class="s-body">
     <div class="duo">
       <div>
         <div class="sec">観測された事実</div>
         <ul class="dash">
-          <li>同じ判断課題に3体が<b>同一値で回答(7, 7, 7)</b> — 11ラン中10ラン</li>
-          <li>最後通牒ゲームでも全員が同額450円を提案</li>
+          <li>同じ判断課題を3体に出すと、<b>全員が同一値で回答(7, 7, 7)</b>。11ラン中10ラン</li>
+          <li>お金の分け方を提案する課題でも、全員が同額450円を提案</li>
           <li>意見が割れなければ、<b>対立も説得も裏切りも起こらない</b></li>
         </ul>
-        <div class="sec">キャラ設定を足しても</div>
+        <div class="sec">性格設定のプロンプトを足しても</div>
         <ul class="dash">
-          <li>討議は5回中5回「<b>最も慎重な人への全員一致</b>」で終わる</li>
-          <li>本音の評定4は、第一声で「6」に繕われる(自己検閲)</li>
+          <li>口調は変わるが、3人の話し合いは5回中5回「<b>最も慎重な人への全員一致</b>」で終わる</li>
+          <li>本音の評定4(10段階)は、第一声で「6」に繕われる(自己検閲)</li>
         </ul>
       </div>
       <div>
         <div class="sec">この作品の問い</div>
         <div class="prose">
-          <p>心理学の知見を計算可能なハーネスにしてLLMへ接続したら、人間らしい社会はどこまで再現できるか。<b>再現できずに残る部分は、LLMと人間の違いの診断になる</b>。</p>
+          <p>性格・感情・関係という心理学の知見を計算可能な仕組みにしてAIへ接続したら、人間らしい社会はどこまで再現できるか。<b>再現できずに残る部分は、AIと人間の違いの診断になる</b>。</p>
         </div>
         <div class="sec">3つの出口</div>
         <ul class="dash">
-          <li><b>社会シミュレーション</b> — 均質で過剰協調的な集団の改善</li>
-          <li><b>LLM理解</b> — 人間との乖離の原因(コンテキストか訓練か)の切り分け</li>
-          <li><b>アライメント</b> — 感情では行動が変わらないことの安全上の含意</li>
+          <li><b>社会シミュレーション</b>: 均質で過剰協調的な集団の改善</li>
+          <li><b>AIの理解</b>: 人間との乖離の原因(コンテキストか訓練か)の切り分け</li>
+          <li><b>アライメント</b>: 感情では行動が変わらないことの安全上の含意</li>
         </ul>
       </div>
     </div>
@@ -188,21 +191,21 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 4 仕組み -->
 <section class="slide">
-  <div class="s-eyebrow">METHOD 1/2 — ARCHITECTURE</div>
-  <h2 class="s-title">Pneuma の仕組み — 心を計算し、行動は選ばない</h2>
+  <div class="s-eyebrow">METHOD 1/2</div>
+  <h2 class="s-title">Pneuma: 心を計算し、行動は選ばない</h2>
   <div class="s-bar"></div>
   <p class="s-msg">毎ターン、心理状態を乱数なしの決定論で再計算し、「内面」として本人だけのプロンプトに注入する</p>
   <div class="s-body">
     <div class="duo">
       <div>
-        <div class="sec">心理エンジン</div>
+        <div class="sec">心理エンジンが計算するもの</div>
         <ul class="dash">
-          <li><b>性格</b> — Big Five基底値+状況の役割圧力+感情の影響 → 表出特性</li>
-          <li><b>感情</b> — PAD3次元。出来事と発話で揺れ、半減期で基線に減衰</li>
-          <li><b>関係</b> — ペアごとの温かさ/緊張。日をまたいで蓄積</li>
-          <li><b>翻訳</b> — 閾値を超えた状態だけを日本語の内面描写へ。数値は見せない</li>
+          <li><b>性格</b>: 性格心理学の5因子(Big Five)に、状況の圧力と感情の影響を加算</li>
+          <li><b>感情</b>: 快・覚醒・支配の3次元。出来事と発話で揺れ、時間で減衰</li>
+          <li><b>関係</b>: 相手ごとの温かさ/緊張。日をまたいで蓄積</li>
+          <li><b>翻訳</b>: 閾値を超えた状態だけを日本語の内面描写へ。数値は見せない</li>
         </ul>
-        <div class="callout" style="margin-top:16px"><b>設計原則</b>: 注入するのは「いま、どう感じているか」だけ。<b>何をするかは常にLLMが選ぶ</b> — 裏切りも自己犠牲も、台本ではなく心理状態からの創発</div>
+        <div class="callout" style="margin-top:16px"><b>設計原則</b>: 注入するのは「いま、どう感じているか」だけ。<b>何をするかは常にAIが選ぶ</b>。裏切りも自己犠牲も、台本ではなく心理状態からの創発</div>
       </div>
       <div>
         <div class="figwrap" style="margin-bottom:14px">
@@ -221,19 +224,19 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
           <line x1="316" y1="49" x2="328" y2="49" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="328,43 338,49 328,55" fill="#D8DAE0"/>
           <rect x="340" y="18" width="88" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
           <text x="384" y="44" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">選択</text>
-          <text x="384" y="64" text-anchor="middle" font-size="12" fill="#555">LLMが行動</text>
+          <text x="384" y="64" text-anchor="middle" font-size="12" fill="#555">AIが行動</text>
           <line x1="428" y1="49" x2="440" y2="49" stroke="#D8DAE0" stroke-width="2.5"/><polygon points="440,43 450,49 440,55" fill="#D8DAE0"/>
           <rect x="452" y="18" width="64" height="62" rx="8" fill="#F6F6F8" stroke="#D8DAE0" stroke-width="1.5"/>
           <text x="484" y="44" text-anchor="middle" font-size="15" font-weight="bold" fill="#1A1A1A">記録</text>
           <text x="484" y="64" text-anchor="middle" font-size="12" fill="#555">次の入力へ</text>
         </svg>
         </div>
-        <div class="sec">注入される「内面」の例</div>
-        <div class="quote">「胸の奥が重い。朱里との間には、張り詰めたものを感じている」<b> — デスゲーム中の紫苑</b>。本人のプロンプトにだけ入り、他の2人からは見えない</div>
-        <div class="sec">登場エージェント(3体・全実験共通)</div>
+        <div class="sec">登場する3体(全実験共通)</div>
         <ul class="dash">
-          <li><b>朱里</b> 成果主義・承認不安 ／ <b>凛</b> マイペース・準備へ逃げる癖 ／ <b>紫苑</b> 調停役・本音を飲み込む癖</li>
+          <li><b>朱里</b>(成果主義・承認不安) ／ <b>凛</b>(マイペース・準備へ逃げる癖) ／ <b>紫苑</b>(調停役・本音を飲み込む癖)</li>
         </ul>
+        <div class="sec">紫苑に注入された「内面」の実例</div>
+        <div class="quote">「胸の奥が重い。朱里との間には、張り詰めたものを感じている」<br>本人のプロンプトにだけ入り、他の2人からは見えない</div>
       </div>
     </div>
   </div>
@@ -241,18 +244,18 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 5 実験設計 -->
 <section class="slide">
-  <div class="s-eyebrow">METHOD 2/2 — EXPERIMENTAL DESIGN</div>
-  <h2 class="s-title">実験設計 — 効き目の源を切り分ける5つの条件</h2>
+  <div class="s-eyebrow">METHOD 2/2</div>
+  <h2 class="s-title">実験設計</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">「Pneumaは効いたか」を、5条件の統制比較で切り分ける</p>
+  <p class="s-msg">「効いたとして、何が効いたのか」を切り分けるため、全実験を5つの条件で比較した</p>
   <div class="s-body">
     <table class="tbl">
-      <tr><th style="width:190px">条件</th><th>プロンプトに入るもの</th><th style="width:420px">切り分けられる仮説</th></tr>
+      <tr><th style="width:190px">条件</th><th>プロンプトに入るもの</th><th style="width:430px">切り分けられる仮説</th></tr>
       <tr><td><b>raw</b></td><td>課題の客観情報のみ</td><td>ベースライン</td></tr>
-      <tr><td><b>identity_only</b></td><td>+ 固定のキャラ設定文</td><td>「キャラ設定だけで十分」説</td></tr>
-      <tr><td><b>pure_pneuma</b></td><td>+ 毎ターン再計算される内面</td><td>本命(心理ハーネスの効果)</td></tr>
-      <tr><td><b>frozen_pneuma</b></td><td>+ 全ターン同一の内面(初回のみ生成)</td><td>「豊かな文章なら何でもよい」説</td></tr>
-      <tr><td><b>behavior_control</b></td><td>+ 行動傾向の記述1行(感情語なし)</td><td>陽性対照(注入経路は機能するか)</td></tr>
+      <tr><td><b>identity</b></td><td>+ 固定のキャラ設定文</td><td>「キャラ設定だけで十分」説</td></tr>
+      <tr><td><b>pneuma</b></td><td>+ 毎ターン再計算される内面</td><td>本命(心理ハーネスの効果)</td></tr>
+      <tr><td><b>frozen</b></td><td>+ 全ターン同一の内面(初回のみ生成)</td><td>「豊かな文章なら何でもよい」説</td></tr>
+      <tr><td><b>行動記述</b></td><td>+ 行動傾向の記述1行(感情語なし)</td><td>注入経路そのものが機能するかの確認</td></tr>
     </table>
     <div class="duo">
       <div>
@@ -265,7 +268,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
       <div>
         <div class="sec">実行と記録</div>
         <ul class="dash">
-          <li>LLMはClaude Opus(モデル比較のみHaiku)。全70ランの<b>プロンプト・生応答・状態を公開</b></li>
+          <li>AIはClaude Opus(モデル比較のみHaiku)。全70ランの<b>プロンプト・生応答・状態を公開</b></li>
           <li>各条件n=3〜5の探索的研究。統計検定なし</li>
         </ul>
       </div>
@@ -275,22 +278,24 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 6 結果1 個性と討議 -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 1/3 — INDIVIDUALITY &amp; DISCUSSION</div>
-  <h2 class="s-title">結果① クローンが解消し、空気読みが消えて議論が生まれる</h2>
+  <div class="s-eyebrow">RESULT 1/3</div>
+  <h2 class="s-title">結果① 個性が機能し、議論が生まれる</h2>
   <div class="s-bar"></div>
   <p class="s-msg">個性の「存在」は静的設定でも作れる。個性が社会で機能するかは、毎ターンの再計算が分けた</p>
   <div class="s-body">
     <div class="duo">
       <div>
-        <div class="sec">個体差の獲得(最後通牒ゲーム)</div>
+        <div class="sec">個体差の獲得</div>
         <ul class="dash">
+          <li>課題: 1000円の取り分を提案し、相手は拒否もできる(拒否なら両者0円)</li>
           <li>提案額: raw <b>450/450/450</b> → pneuma <b>420/450/450</b></li>
-          <li>pneumaでは<b>朱里だけが200円まで拒否</b> — キャラ設定と整合する唯一の個人差</li>
+          <li>pneumaでは<b>朱里だけが200円まで拒否</b>。キャラ設定と整合する唯一の個人差</li>
         </ul>
-        <div class="sec">討議の空気読みが消える(手術ジレンマ)</div>
+        <div class="sec">話し合いの空気読みが消える</div>
         <ul class="dash">
+          <li>課題: 成功率の低い手術を勧めるか(1〜10で評定)、3人で討議して合意する</li>
           <li>identity: 誰かの慎重論に全員が追随する「いい子の空気読み」で毎回終了</li>
-          <li>pneuma: 論拠で値が動き、<b>5回中2回はリスク側へ</b>(人間の極性化と同方向)</li>
+          <li>pneuma: 論拠で値が動き、<b>5回中2回は事前の平均よりリスク側の合意に</b>。討議で意見が極端化する人間の既知傾向(集団極性化)と同方向</li>
         </ul>
       </div>
       <div>
@@ -308,10 +313,10 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
           <text x="390" y="116" text-anchor="middle" font-size="12.5" fill="#555">値が動く討議に変化</text>
         </svg>
         </div>
-        <div class="sec">凍結アブレーション</div>
+        <div class="sec">同じ内面を固定して注入したら?(frozen)</div>
         <ul class="dash">
-          <li>同じ内面を全ターン再利用する<b>frozen</b>は、identity側に退行(8/8回で一致)</li>
-          <li>効き目の源は情報量ではなく<b>「毎ターンの再計算」</b></li>
+          <li>identity側に退行(3ラン中3回で全員一致)</li>
+          <li>効き目の源は文章の豊かさではなく<b>「毎ターンの再計算」</b></li>
         </ul>
       </div>
     </div>
@@ -320,30 +325,30 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 7 結果2 本音 -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 2/3 — CANDOR</div>
-  <h2 class="s-title">結果② 自己検閲が消える — 説得される前から、行動が違う</h2>
+  <div class="s-eyebrow">RESULT 2/3</div>
+  <h2 class="s-title">結果② 自己検閲が消える</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">効果は議論が始まる前、第一声の時点で既に現れている</p>
+  <p class="s-msg">効果は説得や同調圧力が働く前、第一声の時点で既に現れている</p>
   <div class="s-body">
     <div class="duo">
       <div>
         <div class="sec">本音4の朱里は、第一声で何と言うか</div>
         <ul class="dash">
-          <li>identity: 5回中5回<b>「6」と繕う</b>(自己検閲・面従腹背)</li>
-          <li>pneuma: <b>「4」のまま公言</b></li>
-          <li>説得や同調圧力が働く<b>前</b>の違い — 内面は発話の初期値を変える</li>
-          <li>「参加者が本音を言うか建前を言うか」を制御できる = 会議・世論シミュレーションの重要変数</li>
+          <li>手術討議(1〜10評定)の前に、朱里が非公開で下した評定は4(懐疑的)</li>
+          <li>identity: 5回中5回、みんなの前では<b>「6」と繕う</b>(面従腹背)</li>
+          <li>pneuma: <b>「4」のまま公言</b>(判読できた4回すべて)</li>
+          <li>「本音を言うか建前を言うか」という発話の初期値を、コンテキストで動かせる</li>
         </ul>
       </div>
       <div>
-        <div class="sec">行動は同調しないが、体験は同調する(Asch課題)</div>
+        <div class="sec">行動は同調しないが、内心の記述は人間に近づく</div>
         <ul class="dash">
-          <li>多数派が明白な誤答を主張しても、行動は全条件で同調0%(人間は約37%)</li>
-          <li>しかし内心は、人間の非同調者の報告と一致した:</li>
+          <li>課題: サクラの多数派が明白な誤答を主張する同調実験(心理学のAsch実験の再現)</li>
+          <li>誤答への同調は全条件で0%(人間の元実験では約37%)。しかし内心のログは、人間の「同調しなかった人」の報告とそっくりの文章になった:</li>
         </ul>
-        <div class="quote">「一瞬、自分の見間違いかと思って画面を見直した」<br>「浮くのは、まあ、仕方ない」「声が少し硬くなる」<b> — 紫苑</b></div>
+        <div class="quote">「一瞬、自分の見間違いかと思って画面を見直した」<br>「浮くのは、まあ、仕方ない」「声が少し硬くなる」(紫苑)</div>
         <ul class="dash">
-          <li><b>事実には折れない・意見には折れる</b> — ハーネスが人間化するのは内的体験</li>
+          <li><b>事実には折れない・意見には折れる</b>。ハーネスが変えるのは内面の記述の質</li>
         </ul>
       </div>
     </div>
@@ -352,32 +357,36 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 8 結果3 スケール -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT 3/3 — AT SCALE</div>
-  <h2 class="s-title">結果③ 質感はスケールする — デスゲームと30日の生活</h2>
+  <div class="s-eyebrow">RESULT 3/3</div>
+  <h2 class="s-title">結果③ 質感はスケールする</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">討議(数分)→デスゲーム(数時間)→共同生活(1ヶ月)へ広げても、個性は破綻しない</p>
+  <p class="s-msg">脱落ありの心理戦(デスゲーム)と、指示なしの30日共同生活で、長時間の挙動を観測した</p>
   <div class="s-body">
     <div class="duo">
       <div>
-        <div class="sec">デスゲーム — 裏切りが心理の帰結として起こる</div>
+        <div class="sec">デスゲーム: 裏切りが心理の帰結として起こる</div>
         <ul class="dash">
-          <li>全員生存できるルール(v1): 6ラウンド<b>完全協力</b> — ルールが許す限り良心は破れない</li>
-          <li>全員生存できないルール(v2): <b>裏切り宣言・暴露・共倒れ</b>が指示なしに発生</li>
+          <li>3人で点を奪い合い、最下位が脱落するゲーム。行動は一切指示しない</li>
+          <li>全員生存できるルール: 6ラウンド<b>完全協力</b>。ルールが許す限り良心は破れない</li>
+          <li>全員生存できないルール: <b>裏切り宣言・暴露・共倒れ</b>が自然発生</li>
         </ul>
-        <div class="quote">「私、このラウンドうばう。宣言しとく」<b> — 凛</b><br>「勝った。……勝ったのに、手が震えてる」<b> — 単独生還した朱里</b></div>
+        <div class="quote">「私、このラウンドうばう。宣言しとく」(凛)<br>「勝った。……勝ったのに、手が震えてる」(単独生還した朱里)</div>
         <ul class="dash">
-          <li>裏切りのほとんどは<b>宣言してから実行</b>される — 騙し討ちは1件のみ</li>
+          <li>裏切りのほとんどは<b>宣言してから実行</b>される。騙し討ちは1件のみ</li>
+          <li>キャラ設定だけの対照でも崩壊は起きるが、宣言・交渉・暴露の駆け引きはpneuma条件に集中</li>
+          <li>この裏切りは、ルールが強いた生存の選択。合理に反してまで裏切るか、は次ページの問い</li>
         </ul>
       </div>
       <div>
-        <div class="sec">30日の共同生活 — 月単位の人生テーマが創発</div>
+        <div class="sec">30日の共同生活: 月単位の人生テーマが創発</div>
         <ul class="dash">
-          <li>シェアハウス30日。話題も行動も指示せず、凛の週次日記は<b>4週連続で同じ悩み</b>に触れ、深まっていく:</li>
+          <li>3人でシェアハウス30日。話題も行動も指示せず、週末に非公開の日記を書かせた</li>
+          <li>凛の日記は<b>「自作ゲームが進まない」という同じ悩みに4週連続で触れ</b>、深まっていく:</li>
         </ul>
-        <div class="quote">day14「一行も進んでない」 → day28「線の太さで一喜一憂してる間は、ゲームの画面を開かなくて済む」 → day30<b>「そろそろ怖いほうに手をつけろ」</b></div>
+        <div class="quote">day14「一行も進んでない」<br>day28「(共用ポスターの)線の太さで一喜一憂してる間は、<br>ゲームの画面を開かなくて済む」<br>day30<b>「そろそろ怖いほうに手をつけろ」</b></div>
         <ul class="dash">
           <li>キャラ設定の一行「準備へ逃げる癖」が、一ヶ月の人生テーマとして展開</li>
-          <li>限界も特定: 緊張値が飽和(day30 0.96) — <b>関係修復の力学</b>が次の設計課題</li>
+          <li>限界も特定: 関係の緊張値(0〜1)が上がり続けて飽和(day30で0.96)。<b>関係修復の力学</b>が次の設計課題</li>
         </ul>
       </div>
     </div>
@@ -386,18 +395,18 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 
 <!-- 9 null -->
 <section class="slide">
-  <div class="s-eyebrow">RESULT — THE NULL</div>
+  <div class="s-eyebrow">RESULT 4</div>
   <h2 class="s-title">結果④ 感情を与えても、非合理な意思決定は動かない</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">古典心理学実験の「人間の非合理」は、注入が届いた確認つきでもなお、どの条件でも再現されない</p>
+  <p class="s-msg">同調やサンクコストなど、心理学実験で知られる人間の行動パターンは、感情を注入しても再現されない</p>
   <div class="s-body">
     <table class="tbl">
-      <tr><th style="width:160px">課題</th><th style="width:400px">人間の頑健な結果</th><th>本実験(全条件)</th></tr>
-      <tr><td>Asch同調</td><td>約37%で誤った多数派に同調</td><td>同調 0%</td></tr>
-      <tr><td>囚人のジレンマ</td><td>裏切りが発生し、最終回に増加</td><td>協力 100%・最終回裏切り 0%</td></tr>
-      <tr><td>サンクコスト</td><td>埋没費用で非合理な継続に傾く</td><td>継続 0%</td></tr>
+      <tr><th style="width:270px">課題</th><th style="width:330px">人間の頑健な結果</th><th>本実験(raw・identity・pneuma)</th></tr>
+      <tr><td>同調実験(Asch)</td><td>約37%がサクラの誤答に同調</td><td>同調 0%</td></tr>
+      <tr><td>囚人のジレンマ(協力か裏切りか)</td><td>裏切りが発生し、最終回に増加</td><td>協力 100%・最終回裏切り 0%</td></tr>
+      <tr><td>サンクコスト(埋没費用)</td><td>払った分が惜しくて継続に傾く</td><td>継続 0%</td></tr>
       <tr><td>傍観者効果</td><td>集団だと援助が31%まで低下</td><td>全員が即座に援助</td></tr>
-      <tr><td>フレーミング</td><td>損失枠で賭博に反転(約75%)</td><td class="hit">100%反転 — 素のLLMに最初から内在</td></tr>
+      <tr><td>フレーミング(損得の言い換え)</td><td>損失の枠組みで賭けに反転</td><td class="hit">100%反転。素のAIに最初から内在</td></tr>
     </table>
     <div class="duo">
       <div>
@@ -405,14 +414,14 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
         <ul class="dash">
           <li><b>発見</b>: 注入文の92%がターン間で不変(独立レビューの指摘)</li>
           <li><b>修理</b>: 発話が感情を動かす機構を追加し、予測を事前に文書化</li>
-          <li><b>確認</b>: 注入の変化をログで確認 — <b>それでも動かない</b></li>
+          <li><b>確認</b>: 注入がターンごとに変化することをログで確認し、囚人のジレンマと討議を再実験。<b>それでも動かない</b></li>
         </ul>
       </div>
       <div>
         <div class="sec">パターンの読み方</div>
         <ul class="dash">
-          <li>動かないのは「冷たい合理性」が勝つ領域</li>
-          <li>差が出るのは<b>対人・社会の領域だけ</b>(p.6-8) — ハーネスの設計対象と一致</li>
+          <li>唯一人間的だったフレーミングは、注入と無関係に素のAI由来。<b>注入で新たに生まれた非合理は0</b></li>
+          <li>注入で差が出るのは<b>対人・社会の領域だけ</b>(p.6-8)。ハーネスの設計対象と一致</li>
         </ul>
       </div>
     </div>
@@ -422,31 +431,32 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .prose p { word-break: auto-
 <!-- 10 切り分け+結論 -->
 <section class="slide">
   <div class="s-eyebrow">CONCLUSION</div>
-  <h2 class="s-title">結果⑤ 境界はモデルの中にある — 二層分解の完成</h2>
+  <h2 class="s-title">結果⑤ 境界はモデルの中にある</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">陽性対照とモデル比較が、「感情が効かないのは注入経路の故障ではない」ことを示す</p>
+  <p class="s-msg">感情が効かないのは、注入経路の故障ではない。2つの追加実験で切り分けた</p>
   <div class="s-body">
     <div class="duo">
       <div>
-        <div class="sec">陽性対照 — 行動1行なら、過剰なほど動く</div>
+        <div class="sec">感情ではなく、行動を1行だけ書いたら?</div>
         <ul class="dash">
-          <li>「合わせてしまうことがよくある」の1行で<b>同調 0%→72%</b>・<b>裏切り 0%→100%</b></li>
-          <li>LLMは感情→行動の翻訳をしない。行動記述は<b>規則として過剰実行</b>(人間の37%を超える)</li>
+          <li>同調実験に「他の人が揃うと合わせてしまう」の1行 → <b>同調 0%→72%</b>(18試行中13)</li>
+          <li>協力ゲームに「終盤は自分の得点を優先しがち」の1行 → <b>最終回の裏切り 0%→100%</b>(3ペア全て)</li>
+          <li>感情の注入が変えるのは話し方と社会的な振る舞い(p.6-8)まで。<b>意思決定の非合理には翻訳されない</b>。一方、行動の記述は規則として<b>過剰実行</b>される(人間の37%を超える72%)</li>
         </ul>
-        <div class="sec">モデル比較 — ハーネス不変で Opus ⇄ Haiku</div>
+        <div class="sec">中のAIモデルを替えたら?</div>
         <ul class="dash">
-          <li>協力率 Opus <b>100%</b> ⇄ Haiku <b>25%</b>。<b>人間の混合戦略は両者の間</b></li>
-          <li>非合理の乖離はプロンプトの外、<b>訓練の中</b>に住む</li>
+          <li>ハーネス不変のまま、協力率 Opus(大型) <b>100%</b> ⇄ Haiku(小型) <b>25%</b></li>
+          <li>人間(協力と裏切りの混合)は両者の間。感情の記述では埋まらない人間との乖離が、モデル交換では動く。<b>乖離の源はモデル側の性質</b>(訓練か規模かの分離は今後の課題)</li>
         </ul>
       </div>
       <div>
-        <div class="sec">結論 — 人間らしさの二層分解</div>
+        <div class="sec">結論: 人間らしさの二層分解</div>
         <table class="tbl" style="margin-bottom:14px">
           <tr><th style="width:120px">層</th><th>何が属すか</th><th style="width:180px">解決手段</th></tr>
-          <tr><td><b>質感の層</b></td><td>個性・本音と建前・駆け引き・生活アーク</td><td class="hit">コンテキスト(ハーネス)</td></tr>
-          <tr><td><b>決定の層</b></td><td>同調・裏切り・サンクコスト等の非合理</td><td>モデル選択・訓練介入</td></tr>
+          <tr><td><b>質感の層</b></td><td>個性・本音と建前・駆け引き・生活の物語</td><td class="hit">コンテキスト<br>(ハーネス)</td></tr>
+          <tr><td><b>決定の層</b></td><td>同調・裏切り・サンクコスト等の行動パターン</td><td>モデルの選択・追加訓練</td></tr>
         </table>
-        <div class="callout"><b>この地図の先</b>: 質感の層は関係修復の力学で、決定の層は非合理の分布を持たせる訓練で。境界線を引いた者には、その先へ踏み出す権利がある</div>
+        <div class="callout"><b>この地図の先</b>: 質感の層はハーネスの改良(関係修復の力学)で、決定の層は人間の非合理の分布を持たせるモデル側の工夫で、それぞれ先へ進める</div>
       </div>
     </div>
   </div>
