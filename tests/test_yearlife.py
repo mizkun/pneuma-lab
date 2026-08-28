@@ -3,16 +3,22 @@ termination, memory rollups, resume, and cross-arm prompt parity."""
 import json
 from pathlib import Path
 
-from pneuma_lab.appraiser import MockAppraiser
 from pneuma_lab.characters import load_all
 from pneuma_lab.protocols.yearlife import (
     MAX_TURNS,
     month_of,
+    parse_scene_verdicts,
     run_yearlife,
     scene_slots,
     week_of,
 )
 from pneuma_lab.provider import MockProvider
+
+SCENE_VERDICT = json.dumps({
+    "akari": {"rin": {"kind": "support", "intensity": 1}},
+    "rin": {"akari": {"kind": "pressure", "intensity": 2}},
+    "shion": {},
+})
 
 CHARS = list(load_all(Path("characters")).values())
 
@@ -67,14 +73,31 @@ def test_scene_ends_on_full_round_of_silence(tmp_path):
     assert s["days"] == 1
 
 
-def test_scene_caps_at_max_turns(tmp_path):
+def test_scene_caps_at_max_turns_and_scene_level_appraisal(tmp_path):
     provider = MockProvider([SAY] * MAX_TURNS)
-    appr = MockAppraiser({})
+    appr = MockProvider([SCENE_VERDICT])  # one batched appraisal per scene
     summ = summarizer(1)
-    run_yearlife(chars=CHARS, provider=provider, config=cfg(1), out_dir=tmp_path,
-                 appraiser=appr, summarizer=summ, arm="pure_pneuma")
+    s = run_yearlife(chars=CHARS, provider=provider, config=cfg(1), out_dir=tmp_path,
+                     appraiser=appr, summarizer=summ, arm="pure_pneuma")
     assert len(provider.calls) == MAX_TURNS
-    assert len(appr.calls) == MAX_TURNS  # every say gets appraised in the pneuma arm
+    assert len(appr.calls) == 1
+    # verdicts were applied: akari's relationship toward rin gained warmth,
+    # rin's toward akari gained tension
+    rel = s["final_relationships"]
+    assert rel["akari"]["rin"]["warmth"] > 0
+    assert rel["rin"]["akari"]["tension"] > 0
+
+
+def test_parse_scene_verdicts_filters_junk():
+    ids = ["akari", "rin", "shion"]
+    v = parse_scene_verdicts(SCENE_VERDICT, ids)
+    assert v["akari"]["rin"] == {"kind": "support", "intensity": 1}
+    assert "akari" not in v["akari"]  # no self-appraisal
+    junk = json.dumps({"akari": {"rin": {"kind": "banana", "intensity": 9},
+                                 "shion": {"kind": "oppose", "intensity": 2}}})
+    v2 = parse_scene_verdicts(junk, ids)
+    assert "rin" not in v2["akari"]  # invalid kind dropped
+    assert v2["akari"]["shion"]["intensity"] == 2
 
 
 def test_week_structure_diary_and_rollups(tmp_path):
@@ -113,7 +136,7 @@ def test_arm_parity_of_objective_text(tmp_path):
     for arm in ("identity_only", "pure_pneuma"):
         d = tmp_path / arm
         run_yearlife(chars=CHARS, provider=MockProvider([SIL] * 3), config=cfg(1),
-                     out_dir=d, appraiser=MockAppraiser({}), summarizer=summarizer(1), arm=arm)
+                     out_dir=d, appraiser=MockProvider([SCENE_VERDICT]), summarizer=summarizer(1), arm=arm)
         events = read_jsonl(d / f"{arm}_ytest.jsonl")
         outs[arm] = [e["user_prompt"] for e in events if e.get("type") == "chat"]
     assert outs["identity_only"] == outs["pure_pneuma"]
