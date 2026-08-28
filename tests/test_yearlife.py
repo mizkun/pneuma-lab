@@ -140,3 +140,40 @@ def test_arm_parity_of_objective_text(tmp_path):
         events = read_jsonl(d / f"{arm}_ytest.jsonl")
         outs[arm] = [e["user_prompt"] for e in events if e.get("type") == "chat"]
     assert outs["identity_only"] == outs["pure_pneuma"]
+
+
+# ---- v3 relationship dynamics: saturation + overnight relaxation ----
+
+from pneuma_lab.psyche import relax_relationship, update_relationship_v3  # noqa: E402
+
+
+def test_v3_saturating_updates():
+    # near the ceiling, the same kindness moves warmth far less
+    fresh = update_relationship_v3({"warmth": 0.0, "tension": 0.0}, "support", 2)
+    high = update_relationship_v3({"warmth": 0.9, "tension": 0.0}, "support", 2)
+    assert abs(fresh["warmth"] - 0.08) < 1e-9
+    assert 0.9 < high["warmth"] < 0.91  # gain scaled by remaining headroom
+    # repair works harder when tension is high
+    strained = update_relationship_v3({"warmth": 0.0, "tension": 0.8}, "support", 2)
+    calm = update_relationship_v3({"warmth": 0.0, "tension": 0.1}, "support", 2)
+    assert (0.8 - strained["tension"]) > (0.1 - calm["tension"])
+
+
+def test_v3_overnight_relaxation():
+    rel = {"warmth": 0.8, "tension": 0.8}
+    for _ in range(3):  # tension half-life = 3 nights
+        rel = relax_relationship(rel)
+    assert abs(rel["tension"] - 0.4) < 0.01
+    assert rel["warmth"] > 0.77  # warmth cools much more slowly (90-night half-life)
+
+
+def test_yearlife_v3_flag_applies_relaxation(tmp_path):
+    config = cfg(2)
+    config["relationship_dynamics"] = "v3"
+    # day1: one scene, one say -> scene verdict raises rin->akari tension; day2 no scene
+    verdict = json.dumps({"rin": {"akari": {"kind": "pressure", "intensity": 2}}})
+    provider = MockProvider([SAY, SIL, SIL, SIL])
+    s = run_yearlife(chars=CHARS, provider=provider, config=config, out_dir=tmp_path,
+                     appraiser=MockProvider([verdict]), summarizer=summarizer(1), arm="pure_pneuma")
+    t = s["final_relationships"]["rin"]["akari"]["tension"]
+    assert 0.0 < t < 0.10  # 0.10 impulse, then one overnight relaxation shrank it
