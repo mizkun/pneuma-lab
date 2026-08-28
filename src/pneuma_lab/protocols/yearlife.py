@@ -32,7 +32,12 @@ from pathlib import Path
 
 from ..characters import Character
 from ..engine import InvalidActionError
-from ..psyche import apply_appraisal, update_relationship_appraisal
+from ..psyche import (
+    apply_appraisal,
+    relax_relationship,
+    update_relationship_appraisal,
+    update_relationship_v3,
+)
 from .common import AgentState, JsonlLog, ask, parse_json_reply
 
 TURN_SECONDS = 120.0
@@ -165,6 +170,8 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
 
     max_chars = int(config.get("max_message_chars", 0))
     use_psyche = arm.endswith("pneuma")
+    rel_v3 = config.get("relationship_dynamics") == "v3"
+    rel_update = update_relationship_v3 if rel_v3 else update_relationship_appraisal
 
     def chat_parser(text: str) -> dict:
         obj = parse_json_reply(text, required={"action": str})
@@ -201,7 +208,7 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
             lst = states[listener]
             for speaker, vv in row.items():
                 lst.pad = apply_appraisal(lst.pad, vv["kind"], vv["intensity"], by_id[listener])
-                lst.relationships[speaker] = update_relationship_appraisal(
+                lst.relationships[speaker] = rel_update(
                     lst.relationships[speaker], vv["kind"], vv["intensity"])
         log.write({"type": "scene_appraisal", "day": day, "hour": hour, "verdicts": verdicts})
 
@@ -244,6 +251,9 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
         if day > 1:
             for st in states.values():
                 st.decay(OVERNIGHT_SECONDS)
+                if rel_v3:
+                    st.relationships = {t: relax_relationship(r)
+                                        for t, r in st.relationships.items()}
         slots = scene_slots(day)
         today_chat: list[str] = []
         scene_idx = 0

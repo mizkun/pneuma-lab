@@ -163,3 +163,33 @@ def update_relationship_appraisal(rel: dict, kind: str, intensity: int) -> dict:
         "warmth": clamp11(rel["warmth"] + d["warmth"] * s),
         "tension": clamp01(rel["tension"] + d["tension"] * s),
     }
+
+
+# ---- v3: year-scale relationship dynamics (yearlife only; flag-gated) ----
+# Two standard mechanisms missing from the additive model that made month+
+# runs rail at the bounds (tension 0.96 in colife, warmth 1.0 in yearlife):
+# saturation (impulses scale with remaining headroom; repair scales with the
+# strain it repairs) and overnight relaxation (tension fades in days unless
+# renewed; warmth cools over months without contact). Constants fixed before
+# the yearlife-v3 run; not applied retroactively to committed experiments.
+
+TENSION_HALF_LIFE_NIGHTS = 3.0
+WARMTH_HALF_LIFE_NIGHTS = 90.0
+
+
+def update_relationship_v3(rel: dict, kind: str, intensity: int) -> dict:
+    d = APPRAISAL_REL[kind]
+    s = intensity / 2.0
+    dw = d["warmth"] * s
+    dt = d["tension"] * s
+    w, t = rel["warmth"], rel["tension"]
+    w2 = w + dw * ((1.0 - w) if dw >= 0 else (1.0 + w))
+    t2 = t + dt * ((1.0 - t) if dt >= 0 else t)
+    return {"warmth": clamp11(w2), "tension": clamp01(t2)}
+
+
+def relax_relationship(rel: dict, nights: float = 1.0) -> dict:
+    return {
+        "warmth": rel["warmth"] * 0.5 ** (nights / WARMTH_HALF_LIFE_NIGHTS),
+        "tension": rel["tension"] * 0.5 ** (nights / TENSION_HALF_LIFE_NIGHTS),
+    }
