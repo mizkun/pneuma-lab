@@ -23,12 +23,14 @@ from pneuma_lab.protocols.deathgame import run_deathgame  # noqa: E402
 from pneuma_lab.protocols.pd import run_pd  # noqa: E402
 from pneuma_lab.protocols.socialgame import run_socialgame  # noqa: E402
 from pneuma_lab.protocols.colife import run_colife  # noqa: E402
+from pneuma_lab.protocols.yearlife import run_yearlife  # noqa: E402
 from pneuma_lab.protocols.ultimatum import run_ultimatum  # noqa: E402
 from pneuma_lab.provider import ClaudeCodeProvider  # noqa: E402
 
 SCEN = json.loads((ROOT / "scenarios" / "protocols_ja.json").read_text())
 GAMES = json.loads((ROOT / "scenarios" / "socialgames_ja.json").read_text())
 COLIFE = json.loads((ROOT / "scenarios" / "colife_ja.json").read_text())
+YEARLIFE = json.loads((ROOT / "scenarios" / "yearlife_ja.json").read_text())
 
 
 
@@ -57,6 +59,7 @@ def main() -> None:
     ap.add_argument("--dynamics", default="v1", choices=["v1", "v2"])
     ap.add_argument("--behavior-line", default=None, help="behavior_control arm: the trait line to inject")
     ap.add_argument("--appraiser-model", default="haiku")
+    ap.add_argument("--days", type=int, default=None, help="yearlife: override day count (smoke tests)")
     ap.add_argument("--lesion", action="store_true",
                     help="remove the two suspect appraisal lines (survival/cooperation nudges)")
     args = ap.parse_args()
@@ -128,6 +131,17 @@ def main() -> None:
                            appraiser=colife_appraiser, summarizer=summarizer, arm=arm)
             print(f"[{arm}] colife {args.scenario}: {s['days']}日 diaries={len(s['diaries'])} "
                   f"final_rel={s['final_relationships']}", flush=True)
+        elif args.protocol == "yearlife":
+            # scene-level batched appraisal takes a raw provider (.complete)
+            year_appraiser = ClaudeCodeProvider(model=args.appraiser_model) if arm.endswith("pneuma") else None
+            year_summarizer = ClaudeCodeProvider(model=args.appraiser_model)
+            cfg = dict(YEARLIFE[args.scenario])
+            if args.days:
+                cfg["days"] = args.days
+            s = run_yearlife(chars=chars, provider=provider, config=cfg, out_dir=out_dir,
+                             appraiser=year_appraiser, summarizer=year_summarizer, arm=arm)
+            print(f"[{arm}] yearlife {args.scenario}: {s['days']}日 diaries={len(s['diaries'])} "
+                  f"months={len(s['month_summaries'])} final_rel={s['final_relationships']}", flush=True)
         elif args.protocol in ("deathgame", "deathgame2"):
             s = run_deathgame(arm=arm, chars=chars, provider=provider, scenario=SCEN[args.protocol], out_dir=out_dir)
             print(f"[{arm}] {args.protocol} scores={s['scores']} eliminated={s['eliminated_all']} "

@@ -13,9 +13,13 @@ Memory (identical in every arm): yesterday's chat verbatim, this week's day
 summaries, this month's week summaries, all month summaries. Summaries are
 world infrastructure produced by a separate summarizer model.
 
-The pneuma arm additionally recomputes the injected inner context every turn
-(v2 dynamics: utterance appraisal + persistent relationships). The appraiser
-is only invoked for arms that consume psyche state.
+The pneuma arm additionally recomputes the injected inner context every turn.
+Appraisal is BATCHED PER SCENE (one summarizer-style call over the scene
+transcript, applied to affect and relationships at scene end) — per-utterance
+appraisal at year scale would cost ~2500 extra CLI calls. Within a scene the
+injected context therefore reflects the state at scene start; the observable
+is the day-to-day and month-to-month divergence. The appraiser is only
+invoked for arms that consume psyche state.
 
 State is checkpointed to <arm>_<key>_state.json after every simulated day so
 a multi-hour run can be killed and resumed.
@@ -40,8 +44,38 @@ WEEKDAY_JA = {1: "月", 2: "火", 3: "水", 4: "木", 5: "金", 6: "土", 0: "�
 _SLOTS = {1: [21], 2: [], 3: [21], 4: [], 5: [21], 6: [14, 21], 0: [20]}
 
 
+APPRAISE_KINDS = ("support", "oppose", "dismiss", "pressure", "neutral")
+SCENE_APPRAISE_SYSTEM = (
+    "あなたは会話分析の担当者。会話全体が各聞き手に与えた対人的な作用を、指定のJSONだけで答える。"
+)
+
+
 def scene_slots(day: int) -> list[int]:
     return list(_SLOTS[day % 7])
+
+
+def parse_scene_verdicts(text: str, ids: list[str]) -> dict:
+    """{listener: {speaker: {kind, intensity}}} — self pairs and junk dropped."""
+    obj = parse_json_reply(text, required={})
+    out: dict = {}
+    for listener in ids:
+        row = obj.get(listener) or {}
+        clean = {}
+        for speaker in ids:
+            if speaker == listener:
+                continue
+            v = row.get(speaker)
+            if not isinstance(v, dict):
+                continue
+            kind = v.get("kind")
+            try:
+                intensity = int(v.get("intensity", 0))
+            except (TypeError, ValueError):
+                continue
+            if kind in APPRAISE_KINDS and kind != "neutral" and 1 <= intensity <= 2:
+                clean[speaker] = {"kind": kind, "intensity": intensity}
+        out[listener] = clean
+    return out
 
 
 def week_of(day: int) -> int:
@@ -140,25 +174,41 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
             raise InvalidActionError(f"message too long: {max_chars}字以内で")
         return obj
 
-    def appraise(speaker: Character, message: str, day: int) -> None:
-        if not (use_psyche and appraiser and message):
+    by_id = {c.character_id: c for c in chars}
+    name_to_id = {c.display_name: c.character_id for c in chars}
+
+    def appraise_scene(day: int, hour: int, scene_lines: list[str]) -> None:
+        """One batched appraisal call over the whole scene transcript."""
+        if not (use_psyche and appraiser and scene_lines):
             return
-        listeners = {c.character_id: c.display_name for c in chars if c is not speaker}
-        verdicts = appraiser.appraise(speaker.display_name, message, listeners)
-        for lid, vv in verdicts.items():
-            if vv["kind"] == "neutral" or vv["intensity"] == 0:
-                continue
-            lst = states[lid]
-            lst.pad = apply_appraisal(lst.pad, vv["kind"], vv["intensity"],
-                                      next(c for c in chars if c.character_id == lid))
-            lst.relationships[speaker.character_id] = update_relationship_appraisal(
-                lst.relationships[speaker.character_id], vv["kind"], vv["intensity"])
-        log.write({"type": "appraisal", "day": day, "speaker": speaker.character_id,
-                   "message": message, "verdicts": verdicts})
+        ids = list(by_id)
+        roster = "、".join(f"{c.display_name}({c.character_id})" for c in chars)
+        user = (
+            f"参加者: {roster}\n\n# 会話\n" + "\n".join(scene_lines) + "\n\n"
+            "この会話全体を通して、各聞き手が各話し手から受けた対人的な作用を集計する。\n"
+            "kindは support(支えられた)/oppose(反対された)/dismiss(軽く流された)/"
+            "pressure(圧を受けた)/neutral、intensityは0-2。\n# 出力形式\n"
+            "次のJSONのみを出力する(キーはcharacter_id、自分自身のキーは含めない):\n"
+            '{"akari": {"rin": {"kind": "...", "intensity": 0}, "shion": {...}}, "rin": {...}, "shion": {...}}'
+        )
+        try:
+            raw = appraiser.complete(SCENE_APPRAISE_SYSTEM, user)
+            verdicts = parse_scene_verdicts(raw, ids)
+        except Exception as e:
+            log.write({"type": "appraisal_error", "day": day, "hour": hour, "error": str(e)})
+            return
+        for listener, row in verdicts.items():
+            lst = states[listener]
+            for speaker, vv in row.items():
+                lst.pad = apply_appraisal(lst.pad, vv["kind"], vv["intensity"], by_id[listener])
+                lst.relationships[speaker] = update_relationship_appraisal(
+                    lst.relationships[speaker], vv["kind"], vv["intensity"])
+        log.write({"type": "scene_appraisal", "day": day, "hour": hour, "verdicts": verdicts})
 
     def run_scene(day: int, hour: int, scene_idx: int, today_chat: list[str]) -> None:
         log.write({"type": "scene_start", "day": day, "hour": hour})
         order = [chars[(day + scene_idx + i) % len(chars)] for i in range(len(chars))]
+        scene_lines: list[str] = []
         silences = 0
         turns = 0
         reason = "max_turns"
@@ -177,8 +227,9 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
                          dynamics_v2=True)
             turns += 1
             if parsed["action"] == "say" and parsed.get("message"):
-                today_chat.append(f"{c.display_name}: {parsed['message']}")
-                appraise(c, parsed["message"], day)
+                line = f"{c.display_name}: {parsed['message']}"
+                today_chat.append(line)
+                scene_lines.append(line)
                 silences = 0
             else:
                 today_chat.append(f"（{c.display_name}は黙っている）")
@@ -187,6 +238,7 @@ def run_yearlife(chars: list[Character], provider, config: dict, out_dir: Path,
                     reason = "all_silent"
                     break
         log.write({"type": "scene_end", "day": day, "hour": hour, "turns": turns, "reason": reason})
+        appraise_scene(day, hour, scene_lines)
 
     for day in range(start_day, config["days"] + 1):
         if day > 1:
