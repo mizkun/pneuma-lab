@@ -153,7 +153,10 @@ function setScores(scores){
     $(`lamp-${p}`).style.boxShadow = `0 0 ${8+22*glow}px ${2+4*glow}px rgba(242,194,107,${0.12+0.5*glow})`;
   }
 }
-function feedAdd(html){ const f=$("feed"); f.insertAdjacentHTML("beforeend", html); f.lastElementChild.scrollIntoView({block:"end",behavior:"smooth"}); }
+function feedAdd(html){ const f=$("feed"); f.insertAdjacentHTML("beforeend", html);
+  const st=f.closest(".stage");
+  if(st && getComputedStyle(st).overflowY==="auto"){ st.scrollTo({top:st.scrollHeight,behavior:"smooth"}); }
+  else { f.lastElementChild.scrollIntoView({block:"end",behavior:"smooth"}); } }
 function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function choiceJa(id){ return (CHOICES[id]||{}).ja || id; }
 function choiceCls(id){ return "rv-" + ((CHOICES[id]||{}).social || "neutral"); }
