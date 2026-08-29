@@ -1,6 +1,6 @@
 # 審査員の方へ — 5分でこの作品に到達する地図
 
-**作品名**: Pneuma Lab — 心を計算し、行動は選ばないハーネス
+**作品名**: 心理学ハーネス — AIエージェントに人間らしい心理を与える(プロジェクト名: Pneuma Lab)
 **参加形態**: 個人
 **一言で**: LLMキャラクターの性格・感情・関係を毎ターン決定論計算して「内面」として注入し、素のLLM・固定キャラ設定と**同一条件で比較**して、人間らしい社会的挙動（個性・率直さ・裏切り・自己犠牲）がどこから生まれるかを検証した。
 
@@ -12,6 +12,7 @@
 | +3分 | 実験レポート（初見向け・検証と撤回の経緯込み） | `docs/report.html` をブラウザで開く |
 | +2分 | デスゲームのリプレイ（実ログをそのまま再生） | `output/theater_deathgame2.html` |
 | +2分 | 仕組みの解説（難易度スライダー: たとえ話⇄論文） | `docs/algorithm-site.html` |
+| +3分 | 1年間の共同生活シミュレーション(ハーネス有無の比較) | `output/yearlife-*/` と `notes` 参照 |
 
 ## 主要な主張と、その証拠の場所
 
@@ -29,7 +30,7 @@
 ## 再現方法
 
 ```bash
-uv sync && uv run pytest              # テスト122本（LLM呼び出しなしで完結）
+uv sync && uv run pytest              # テスト132本（LLM呼び出しなしで完結）
 # 実験の再実行（要 Claude Code ログイン。APIキー不要）
 uv run python scripts/run_experiment.py --item surgery --arms raw identity_only pure_pneuma frozen_pneuma
 uv run python scripts/run_protocols.py --protocol socialgame --scenario lastlamp --arms pure_pneuma
