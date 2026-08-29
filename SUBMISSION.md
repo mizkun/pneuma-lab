@@ -17,7 +17,7 @@
 | シナリオ定義(JSONを足すだけで新シナリオ) | `scenarios/*.json` |
 | キャラクター定義(性格数値+核となる不安) | `characters/*.json` |
 | リプレイビューワ(会話と本音とパラメータを同時再生) | `output/theater_deathgame2.html` をブラウザで開く |
-| 仕組みの解説サイト(たとえ話⇄数式の5段階) | `docs/algorithm-site.html` をブラウザで開く |
+| 仕組みの技術解説(論文形式) | `docs/algorithm-site.html` をブラウザで開く |
 | スライドの原本 | `slides/slides.html`(ブラウザで開くとプレゼン表示・Cmd+PでPDF) |
 
 ## 実験の生ログ(すべて公開)
