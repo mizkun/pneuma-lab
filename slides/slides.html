@@ -85,6 +85,12 @@ img.shot { max-width: 100%; border: 1px solid var(--border); border-radius: 8px;
 .slide.lect .abstract { color: rgba(255,255,255,.95); font-size: 18px; line-height: 1.85;
   margin-top: 28px; max-width: 1010px; }
 .slide.lect .abstract b { color: #fff; }
+.slide.lect ul.cov { list-style: none; margin-top: 26px; max-width: 1010px; }
+.slide.lect ul.cov li { color: rgba(255,255,255,.95); font-size: 19px; font-weight: 500;
+  line-height: 1.75; padding: 6px 0 6px 24px; position: relative; }
+.slide.lect ul.cov li::before { content: ""; position: absolute; left: 2px; top: 18px;
+  width: 10px; height: 10px; background: #fff; }
+.slide.lect ul.cov b { color: #fff; }
 .slide.lect .meta { color: rgba(255,255,255,.85); font-size: 14.5px; margin-top: 28px;
   letter-spacing: .05em; }
 
@@ -100,7 +106,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
   .slide { display: block !important; position: relative; inset: auto; width: 1280px; height: 720px;
     break-after: page; overflow: hidden; }
   .slide.lect { display: flex !important; }
-  .s-bar, .slide.lect, .sec, ul.dash li::before,
+  .s-bar, .slide.lect, .sec, ul.dash li::before, .slide.lect ul.cov li::before,
   .quote, .callout, .fbox, table.tbl th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
 </style>
@@ -112,9 +118,13 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <section class="slide lect">
   <div class="lect-frame"></div>
   <h1 class="s-title">心理学ハーネス</h1>
-  <p class="subtitle">AIエージェントの社会シミュレーションに、人間らしい心理を与える提案手法</p>
+  <p class="subtitle">AIエージェントの社会シミュレーションに、人間らしい心理を与える</p>
   <div class="s-bar"></div>
-  <p class="abstract">素のAIによる社会シミュレーションは、文脈の解釈がLLM任せで、人間らしい感情や心理が再現される保証がありません。そこで、<b>心理学の数理モデルで文脈を構造化してから渡すハーネス</b>を作り、ハーネスなしのAIと同一条件で比較しました。駆け引きゲームでも、1年間の共同生活でも、<b>物語はハーネスありのほうが人間らしく、面白くなりました</b>。</p>
+  <ul class="cov">
+    <li>素のAIによる社会シミュレーションは、文脈の解釈がLLM任せで、人間らしい感情や心理が再現される保証がありません</li>
+    <li>そこで、<b>心理学の数理モデルで文脈を構造化してから渡すハーネス</b>を作り、ハーネスなしのAIと同一条件で比較しました</li>
+    <li>駆け引きゲームでも、1年間の共同生活でも、<b>物語はハーネスありのほうが人間らしく、面白くなりました</b></li>
+  </ul>
   <p class="meta">AIエージェント社会シミュレーションハッカソン Vol.2 ／ 参加者番号 0153 ／ 水谷享平(Kyohei Mizutani)</p>
 </section>
 
@@ -271,7 +281,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
   <div class="s-eyebrow">実験 1/2</div>
   <h2 class="s-title">ハーネスの有無で、裏切りの質が変わった</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">全員は生き残れないルールを与え、行動は一切指示せずに観察しました</p>
+  <p class="s-msg">友人同士の3人に、駆け引きが必要な心理ゲームを遊ばせて観察しました。行動の指示はしていません</p>
   <div class="s-body">
     <div class="duo">
       <div>

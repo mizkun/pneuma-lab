@@ -72,6 +72,11 @@ button:focus-visible, select:focus-visible { outline: 2px solid var(--amber); ou
 .rv-generous, .rv-generous_all { background: rgba(185,165,255,0.13); color: var(--gift); border-color: rgba(185,165,255,0.32); }
 
 .stage { padding: 18px; min-height: 68vh; }
+@media (min-width: 781px) {
+  .stage { position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow-y: auto; }
+  .stage::-webkit-scrollbar { width: 8px; }
+  .stage::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 4px; }
+}
 .feed { display: flex; flex-direction: column; gap: 10px; }
 .bubble { max-width: 90%; padding: 11px 15px; border-radius: 6px 16px 16px 16px;
   background: var(--glass-2); border: 1px solid var(--edge-soft); backdrop-filter: blur(12px);
