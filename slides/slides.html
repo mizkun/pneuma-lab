@@ -73,6 +73,15 @@ img.shot { max-width: 100%; border: 1px solid var(--border); border-radius: 8px;
 .fbox .fx span { color: var(--accent); }
 .fbox .fn { font-size: 14px; color: #2a2a2a; margin-top: 2px; line-height: 1.55; }
 
+.reflead { font-size: 14.5px; color: #444; line-height: 1.6; margin-bottom: 10px; }
+.reflist { font-size: 13.5px; }
+.reflist .row { display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px; padding: 7px 2px; border-bottom: 1px solid var(--line); }
+.reflist .row:last-child { border-bottom: none; }
+.reflist .k { color: #2a2a2a; }
+.reflist .p { font-family: "Roboto Mono", monospace; font-size: 12.5px; color: #555;
+  white-space: nowrap; }
+
 /* ---- 表紙 ---- */
 .slide.lect { background: var(--accent); padding: 80px 110px; }
 .slide.lect.on { display: flex; flex-direction: column; justify-content: center; }
@@ -404,16 +413,17 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
         </ul>
       </div>
       <div>
-        <div class="sec">参考、提出物リスト(github.com/mizkun/pneuma-lab)</div>
-        <table class="tbl" style="font-size:13.5px; line-height:1.5">
-          <tr><td><b>心理エンジン</b>(性格・感情・関係の計算)</td><td>src/pneuma_lab/psyche.py</td></tr>
-          <tr><td><b>1年の共同生活</b>の実装</td><td>src/pneuma_lab/protocols/yearlife.py</td></tr>
-          <tr><td><b>駆け引きゲーム</b>の実装</td><td>src/pneuma_lab/protocols/socialgame.py</td></tr>
-          <tr><td><b>1年の全ログ</b>(ハーネスなし/あり)</td><td>output/yearlife-identity/ ・ yearlife-pneuma-v3/</td></tr>
-          <tr><td><b>リプレイビューワ</b></td><td>output/theater_deathgame2.html</td></tr>
-          <tr><td><b>仕組みの解説サイト</b></td><td>docs/algorithm-site.html</td></tr>
-          <tr><td><b>テスト132本</b></td><td>uv sync && uv run pytest で検証できます</td></tr>
-        </table>
+        <div class="sec">たしかめたくなったら</div>
+        <p class="reflead">この資料に書いたことは、公開リポジトリ <b>github.com/mizkun/pneuma-lab</b> でそのまま確かめられます。</p>
+        <div class="reflist">
+          <div class="row"><span class="k">心理エンジン(性格・感情・関係の計算)</span><span class="p">src/pneuma_lab/psyche.py</span></div>
+          <div class="row"><span class="k">1年の共同生活の実装</span><span class="p">src/pneuma_lab/protocols/yearlife.py</span></div>
+          <div class="row"><span class="k">駆け引きゲームの実装</span><span class="p">src/pneuma_lab/protocols/socialgame.py</span></div>
+          <div class="row"><span class="k">1年の全ログ(ハーネスなし/あり)</span><span class="p">output/yearlife-*/</span></div>
+          <div class="row"><span class="k">リプレイビューワ</span><span class="p">output/theater_deathgame2.html</span></div>
+          <div class="row"><span class="k">仕組みの解説サイト</span><span class="p">docs/algorithm-site.html</span></div>
+          <div class="row"><span class="k">動作の検証(テスト132本)</span><span class="p">uv sync && uv run pytest</span></div>
+        </div>
       </div>
     </div>
   </div>
