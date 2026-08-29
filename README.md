@@ -12,7 +12,7 @@ AIエージェント社会シミュレーションハッカソン Vol.2 提出�
 - **提出物とファイルの対応表・5分での検証手順**: [SUBMISSION.md](SUBMISSION.md)
 - **スライド**: `slides/slides.html` をブラウザで開く(矢印キーで送り)
 - **リプレイビューワ**(会話・本音・心理パラメータを同時再生): `output/theater_deathgame2.html`
-- **仕組みの解説サイト**(たとえ話⇄数式の5段階): `docs/algorithm-site.html`
+- **アルゴリズムの詳細解説**(論文形式PDF): `docs/algorithm.pdf`
 
 ## クイックスタート
 
