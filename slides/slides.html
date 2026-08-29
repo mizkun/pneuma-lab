@@ -121,17 +121,17 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <!-- 2 背景 -->
 <section class="slide">
   <div class="s-eyebrow">背景</div>
-  <h2 class="s-title">LLM任せでは、人間らしさが担保されない</h2>
+  <h2 class="s-title">文脈の解釈をLLMに任せるだけでは、人間らしさが出ない</h2>
   <div class="s-bar"></div>
   <p class="s-msg">社会シミュレーションが人間の社会に似るかどうかは、いまはLLMの解釈しだいです</p>
   <div class="s-body">
     <div class="duo">
       <div>
-        <div class="sec">問題</div>
+        <div class="sec">何が問題か</div>
         <ul class="dash">
           <li>ふつうの作り方では、出来事の履歴を丸ごと渡して解釈をLLMに任せる。感情や関係の一貫性は保証されない</li>
           <li>実際、素のAIを3体並べて同じ質問をすると、全員が同じ答えを返す(実験11回中10回)</li>
-          <li>それで十分な用途もあるが、<b>人間の挙動を模したいなら足りない</b></li>
+          <li>LLM任せで十分な用途もあるが、<b>人間の挙動を模したいなら足りない</b></li>
         </ul>
       </div>
       <div>
@@ -150,18 +150,18 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
   <div class="s-eyebrow">提案手法</div>
   <h2 class="s-title">心理学ハーネス</h2>
   <div class="s-bar"></div>
-  <p class="s-msg">出来事を丸投げせず、心理学モデルで構造化した文脈を、毎ターン作り直して渡します</p>
+  <p class="s-msg">このハーネスは、出来事を丸投げせず、心理学モデルで構造化した文脈を毎ターン作り直してAIに渡します</p>
   <div class="s-body">
     <div class="duo">
       <div>
         <div class="sec">採用した心理学モデル</div>
         <ul class="dash">
-          <li>性格は<b>Big Five</b>(5因子)。状況の圧力と感情で表出が揺れる</li>
+          <li>性格は<b>Big Five</b>(5因子)。状況の圧力と感情で、表に出る性格が揺れる</li>
           <li>感情は<b>PADモデル</b>(快・覚醒・支配の3次元)。出来事で動き、時間で戻る</li>
           <li><b>セルフモニタリング</b>(場に合わせる度合い)が、本音と建前の差を作る</li>
           <li>関係は相手ごとの温かさと緊張。日をまたいで蓄積する</li>
         </ul>
-        <div class="sec">毎ターンやること</div>
+        <div class="sec">ハーネスが毎ターンやること</div>
         <ul class="dash">
           <li>ここまでの出来事から心理状態を計算し直す(乱数なし)</li>
           <li>数値は見せず、「いま、どう感じているか」という日本語にして<b>本人だけ</b>に渡す</li>
@@ -192,7 +192,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
           <text x="484" y="64" text-anchor="middle" font-size="12" fill="#555">次の入力へ</text>
         </svg>
         </div>
-        <div class="sec">中身の式(抜粋)</div>
+        <div class="sec">計算の中身(式の抜粋)</div>
         <div class="fbox">
           <p class="fx">表に出る性格 <span>O</span> = clamp( B + m×R + 0.25×g(E) )</p>
           <p class="fn">Bは元の性格、Rは状況の圧力、mはセルフモニタリング、g(E)は感情の影響</p>
@@ -222,9 +222,9 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
         <ul class="dash">
           <li>左が3人の心理状態、右が会話ログ</li>
           <li>琥珀色の枠は「本人の本音」。発言と並べて再生される</li>
-          <li>この場面では、全員が協力を装いながら内心で裏切りを決め、直後に一斉公開で全員「うばう」</li>
+          <li>この場面では、全員が協力を装いながら内心で裏切りを決め、直後の一斉公開で全員が「うばう」を選んでいます</li>
         </ul>
-        <div class="sec">仕組み</div>
+        <div class="sec">シナリオと記録</div>
         <ul class="dash">
           <li>シナリオはJSONファイル1つで追加できる</li>
           <li>AIへの指示文・応答・心理状態をすべて記録</li>
@@ -237,7 +237,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <!-- 5 実験デザイン -->
 <section class="slide">
   <div class="s-eyebrow">実験デザイン</div>
-  <h2 class="s-title">ハーネスなしと、同一条件で比べる</h2>
+  <h2 class="s-title">ハーネスの有無だけを変えて、同一条件で比べる</h2>
   <div class="s-bar"></div>
   <p class="s-msg">同じキャラクター設定・同じ状況で、ハーネスの有無だけを変えます</p>
   <div class="s-body">
@@ -269,7 +269,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <!-- 6 実験1 -->
 <section class="slide">
   <div class="s-eyebrow">実験 1/2</div>
-  <h2 class="s-title">駆け引きゲームでは、裏切りの質が変わった</h2>
+  <h2 class="s-title">ハーネスの有無で、裏切りの質が変わった</h2>
   <div class="s-bar"></div>
   <p class="s-msg">全員は生き残れないルールを与え、行動は一切指示せずに観察しました</p>
   <div class="s-body">
@@ -290,7 +290,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
         <div class="sec">心理学ハーネス</div>
         <ul class="dash">
           <li>裏切りが<b>宣言と交渉つき</b>になる(「私、このラウンドうばう。宣言しとく」)</li>
-          <li>相手が言わなかった計算を暴く場面も(「並んだら二人とも消える。言わなかったのは、たぶんそこ」)</li>
+          <li>別のメンバーが、相手の言わなかった計算を暴く場面も(「並んだら二人とも消える。言わなかったのは、たぶんそこ」)</li>
           <li>約束を守った一人だけが搾取され、共倒れの末に一人だけが生き残る</li>
         </ul>
         <div class="quote">「勝った。……勝ったのに、手が震えてる」<b> — 生き残った一人の独白</b></div>
@@ -302,7 +302,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <!-- 7 実験2 -->
 <section class="slide">
   <div class="s-eyebrow">実験 2/2</div>
-  <h2 class="s-title">1年の共同生活では、物語の質が変わった</h2>
+  <h2 class="s-title">ハーネスの有無で、1年の物語の質が変わった</h2>
   <div class="s-bar"></div>
   <p class="s-msg">大学の友人同士3人が「面白いことしよう」と集まってルームシェアを始めて1年。何が起きるかを観察しました</p>
   <div class="s-body">
@@ -313,15 +313,15 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
           <li>アプリを企画→開発→リリースし、記録達成率99%を3日連続で達成</li>
           <li>対立らしい対立はなく、悩みも最終日にきれいに解決する</li>
         </ul>
-        <div class="quote">「動いたのは自分の手で作ったやつだ。今日だけは勝ちでいいかな」<b> — 最終日の、あるメンバーの日記</b></div>
+        <div class="quote">「動いたのは自分の手で作ったやつだ。今日だけは勝ちでいいかな」<b> — 最終日の日記から</b></div>
       </div>
       <div>
         <div class="sec">心理学ハーネス、事件と余韻のある一年</div>
         <ul class="dash">
           <li>ゲーム制作と週1投稿で再生数1.5倍。仕事は同じように成功する</li>
-          <li>146日目、一人が<b>秘密で続けている自分の作品</b>を口走る。「進捗1%でも見せて」と詰められて関係が冷え、和解の場面がないまま、日常の反復で自然に戻る</li>
+          <li>146日目、一人が<b>秘密で続けている自分の作品</b>を口走る。「進捗1%でも見せて」と詰められて関係が冷える。和解の場面がないまま、関係は日常の反復で自然に戻る</li>
         </ul>
-        <div class="quote">「よくやってる、それは本当。でも自分の作品、いつ手つけるんだろ」<b> — 最終日の、同じメンバーの日記</b></div>
+        <div class="quote">「よくやってる、それは本当。でも自分の作品、いつ手つけるんだろ」<b> — 最終日の日記から(左と同じ人物設定のメンバー)</b></div>
       </div>
     </div>
   </div>
@@ -341,14 +341,14 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
       <tr><td><b>対人の事件(1年)</b></td><td>起きない</td><td class="hit">秘密の露見→冷え込み→自然な回復</td></tr>
       <tr><td><b>個人の悩み</b></td><td>最終日に解決</td><td class="hit">1年後も残り、余韻になる</td></tr>
     </table>
-    <div class="callout">キャラ設定に書いた一行の癖(準備に逃げる)が、ハーネスありでは<b>1年がかりの人生のテーマ</b>に育ちました。エンタメとしての社会シミュレーションに、この差は効きます</div>
+    <div class="callout">キャラ設定に書いた一行の癖(準備に逃げる)が、ハーネスありでは<b>1年がかりの人生のテーマ</b>に育ちました。この差が、物語としての面白さに直結します</div>
   </div>
 </section>
 
 <!-- 9 検証 -->
 <section class="slide">
   <div class="s-eyebrow">検証</div>
-  <h2 class="s-title">過去の心理学実験と比べて、人間に近づいたか</h2>
+  <h2 class="s-title">ハーネスで、AIは人間の結果に近づいたか</h2>
   <div class="s-bar"></div>
   <p class="s-msg">再現性の高い心理学実験を両条件で行い、人間の結果に近づくかを確かめました</p>
   <div class="s-body">
@@ -356,8 +356,8 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
       <tr><th style="width:270px">実験(どんな課題か)</th><th style="width:250px">人間の結果</th><th style="width:230px">ハーネスなし</th><th>心理学ハーネス</th><th style="width:70px">判定</th></tr>
       <tr><td><b>集団討議</b>。3人で話し合い、結論を1つ決める</td><td>話し合うと意見が偏っていく</td><td>5回中5回、一番慎重な人に全員一致</td><td>全員一致は0回。議論で結論が動く</td><td class="hit">近づく</td></tr>
       <tr><td><b>分配交渉</b>。お金の取り分を提案し、相手は拒否できる</td><td>安すぎる提案は約半数が拒否</td><td>3人とも同じ反応</td><td>拒否するラインに個人差が出る</td><td class="hit">近づく</td></tr>
-      <tr><td><b>同調実験</b>。周りがわざと間違った答えを言い張る</td><td>約37%がつられて誤答</td><td>つられない(0%)</td><td>つられない(0%)</td><td>✕</td></tr>
-      <tr><td><b>サンクコスト</b>。損とわかった計画を続けるか</td><td>払った分が惜しくて続けがち</td><td>全員すぐ中止</td><td>全員すぐ中止</td><td>✕</td></tr>
+      <tr><td><b>同調実験</b>。周りがわざと間違った答えを言い張る</td><td>約37%がつられて誤答</td><td>つられない(0%)</td><td>つられない(0%)</td><td>変わらず</td></tr>
+      <tr><td><b>サンクコスト</b>。損とわかった計画を続けるか</td><td>払った分が惜しくて続けがち</td><td>全員すぐ中止</td><td>全員すぐ中止</td><td>変わらず</td></tr>
     </table>
     <div class="duo">
       <div>
@@ -369,7 +369,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
       <div>
         <div class="sec">心理学ハーネスの課題</div>
         <ul class="dash">
-          <li>つられる・損切りできない等の<b>非合理な判断</b>。これはハーネスではなくLLM自体の性質で決まる</li>
+          <li>つられる・損切りできない等の<b>非合理な判断は、ハーネスでは作れない</b>。LLM自体の性質で決まる</li>
           <li>各実験3〜5回の探索的研究で、統計検定はしていない</li>
         </ul>
       </div>
@@ -380,7 +380,7 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
 <!-- 10 展望 -->
 <section class="slide">
   <div class="s-eyebrow">展望</div>
-  <h2 class="s-title">エンタメにも、組織の理解にも、安全研究にも</h2>
+  <h2 class="s-title">エンタメにも、組織の理解にも、安全研究にも使える</h2>
   <div class="s-bar"></div>
   <p class="s-msg">人間らしい心理を持つAI集団は、シナリオを差し替えるだけで色々な場所で使えます</p>
   <div class="s-body">
