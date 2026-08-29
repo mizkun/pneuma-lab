@@ -1,0 +1,12 @@
+{
+  "model_alias": "sonnet",
+  "claude_cli_version": "2.1.245 (Claude Code)",
+  "git_commit": "a43f64c201fe7ace6a7a8a1036c1e709ef5f37c0",
+  "started_at": "2026-08-29T01:42:00+0900",
+  "protocol": "yearlife",
+  "arms": [
+    "pure_pneuma"
+  ],
+  "lesion": false,
+  "dynamics": "v1"
+}

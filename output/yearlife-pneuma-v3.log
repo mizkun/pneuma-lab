@@ -1,0 +1,3 @@
+run_id=yearlife-pneuma-v3 protocol=yearlife arms=['pure_pneuma']
+[pure_pneuma] yearlife flatmates-year-v3: 365日 diaries=156 months=12 final_rel={'akari': {'rin': {'warmth': 0.7117, 'tension': 0.0012}, 'shion': {'warmth': 0.7495, 'tension': 0.0003}}, 'rin': {'akari': {'warmth': 0.6967, 'tension': 0.01}, 'shion': {'warmth': 0.7166, 'tension': 0.0}}, 'shion': {'akari': {'warmth': 0.7969, 'tension': 0.0}, 'rin': {'warmth': 0.74, 'tension': 0.0}}}
+[pure_pneuma] done in 35046s calls=2894
