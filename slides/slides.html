@@ -404,13 +404,16 @@ ul.dash li, .quote, .callout, .s-msg, table.tbl td, .fbox .fn { word-break: auto
         </ul>
       </div>
       <div>
-        <div class="sec">提出物</div>
-        <ul class="dash">
-          <li>コード+全実験の生ログ+テスト132本(uv sync && uv run pytest で検証できます)</li>
-          <li>リプレイビューワ ／ 仕組みの解説サイト ／ 約3分のデモ動画</li>
-          <li>どのファイルがどれに当たるかは、リポジトリの SUBMISSION.md に対応表があります</li>
-          <li>github.com/mizkun/pneuma-lab</li>
-        </ul>
+        <div class="sec">参考、提出物リスト(github.com/mizkun/pneuma-lab)</div>
+        <table class="tbl" style="font-size:13.5px; line-height:1.5">
+          <tr><td><b>心理エンジン</b>(性格・感情・関係の計算)</td><td>src/pneuma_lab/psyche.py</td></tr>
+          <tr><td><b>1年の共同生活</b>の実装</td><td>src/pneuma_lab/protocols/yearlife.py</td></tr>
+          <tr><td><b>駆け引きゲーム</b>の実装</td><td>src/pneuma_lab/protocols/socialgame.py</td></tr>
+          <tr><td><b>1年の全ログ</b>(ハーネスなし/あり)</td><td>output/yearlife-identity/ ・ yearlife-pneuma-v3/</td></tr>
+          <tr><td><b>リプレイビューワ</b></td><td>output/theater_deathgame2.html</td></tr>
+          <tr><td><b>仕組みの解説サイト</b></td><td>docs/algorithm-site.html</td></tr>
+          <tr><td><b>テスト132本</b></td><td>uv sync && uv run pytest で検証できます</td></tr>
+        </table>
       </div>
     </div>
   </div>
