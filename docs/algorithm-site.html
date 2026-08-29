@@ -6,12 +6,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: #fff; }
 body { color: #111; font-family: "Times New Roman", "Noto Serif JP", "Hiragino Mincho ProN", serif;
-  line-height: 1.9; font-size: 15.5px; }
+  line-height: 1.95; font-size: 15.5px; }
 main { max-width: 720px; margin: 0 auto; padding: 64px 24px 120px; }
 h1 { font-size: 1.65rem; font-weight: 600; text-align: center; line-height: 1.6; letter-spacing: .02em; }
 .byline { text-align: center; font-size: .85rem; color: #333; margin: 14px 0 40px; }
 h2 { font-size: 1.12rem; font-weight: 600; margin: 56px 0 14px; padding-bottom: 6px; border-bottom: 1px solid #111; }
-h3 { font-size: 1rem; font-weight: 600; margin: 28px 0 8px; }
+h3 { font-size: 1rem; font-weight: 600; margin: 30px 0 8px; }
 p { margin: 10px 0; }
 .lede { border: 1px solid #111; padding: 16px 20px; margin: 0 0 8px; font-size: .92rem; line-height: 1.95; }
 .small { font-size: .82rem; }
@@ -24,138 +24,126 @@ section { margin: 0; }
 .loopstep.inner-step { background: #eee; }
 .loopback { width: 100%; text-align: center; font-size: .8rem; color: #444; margin-top: 8px; }
 .eq { text-align: center; font-size: 1rem; margin: 18px 0 6px; letter-spacing: .01em; }
-.eqnote { font-size: .8rem; color: #333; margin: 0 0 14px; text-align: center; }
+.eqnote { font-size: .8rem; color: #333; margin: 0 0 10px; text-align: center; }
+.plain { font-size: .88rem; background: #f5f5f5; padding: 10px 16px; margin: 8px 0 14px; }
+.plain b { font-weight: 600; }
 .thm { font-size: .82rem; color: #333; border-left: 2px solid #999; padding: 2px 0 2px 14px; margin: 10px 0 22px; }
 table { border-collapse: collapse; width: 100%; font-size: .85rem; margin: 14px 0; }
 th, td { border: 1px solid #111; padding: 7px 10px; text-align: left; vertical-align: top; line-height: 1.7; }
 th { font-weight: 600; background: #f2f2f2; }
 ul, ol { padding-left: 1.6em; margin: 10px 0; }
 li { margin: 4px 0; }
+.slayer { border: 1px solid #111; padding: 10px 16px; margin: 10px 0; }
+.slayer .who { font-weight: 600; font-size: .85rem; margin-bottom: 2px; }
+.slayer p { font-size: .85rem; margin: 4px 0; }
+.slayer.inner-step { background: #eee; }
+.footer { font-size: .8rem; color: #444; margin-top: 18px; }
+hr { border: none; border-top: 1px solid #111; margin-top: 48px; }
 code, .mono { font-family: "Courier New", monospace; font-size: .88em; }
 a { color: #111; }
 </style></head><body><main>
-
-
-
-
-<main>
   <h1>心を計算し、<br>行動は選ばない。</h1>
-  <p class="byline">心理学ハーネスの技術解説 ／ Pneuma Lab(水谷享平)</p>
+  <p class="byline">心理学ハーネスの技術解説 ／ 水谷享平</p>
 
-  
-  
-  
-  <p class="lede"><b>要旨</b> — 本稿は、LLMキャラクターの心理状態（特性・感情・表出・二者関係）を決定論的に計算し、推論時に自然言語として注入するプロンプトタイム・ハーネス「心理学ハーネス」を述べる。ハーネスは行動選択・推薦・採点を構造的に持たない（権限境界）。評価は同一の客観文脈を保証した多アーム比較（raw／identity_only／pure_pneuma／frozen_pneuma）で行い、古典社会心理学実験の再現課題とマルチラウンドの社会ゲームに適用した。内面注入は判断の個人差と「私的立場を公の場に出す率直さ」を生んだ一方、穏やかな相互作用では状態変化が言語化閾値に達せず、動的再計算の固有効果は高負荷相互作用でのみ介入として成立した。係数群は実証定数ではなくシミュレーション仮説である。</p>
-
-  <div class="loop" role="img" aria-label="心理学ハーネスのループ: 観測、計算、翻訳、選択、記録">
-    <div class="loopstep"><div class="t">1. 観測</div><div class="d">追記専用イベント列 <i>e</i><sub>1..t</sub> を読む</div></div>
-    <div class="loopstep"><div class="t">2. 計算</div><div class="d">状態 <i>s<sub>t</sub></i> = (<i>B</i>, <i>A</i>, <i>O</i>, <i>R</i>) を決定論更新</div></div>
-    <div class="loopstep inner-step"><div class="t">3. 翻訳</div><div class="d">言語化 <i>V</i>(<i>s<sub>t</sub></i>) を本人の文脈にのみ注入</div></div>
-    <div class="loopstep"><div class="t">4. 選択</div><div class="d"><i>a<sub>t</sub></i> ～ π<sub>LLM</sub>(·|文脈)。検証後に確定</div></div>
-    <div class="loopstep"><div class="t">5. 記録</div><div class="d"><i>a<sub>t</sub></i> をイベントとして追記し <i>t</i>+1 へ</div></div>
-    <div class="loopback">↺ 発言のたびに、このループが回る</div>
-  </div>
-  <p class="small muted">図中の網掛けステップ「翻訳」の出力が、本人だけに渡される内面である。</p>
+  <p class="lede"><b>要旨</b> — 本稿は、LLMキャラクターの心理状態（性格特性・感情・表出・二者関係）を決定論的に計算し、推論のたびに自然言語として文脈へ注入するハーネス「心理学ハーネス」を述べる。ハーネスは行動の選択・推薦・採点を構造として持たない（権限境界）。評価は、客観情報が全条件で一致することを保証した統制比較（素のまま／キャラ設定のみ／ハーネスあり／凍結注入）で行い、古典社会心理学実験の再現課題とマルチラウンドの社会ゲームに適用した。内面の注入は判断の個人差と「私的な立場を公の場に出す率直さ」を生んだ一方、穏やかな相互作用では状態変化が言語化の閾値に達せず、毎ターン再計算の固有効果は高負荷の相互作用でのみ介入として成立した。係数群は実証定数ではなくシミュレーション仮説である。</p>
 
   <section>
-    
-    
-    <h2>状態空間と更新則</h2>
+    <h2>1. 何をするシステムか</h2>
+    <p>LLMでキャラクターを演じさせるとき、ふつうは「性格の説明文」と「これまでの会話」を渡して、あとの解釈をすべてLLMに任せる。この作り方では、いま怒っているのか、相手を信用しているのかといった<b>心の状態</b>が毎回あいまいに推測し直され、一貫性は保証されない。</p>
+    <p>心理学ハーネスは、この「心の状態」の部分をLLMの外に出す。性格・感情・人間関係を数値として持ち、出来事が起きるたびに数式で更新し、その結果を「いま、どう感じているか」という短い日本語に翻訳して、<b>発言する本人のプロンプトにだけ</b>差し込む。重要なのは、渡すのが気持ちの描写だけだということである。何を言うか、どう行動するかは、最後までLLM自身が選ぶ。</p>
+    <p>全体は次の5ステップのループで動く。誰かが発言するたびに、このループが一周する。</p>
 
-    
-
-    
-
-    
-
-    <div>
-      <h3>基礎特性（特性 × 目標）</h3>
-      <div class="eq"><i>B<sub>t</sub></i> = clamp<sub>[0,1]</sub>( <i>G</i> + Σ<sub><i>p</i>∈P<sub>active</sub></sub> <i>a<sub>p</sub></i> · <i>m<sub>p</sub></i> )</div>
-      <p class="eqnote"><i>G</i> ∈ [0,1]⁵: ビッグファイブ基線（不変）。<i>a<sub>p</sub></i> ∈ [0,1]: プロジェクト活性度、<i>m<sub>p</sub></i> ∈ ℝ⁵: 特性修飾ベクトル。</p>
-      <p class="thm"><b>理論的根拠:</b> 特性の安定性は五因子モデル（Goldberg 1990; McCrae &amp; Costa）に、目標による一時的変調は特性の状態的発現の分布観（Fleeson 2001）に対応させた設計。価値観10種は Schwartz (1992) の円環モデルを採用。</p>
-
-      <h3>感情（PAD: インパルスと減衰）</h3>
-      <div class="eq"><i>A</i><sub><i>t</i>+Δ</sub> = <i>μ</i> + (<i>A<sub>t</sub></i> − <i>μ</i>) · 2<sup>−Δ/λ</sup></div>
-      <div class="eq"><i>A</i> ← clamp<sub>[−1,1]</sub>( <i>A</i> + <i>s<sub>e</sub></i> · <i>I<sub>e</sub></i> ),&nbsp;&nbsp;&nbsp; <i>s<sub>e</sub></i> = 0.5 + <i>N</i> （負のイベント）,&nbsp; 1 （それ以外）</div>
-      <p class="eqnote"><i>A</i> ∈ [−1,1]³ = (快−不快, 覚醒, 主導感)。<i>μ</i>: 個人の感情基線、λ = 3600s（半減期）。<i>I<sub>e</sub></i>: イベント種別ごとのインパルス（例: 裏切られる = (−0.22, +0.16, −0.10)）。<i>N</i>: 神経症傾向。</p>
-      <p class="thm"><b>理論的根拠:</b> 3次元感情空間は Mehrabian &amp; Russell (1974) の PAD。負情動の神経症傾向スケーリングは、神経症傾向と負情動反応性の関連（Larsen &amp; Ketelaar 1991）の簡略化。指数減衰は気分の平均回帰の一次近似であり、<b>係数は実証定数ではなくシミュレーション仮説</b>である。</p>
-
-      <h3>表出（ワンタイム特性）</h3>
-      <div class="eq"><i>O<sub>t</sub></i> = softclamp( <i>B<sub>t</sub></i> + <i>σ</i><sub>sm</sub> · <i>P<sub>c</sub></i> + 0.25 · Φ(<i>A<sub>t</sub></i>) )</div>
-      <p class="eqnote"><i>σ</i><sub>sm</sub> ∈ [0,1]: 自己モニタリング傾向。<i>P<sub>c</sub></i>: 文脈 c（私的／社交／公式）の役割圧ベクトル。Φ: PAD→ビッグファイブの線形写像（例: 外向性成分 = 0.5·覚醒 + 0.3·主導感）。softclamp は順序を保存する単調な軟クリップ（範囲端の飽和による同値化を防ぐ）。</p>
-      <p class="thm"><b>理論的根拠:</b> 自己モニタリングは Snyder (1974)。「場が表出を変調する」構図は特性活性化理論（Tett &amp; Burnett 2003）に整合。</p>
-
-      <h3>関係（有向・型付きイベント駆動）</h3>
-      <div class="eq"><i>r</i><sub><i>i</i>→<i>j</i></sub> = (<i>w</i>, <i>τ</i>) ∈ [−1,1] × [0,1],&nbsp;&nbsp;&nbsp; <i>r</i> ← clamp( <i>r</i> + <i>δ<sub>e</sub></i> )</div>
-      <p class="eqnote">例: 裏切られた <i>δ</i> = (−0.30, +0.35)、賛成された <i>δ</i> = (+0.12, −0.05)。更新は検証済みの型付きイベントのみが引き起こす。会話の自由文を感情・関係の証拠として読み戻すことはしない（解釈の循環を避けるため）。</p>
-
-      <h3>言語化と選択</h3>
-      <div class="eq"><i>V</i>: <i>s<sub>t</sub></i> ↦ 日本語の箇条書き（閾値規則, 例 |·| ≥ θ = 0.3）</div>
-      <div class="eq"><i>a<sub>t</sub></i> ～ π<sub>LLM</sub>( · | 客観文脈, 人物像, <i>V</i>(<i>s<sub>t</sub></i>) ),&nbsp;&nbsp; <i>a<sub>t</sub></i> ∈ 𝒜<sub><i>t</i></sub>（実行可能集合・検証つき）</div>
-      <p class="eqnote"><i>V</i> は決定論だが単射ではない（閾値未満の変化は言語化されない = 情報圧縮）。行動 <i>a<sub>t</sub></i> の選択は常に LLM 側。ハーネスは 𝒜<sub><i>t</i></sub> の列挙と事後検証のみを行い、推薦・順位・効用をいかなる形でも渡さない。</p>
-      <p class="thm"><b>検証で判明した含意:</b> 閾値 θ とインパルス規模の比により、穏やかな相互作用（礼節ある討議）では <i>V</i>(<i>s<sub>t</sub></i>) が系列を通じて不変になりうる。実測では、討議課題の92%の呼び出しで注入文が初期状態と一致し、動的再計算が介入として成立したのは高負荷相互作用（脱落ゲーム: 1話者あたり4〜6変種）のみだった。したがって討議で観察された効果は「課題条件つき静的内面テキストの効果」と解釈すべきである。</p>
+    <div class="loop" role="img" aria-label="心理学ハーネスのループ: 観測、計算、翻訳、選択、記録">
+      <div class="loopstep"><div class="t">1. 観測</div><div class="d">追記専用イベント列 <i>e</i><sub>1..t</sub> を読む</div></div>
+      <div class="loopstep"><div class="t">2. 計算</div><div class="d">状態 <i>s<sub>t</sub></i> = (<i>B</i>, <i>A</i>, <i>O</i>, <i>R</i>) を決定論更新</div></div>
+      <div class="loopstep inner-step"><div class="t">3. 翻訳</div><div class="d">言語化 <i>V</i>(<i>s<sub>t</sub></i>) を本人の文脈にのみ注入</div></div>
+      <div class="loopstep"><div class="t">4. 選択</div><div class="d"><i>a<sub>t</sub></i> ～ π<sub>LLM</sub>(·|文脈)。検証後に確定</div></div>
+      <div class="loopstep"><div class="t">5. 記録</div><div class="d"><i>a<sub>t</sub></i> をイベントとして追記し <i>t</i>+1 へ</div></div>
+      <div class="loopback">↺ 発言のたびに、このループが回る</div>
     </div>
+    <p class="small muted">網掛けのステップ「翻訳」の出力が、本人だけに渡される内面である。</p>
+    <p>言葉にすると次のようになる。①これまでに起きた出来事の記録を読む。②そこから性格・感情・関係の数値を計算し直す。③数値のうち目立つものだけを日本語に翻訳し、本人にささやく。④LLMが発言や行動を選ぶ。⑤その結果を記録に追記して、次の番へ。心の計算(①〜③)は乱数を使わない決定論で、同じ出来事の列からは必ず同じ内面が出る。</p>
   </section>
 
-  
+  <section>
+    <h2>2. 心をどう数値で持つか — 状態空間と更新則</h2>
+    <p>「心の状態」は4つの層に分けて持つ。土台になる<b>性格</b>、出来事で揺れる<b>感情</b>、その場に出る分の<b>表出</b>、そして相手ごとの<b>関係</b>である。以下、層ごとに、何を表す数値か・どんな式で更新するか・その式が何を意味するかを順に述べる。</p>
+
+    <h3>2.1 基礎特性 — その人の土台</h3>
+    <p>性格は、心理学で標準的な「ビッグファイブ」（開放性・誠実性・外向性・協調性・神経症傾向の5因子）の数値で持つ。生まれつきの基線は変わらないが、いま取り組んでいる目標（たとえば「新作を完成させたい」）が活発なあいだは、性格の見え方が少しだけ傾く。</p>
+    <div class="eq"><i>B<sub>t</sub></i> = clamp<sub>[0,1]</sub>( <i>G</i> + Σ<sub><i>p</i>∈P<sub>active</sub></sub> <i>a<sub>p</sub></i> · <i>m<sub>p</sub></i> )</div>
+    <p class="eqnote"><i>G</i> ∈ [0,1]⁵: ビッグファイブ基線（不変）。<i>a<sub>p</sub></i> ∈ [0,1]: プロジェクト活性度、<i>m<sub>p</sub></i> ∈ ℝ⁵: 特性修飾ベクトル。</p>
+    <p class="plain"><b>直感的には:</b> 「締切前の人は、いつもより神経質に見える」を式にしたもの。基線 <i>G</i> は変わらず、目標 <i>p</i> が心を占めている度合い <i>a<sub>p</sub></i> に応じて、性格の表れ方が一時的にずれる。</p>
+    <p class="thm"><b>理論的根拠:</b> 特性の安定性は五因子モデル（Goldberg 1990; McCrae &amp; Costa）に、目標による一時的変調は特性の状態的発現の分布観（Fleeson 2001）に対応させた設計。価値観10種は Schwartz (1992) の円環モデルを採用。</p>
+
+    <h3>2.2 感情 — 出来事で揺れ、時間で戻る</h3>
+    <p>感情は3つの軸（快−不快・覚醒・主導感＝場を握れている感覚）の数値で持つ。「裏切られた」「賛成された」のような出来事にはそれぞれ決まった衝撃値があり、起きるたびに感情へ加算される。何も起きなければ、感情は半減期に従って本人の平常値へ戻っていく。</p>
+    <div class="eq"><i>A</i><sub><i>t</i>+Δ</sub> = <i>μ</i> + (<i>A<sub>t</sub></i> − <i>μ</i>) · 2<sup>−Δ/λ</sup></div>
+    <div class="eq"><i>A</i> ← clamp<sub>[−1,1]</sub>( <i>A</i> + <i>s<sub>e</sub></i> · <i>I<sub>e</sub></i> ),&nbsp;&nbsp;&nbsp; <i>s<sub>e</sub></i> = 0.5 + <i>N</i> （負のイベント）,&nbsp; 1 （それ以外）</div>
+    <p class="eqnote"><i>A</i> ∈ [−1,1]³ = (快−不快, 覚醒, 主導感)。<i>μ</i>: 個人の感情基線、λ = 3600s（半減期）。<i>I<sub>e</sub></i>: イベント種別ごとのインパルス（例: 裏切られる = (−0.22, +0.16, −0.10)）。<i>N</i>: 神経症傾向。</p>
+    <p class="plain"><b>直感的には:</b> 1本目の式は「時間が経てば気分は平常に戻る」、2本目は「出来事は気分を揺らし、嫌な出来事は打たれ弱い人（<i>N</i> が高い人）ほど強く響く」。裏切られた直後は不快で興奮し、主導感が下がる——という揺れが、1時間で半分まで冷める。</p>
+    <p class="thm"><b>理論的根拠:</b> 3次元感情空間は Mehrabian &amp; Russell (1974) の PAD。負情動の神経症傾向スケーリングは、神経症傾向と負情動反応性の関連（Larsen &amp; Ketelaar 1991）の簡略化。指数減衰は気分の平均回帰の一次近似であり、<b>係数は実証定数ではなくシミュレーション仮説</b>である。</p>
+
+    <h3>2.3 表出 — その場に「出る」性格</h3>
+    <p>人は、性格そのままに振る舞うわけではない。公式の場では畏まり、親しい場では素が出る。そこで「いまこの場に表れる性格」を、土台の性格に「場の圧力」と「いまの感情」を加えて計算する。場に合わせる度合いは人によって違うので、自己モニタリング傾向（Snyder）で重み付けする。</p>
+    <div class="eq"><i>O<sub>t</sub></i> = softclamp( <i>B<sub>t</sub></i> + <i>σ</i><sub>sm</sub> · <i>P<sub>c</sub></i> + 0.25 · Φ(<i>A<sub>t</sub></i>) )</div>
+    <p class="eqnote"><i>σ</i><sub>sm</sub> ∈ [0,1]: 自己モニタリング傾向。<i>P<sub>c</sub></i>: 文脈 c（私的／社交／公式）の役割圧ベクトル。Φ: PAD→ビッグファイブの線形写像（例: 外向性成分 = 0.5·覚醒 + 0.3·主導感）。softclamp は順序を保存する単調な軟クリップ（範囲端の飽和による同値化を防ぐ）。</p>
+    <p class="plain"><b>直感的には:</b> 「空気を読むタイプ（<i>σ</i><sub>sm</sub> が大きい）ほど、場に合わせて振る舞いが変わる」「気分が高揚していると、少し社交的に見える」を式にしたもの。本音と建前の差は、ここから生まれる。</p>
+    <p class="thm"><b>理論的根拠:</b> 自己モニタリングは Snyder (1974)。「場が表出を変調する」構図は特性活性化理論（Tett &amp; Burnett 2003）に整合。</p>
+
+    <h3>2.4 関係 — 相手ごとの温かさと緊張</h3>
+    <p>人間関係は相手ごとに「温かさ」と「緊張」の2数値で持つ。向きがある（自分→相手と相手→自分は別）。裏切られれば温かさが下がって緊張が上がり、賛成されれば逆に動く。更新のきっかけは、システムが検証した出来事だけに限る。</p>
+    <div class="eq"><i>r</i><sub><i>i</i>→<i>j</i></sub> = (<i>w</i>, <i>τ</i>) ∈ [−1,1] × [0,1],&nbsp;&nbsp;&nbsp; <i>r</i> ← clamp( <i>r</i> + <i>δ<sub>e</sub></i> )</div>
+    <p class="eqnote">例: 裏切られた <i>δ</i> = (−0.30, +0.35)、賛成された <i>δ</i> = (+0.12, −0.05)。会話の自由文を感情・関係の証拠として読み戻すことはしない（解釈の循環を避けるため）。</p>
+    <p class="plain"><b>直感的には:</b> 「あの一件以来、あいつとは少し気まずい」を数値で持つ。1年規模のシミュレーションでは、この値が上限に貼り付く欠陥が見つかったため、変化量を残り幅に比例させる「慣れ」と、緊張が数日で薄れる「夜間の緩和」を後から追加した（半減期: 緊張3晩・温かさ90晩）。</p>
+
+    <h3>2.5 言語化と選択 — 数値は見せない</h3>
+    <p>計算した数値を、そのままLLMに見せることはしない。人は自分の感情を小数で知覚しないからである。代わりに、閾値を超えた（＝本人が気づくほど強い）状態だけを選び、「胸の奥が重い」「相手との間に張り詰めたものを感じる」のような日本語の箇条書きに翻訳して渡す。そして行動の選択は、最後までLLMに委ねる。</p>
+    <div class="eq"><i>V</i>: <i>s<sub>t</sub></i> ↦ 日本語の箇条書き（閾値規則, 例 |·| ≥ θ = 0.3）</div>
+    <div class="eq"><i>a<sub>t</sub></i> ～ π<sub>LLM</sub>( · | 客観文脈, 人物像, <i>V</i>(<i>s<sub>t</sub></i>) ),&nbsp;&nbsp; <i>a<sub>t</sub></i> ∈ 𝒜<sub><i>t</i></sub>（実行可能集合・検証つき）</div>
+    <p class="eqnote"><i>V</i> は決定論だが単射ではない（閾値未満の変化は言語化されない = 情報圧縮）。ハーネスは実行可能な行動の列挙と事後検証のみを行い、推薦・順位・効用をいかなる形でも渡さない。</p>
+    <p class="thm"><b>検証で判明した含意:</b> 閾値 θ とインパルス規模の比により、穏やかな相互作用（礼節ある討議）では <i>V</i>(<i>s<sub>t</sub></i>) が系列を通じて不変になりうる。実測では、討議課題の92%の呼び出しで注入文が初期状態と一致し、毎ターン再計算が介入として成立したのは高負荷の相互作用（脱落ゲーム: 1話者あたり4〜6変種）のみだった。したがって討議で観察された効果は「課題条件つき静的内面テキストの効果」と解釈すべきである。</p>
+  </section>
 
   <section>
-    
-    
-    <h2>文脈の構成と実験アーム</h2>
-    
-    
-    <p class="muted">実験では層の出し分けでアームを構成する。層1（客観文脈）は全アームで生成規則が同一であることを自動テストで保証する（objective parity）。</p>
+    <h2>3. 実験の組み立て — 文脈の層と比較条件</h2>
+    <p>「ハーネスは効いたのか」を言うためには、比較の相手が要る。そこでLLMに渡す文脈を3つの層に分け、層の出し分けで比較条件を作った。層1（客観情報）は全条件で生成規則が同一であることを自動テストで保証している。</p>
     <div class="stack">
       <div class="slayer"><div class="who">層1 — 客観情報（全条件で共通）</div><p>状況の説明、これまでの会話、いま選べる行動、出力形式。主観は入らない。</p></div>
       <div class="slayer"><div class="who">層2 — 人物像（固定テキスト）</div><p>「場を明るくして人を前へ出したい。数字や成果がないと自分に価値がないように感じる」——変わらないアイデンティティ。</p></div>
       <div class="slayer inner-step"><div class="who">層3 — いまの内面（毎ターン計算）</div><p>「胸の奥が重い。相手との間には張り詰めたものを感じている。反対があっても言い出しにくい」——本人だけに渡される文章。</p></div>
     </div>
-    
-    <p class="armnote">raw = 層1　／　identity_only = 層1+2　／　pure_pneuma = 層1+2+3　／　frozen_pneuma = 層1+2+3<sub><i>t</i>=0</sub>（初期状態の内面を全ターン固定注入するアブレーション対照）</p>
-    <div>
-      <h3>モデル向け入力の禁止事項</h3>
-      <p class="small muted">選択済み行動・推奨行動・行動の順位や効用・実験名・期待方向・採点語彙は、モデル向け入力に含めてはならない（語彙レベルは自動テストで検査）。<span>ただしこの防壁は語彙的であり、日常語による概念の混入（例: 同調課題の内面への「浮くだろう」）は防げない。独立査読でこの限界が指摘され、タグ×従属変数の概念レベル対応表が今後の課題である。</span></p>
-    </div>
+    <p>比較条件は次の4つ。<b>素のまま</b>＝層1のみ。<b>キャラ設定のみ</b>＝層1+2。<b>ハーネスあり</b>＝層1+2+3。<b>凍結注入</b>＝層1+2+3だが、初期状態の内面を全ターン使い回す対照条件である。凍結注入を置くことで、「豊かな文章が入りさえすれば中身は何でもよいのではないか」という対抗仮説を切り分けられる。</p>
+    <h3>モデル向け入力の禁止事項</h3>
+    <p class="small muted">選択済み行動・推奨行動・行動の順位や効用・実験名・期待方向・採点語彙は、モデル向け入力に含めてはならない（語彙レベルは自動テストで検査）。ただしこの防壁は語彙的であり、日常語による概念の混入（例: 同調課題の内面への「浮くだろう」）は防げない。独立査読でこの限界が指摘され、概念レベルの対応表が今後の課題である。</p>
   </section>
 
   <section>
-    
-    <h2>権限境界と検証プロトコル</h2>
-    
-    
-    <div>
-      <p>決定論コアが所有するもの: 時間・イベント列・可視性・実行可能行動の列挙・心理計算・出力検証・コミット。LLMが所有するもの: 実行可能集合からの行動選択と公的発話。決定論的心理は行動を選ばない——これが権限境界である。</p>
-      <p class="small muted">検証: 構造化出力のスキーマ・実行可能性・対象存在を検査し、失敗は1回リトライ。2回目の失敗は技術的失敗として記録し、キャラクターの意図（沈黙など）として解釈しない。全呼び出しの送信プロンプト・生応答・状態スナップショットを追記専用ログに保存する。</p>
-      <p class="thm"><b>方法論上の限界（実測・査読済み）:</b> (1) 各条件 n=3〜5 で効果量・区間推定なし。(2) 発話順・ハンデ対象・キャラ割当は固定でカウンターバランスなし。(3) 「本音」欄は生成テキストであり独立に観測された内的状態ではない。(4) 課題文が古典実験のパラフレーズでありパラダイム認識の可能性が残る。(5) 単一モデル・単一キャラ集合。これらはコンテクストを共有しない2系統の独立AI査読で指摘され、主張はそれに応じて縮約されている。</p>
-    </div>
-    <div>
-      <h3>関連研究</h3>
-      <p class="small muted">生成エージェントの記憶・計画アーキテクチャ（Park et al. 2023）が「行動をアーキテクチャが組み立てる」方向に進んだのに対し、心理学ハーネス は行動決定を完全にLLMへ残し、心理状態の計算と言語化のみを外部化する点で相補的である。LLMへの性格付与は Serapio-García et al. (2023)、LLMによる人間標本の近似は Argyle et al. (2023)。推論時に毎ターン再計算した心理状態の注入を、静的注入（frozen）と切り分けて評価した点が本研究の位置づけである。</p>
-      <h3>参考文献</h3>
-      <ol class="refs">
-        <li>Mehrabian, A., &amp; Russell, J. A. (1974). <i>An Approach to Environmental Psychology.</i> MIT Press.（PAD感情モデル）</li>
-        <li>Goldberg, L. R. (1990). An alternative "description of personality": The Big-Five factor structure. <i>Journal of Personality and Social Psychology.</i></li>
-        <li>Schwartz, S. H. (1992). Universals in the content and structure of values. <i>Advances in Experimental Social Psychology.</i></li>
-        <li>Snyder, M. (1974). Self-monitoring of expressive behavior. <i>Journal of Personality and Social Psychology.</i></li>
-        <li>Fleeson, W. (2001). Toward a structure- and process-integrated view of personality: Traits as density distributions of states. <i>Journal of Personality and Social Psychology.</i></li>
-        <li>Tett, R. P., &amp; Burnett, D. D. (2003). A personality trait-based interactionist model of job performance. <i>Journal of Applied Psychology.</i>（特性活性化理論）</li>
-        <li>Larsen, R. J., &amp; Ketelaar, T. (1991). Personality and susceptibility to positive and negative emotional states. <i>Journal of Personality and Social Psychology.</i></li>
-        <li>Wallach, M. A., Kogan, N., &amp; Bem, D. J. (1962). Group influence on individual risk taking. <i>Journal of Abnormal and Social Psychology.</i>（集団極性化）</li>
-        <li>Myers, D. G., &amp; Lamm, H. (1976). The group polarization phenomenon. <i>Psychological Bulletin.</i></li>
-        <li>Vinokur, A., &amp; Burnstein, E. (1974). Effects of partially shared persuasive arguments on group-induced shifts. <i>Journal of Personality and Social Psychology.</i>（説得的論拠説）</li>
-        <li>Park, J. S., O'Brien, J. C., Cai, C. J., Morris, M. R., Liang, P., &amp; Bernstein, M. S. (2023). Generative Agents: Interactive simulacra of human behavior. <i>UIST.</i></li>
-        <li>Serapio-García, G., et al. (2023). Personality traits in large language models. <i>arXiv:2307.00184.</i></li>
-        <li>Argyle, L. P., et al. (2023). Out of one, many: Using language models to simulate human samples. <i>Political Analysis.</i></li>
-      </ol>
-    </div>
+    <h2>4. 権限境界と検証プロトコル</h2>
+    <p>この設計でいちばん大事な線引きは、「決定論の計算」と「LLMの選択」の分担である。もしハーネスが行動を推薦したら、観察された裏切りや自己犠牲は台本になってしまう。そうならないよう、責任の境界を構造で固定している。</p>
+    <p>決定論コアが所有するもの: 時間・イベント列・可視性・実行可能行動の列挙・心理計算・出力検証・コミット。LLMが所有するもの: 実行可能集合からの行動選択と公的発話。決定論的心理は行動を選ばない——これが権限境界である。</p>
+    <p class="small muted">検証: 構造化出力のスキーマ・実行可能性・対象存在を検査し、失敗は1回リトライ。2回目の失敗は技術的失敗として記録し、キャラクターの意図（沈黙など）として解釈しない。全呼び出しの送信プロンプト・生応答・状態スナップショットを追記専用ログに保存する。</p>
+    <p class="thm"><b>方法論上の限界（実測・査読済み）:</b> (1) 各条件 n=3〜5 で効果量・区間推定なし。(2) 発話順・ハンデ対象・キャラ割当は固定でカウンターバランスなし。(3) 「本音」欄は生成テキストであり独立に観測された内的状態ではない。(4) 課題文が古典実験のパラフレーズでありパラダイム認識の可能性が残る。(5) 単一モデル・単一キャラ集合。これらはコンテクストを共有しない2系統の独立AI査読で指摘され、主張はそれに応じて縮約されている。</p>
+
+    <h3>関連研究</h3>
+    <p class="small muted">生成エージェントの記憶・計画アーキテクチャ（Park et al. 2023）が「行動をアーキテクチャが組み立てる」方向に進んだのに対し、心理学ハーネスは行動決定を完全にLLMへ残し、心理状態の計算と言語化のみを外部化する点で相補的である。LLMへの性格付与は Serapio-García et al. (2023)、LLMによる人間標本の近似は Argyle et al. (2023)。推論時に毎ターン再計算した心理状態の注入を、静的注入（凍結）と切り分けて評価した点が本研究の位置づけである。</p>
+    <h3>参考文献</h3>
+    <ol class="refs">
+      <li>Mehrabian, A., &amp; Russell, J. A. (1974). <i>An Approach to Environmental Psychology.</i> MIT Press.（PAD感情モデル）</li>
+      <li>Goldberg, L. R. (1990). An alternative "description of personality": The Big-Five factor structure. <i>Journal of Personality and Social Psychology.</i></li>
+      <li>Schwartz, S. H. (1992). Universals in the content and structure of values. <i>Advances in Experimental Social Psychology.</i></li>
+      <li>Snyder, M. (1974). Self-monitoring of expressive behavior. <i>Journal of Personality and Social Psychology.</i></li>
+      <li>Fleeson, W. (2001). Toward a structure- and process-integrated view of personality: Traits as density distributions of states. <i>Journal of Personality and Social Psychology.</i></li>
+      <li>Tett, R. P., &amp; Burnett, D. D. (2003). A personality trait-based interactionist model of job performance. <i>Journal of Applied Psychology.</i>（特性活性化理論）</li>
+      <li>Larsen, R. J., &amp; Ketelaar, T. (1991). Personality and susceptibility to positive and negative emotional states. <i>Journal of Personality and Social Psychology.</i></li>
+      <li>Wallach, M. A., Kogan, N., &amp; Bem, D. J. (1962). Group influence on individual risk taking. <i>Journal of Abnormal and Social Psychology.</i>（集団極性化）</li>
+      <li>Myers, D. G., &amp; Lamm, H. (1976). The group polarization phenomenon. <i>Psychological Bulletin.</i></li>
+      <li>Vinokur, A., &amp; Burnstein, E. (1974). Effects of partially shared persuasive arguments on group-induced shifts. <i>Journal of Personality and Social Psychology.</i>（説得的論拠説）</li>
+      <li>Park, J. S., O'Brien, J. C., Cai, C. J., Morris, M. R., Liang, P., &amp; Bernstein, M. S. (2023). Generative Agents: Interactive simulacra of human behavior. <i>UIST.</i></li>
+      <li>Serapio-García, G., et al. (2023). Personality traits in large language models. <i>arXiv:2307.00184.</i></li>
+      <li>Argyle, L. P., et al. (2023). Out of one, many: Using language models to simulate human samples. <i>Political Analysis.</i></li>
+    </ol>
     <hr>
-    <p class="footer">Pneuma Lab（プロジェクト名）— AIエージェント社会シミュレーションハッカソン Vol.2。心理計算は乱数を使わない決定論。全実験の生ログ・コード・テストを公開している。</p>
+    <p class="footer">AIエージェント社会シミュレーションハッカソン Vol.2 提出作品（参加者番号 0153 ／ 水谷享平）。心理計算は乱数を使わない決定論。全実験の生ログ・コード・テストを公開している。</p>
   </section>
-</main>
-
-
-
-
-
 </main></body></html>
